@@ -3,513 +3,208 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hermes 项目工作台</title>
-<meta name="description" content="Hermes 自动化项目全景面板">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#FBF7F2">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Hermes">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23FBF7F2'/><text x='50' y='68' text-anchor='middle' font-size='52'>⚡</text></svg>">
+<title>Hermes 工作台</title>
 <style>
-  :root {
-    --bg: #FBF7F2;
-    --card: #FFFBF7;
-    --card-hover: #FFF8F0;
-    --border: #E8DDD4;
-    --accent: #C49B7C;
-    --accent-deep: #A67B5B;
-    --accent-light: #E8D5C4;
-    --clay: #9B8E85;
-    --clay-light: #C4B8AF;
-    --text: #3D322B;
-    --text-muted: #8B7D74;
-    --text-light: #B0A399;
-    --green: #7DA37D;
-    --green-bg: #EDF5EB;
-    --red: #C47B7B;
-    --red-bg: #FBF0F0;
-    --amber: #C49B5B;
-    --amber-bg: #FBF3E8;
-    --blue: #7B9EC4;
-    --blue-bg: #EDF3FA;
-    --radius: 18px;
-    --radius-sm: 10px;
-    --radius-xs: 6px;
-    --shadow: 0 1px 3px rgba(61,50,43,0.06), 0 4px 12px rgba(61,50,43,0.04);
-    --shadow-lg: 0 1px 2px rgba(61,50,43,0.04), 0 8px 24px rgba(61,50,43,0.06);
-    --font-serif: 'Georgia', 'Noto Serif SC', 'Songti SC', 'STSong', serif;
-    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    padding: 24px 20px 48px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  /* Header */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-left { display: flex; align-items: center; gap: 14px; }
-  .header-icon {
-    width: 42px; height: 42px;
-    background: var(--accent-light);
-    border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-  .header-text h1 {
-    font-family: var(--font-serif);
-    font-size: 24px; font-weight: 400;
-    color: var(--text); letter-spacing: 0.02em;
-  }
-  .header-text .sub {
-    font-size: 12px; color: var(--text-muted);
-  }
-  .header-right {
-    display: flex; align-items: center; gap: 12px;
-    font-size: 12px; color: var(--text-muted);
-  }
-  .header-right .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; }
-  .header-right .dot.warn { background: var(--amber); }
-  .header-right .dot.err { background: var(--red); }
-  .header-right time {
-    color: var(--clay); font-feature-settings: "tnum"; margin-left: 8px;
-  }
-
-  /* Stats */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    box-shadow: var(--shadow);
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .stat-value {
-    font-family: var(--font-serif);
-    font-size: 30px; font-weight: 400;
-    color: var(--accent-deep);
-  }
-  .stat-value.red { color: var(--red); }
-  .stat-label { font-size: 12px; color: var(--text-muted); }
-
-  /* Grid */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-  .full { grid-column: 1 / -1; }
-
-  /* Cards */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-  }
-  .card-header {
-    padding: 14px 18px 12px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .card-header .icon {
-    font-size: 16px; width: 30px; height: 30px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--bg); border-radius: var(--radius-sm);
-  }
-  .card-header h2 {
-    font-family: var(--font-serif);
-    font-size: 14px; font-weight: 400;
-  }
-  .card-header .badge {
-    font-size: 11px; padding: 2px 9px; border-radius: 20px; font-weight: 500;
-    margin-left: auto;
-  }
-  .badge-ok { background: var(--green-bg); color: var(--green); }
-  .badge-warn { background: var(--amber-bg); color: var(--amber); }
-  .badge-err { background: var(--red-bg); color: var(--red); }
-  .card-body { padding: 14px 18px; }
-
-  /* Project cards */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-  }
-  .proj-card {
-    background: var(--bg);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    display: flex; flex-direction: column; gap: 8px;
-    transition: all 0.15s;
-    cursor: default;
-    border: 1px solid transparent;
-  }
-  .proj-card:hover {
-    background: var(--card-hover);
-    border-color: var(--accent-light);
-  }
-  .proj-top {
-    display: flex; align-items: flex-start; gap: 10px;
-  }
-  .proj-avatar {
-    width: 36px; height: 36px; border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-  }
-  .proj-info { flex: 1; min-width: 0; }
-  .proj-name {
-    font-size: 14px; font-weight: 600; color: var(--text);
-    margin-bottom: 2px;
-  }
-  .proj-desc {
-    font-size: 12px; color: var(--text-muted);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .proj-meta {
-    display: flex; gap: 10px; font-size: 11px; color: var(--text-light);
-    margin-top: 4px;
-  }
-  .proj-meta span { display: flex; align-items: center; gap: 4px; }
-  .proj-tags {
-    display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px;
-  }
-  .proj-tag {
-    font-size: 10px; padding: 2px 8px; border-radius: 10px;
-    background: var(--border); color: var(--clay);
-  }
-  .proj-tag.active { background: var(--green-bg); color: var(--green); }
-  .proj-tag.error { background: var(--red-bg); color: var(--red); }
-  .proj-status {
-    font-size: 11px; padding: 2px 8px; border-radius: 10px;
-    font-weight: 500;
-  }
-  .status-live { background: var(--green-bg); color: var(--green); }
-  .status-dev { background: var(--amber-bg); color: var(--amber); }
-  .status-idle { background: var(--bg); color: var(--clay); }
-
-  /* Obsidian tree */
-  .vault-tree { display: flex; flex-direction: column; gap: 2px; }
-  .vault-item {
-    display: flex; align-items: center; gap: 7px; padding: 7px 10px;
-    border-radius: var(--radius-sm); font-size: 13px; color: var(--text);
-    cursor: default; transition: background 0.15s;
-  }
-  .vault-item:hover { background: var(--bg); }
-  .vault-item.root {
-    font-family: var(--font-serif); font-size: 14px;
-    color: var(--accent-deep); font-weight: 600;
-    background: var(--bg); margin-bottom: 4px;
-  }
-  .vault-item .count {
-    margin-left: auto; font-size: 11px; color: var(--text-light);
-  }
-  .vault-indent { padding-left: 24px; }
-
-  /* Cron list */
-  .cron-section {
-    font-size: 11px; font-weight: 600; color: var(--accent-deep);
-    text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 10px 0 4px; opacity: 0.7;
-  }
-  .cron-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 0; font-size: 13px;
-    border-bottom: 1px solid var(--border);
-  }
-  .cron-row:last-child { border-bottom: none; }
-  .cron-dot {
-    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
-  }
-  .cron-dot.ok { background: var(--green); }
-  .cron-dot.err { background: var(--red); }
-  .cron-dot.off { background: var(--clay-light); }
-  .cron-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cron-time { font-size: 11px; color: var(--clay); white-space: nowrap; font-feature-settings: "tnum"; }
-  .cron-model { font-size: 10px; color: var(--text-light); white-space: nowrap; }
-
-  /* Footer */
-  .footer {
-    margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--text-light);
-  }
-
-  /* Scroll */
-  .scroll-area { max-height: 400px; overflow-y: auto; }
-  .scroll-area::-webkit-scrollbar { width: 4px; }
-  .scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    body { padding: 14px 12px 36px; }
-    .header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .header-text h1 { font-size: 20px; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .stat-card { padding: 12px 14px; }
-    .stat-value { font-size: 24px; }
-    .grid { grid-template-columns: 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .projects-grid { grid-template-columns: repeat(2, 1fr); }
-  }
+:root {
+--bg:#FBF7F2; --card:#FFFBF7; --border:#E8DDD4; --accent:#C49B7C; --accent2:#A67B5B;
+--text:#3D322B; --muted:#8B7D74; --green:#7DA37D; --red:#C47B7B; --amber:#C49B5B;
+--radius:18px; --shadow:0 1px 3px rgba(61,50,43,.06),0 4px 12px rgba(61,50,43,.04);
+font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-size:14px;padding:24px 20px 48px;max-width:1000px;margin:0 auto;line-height:1.5}
+/* Header */
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.header h1{font-size:22px;font-weight:600;letter-spacing:-.3px}
+.conn-dots{display:flex;gap:10px}
+.conn-dot{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
+.conn-dot .dot{width:8px;height:8px;border-radius:50%}
+.conn-dot .dot.on{background:var(--green)}
+.conn-dot .dot.off{background:var(--red)}
+/* Cards */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.card{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;border:1px solid transparent}
+.card:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(61,50,43,.08),0 8px 20px rgba(61,50,43,.06);border-color:var(--border)}
+.card h3{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.card .stat{font-size:28px;font-weight:600;letter-spacing:-1px}
+.card .stat span{font-size:14px;font-weight:400;color:var(--muted)}
+.card .items{margin-top:10px;font-size:13px;color:var(--text)}
+.card .items .item{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--border)}
+.card .items .item:last-child{border-bottom:none}
+.item .tag{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--accent);color:#fff;opacity:.8}
+.item .tag.red{background:var(--red)}
+/* Slide panel */
+.panel-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.15);z-index:99;display:none}
+.panel-overlay.show{display:block}
+.panel{position:fixed;top:0;right:0;width:420px;max-width:90vw;height:100%;background:rgba(251,247,242,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:-4px 0 24px rgba(0,0,0,.08);z-index:100;padding:24px;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.panel.show{transform:translateX(0)}
+.panel h2{font-size:20px;margin-bottom:16px;font-weight:600}
+.panel .close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:var(--border);border:none;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.panel-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between;align-items:center}
+.panel-item:last-child{border-bottom:none}
+/* Sections */
+.section{margin-bottom:20px}
+.section h2{font-size:15px;color:var(--muted);font-weight:500;margin-bottom:10px;letter-spacing:.5px}
+.map{display:flex;flex-wrap:wrap;gap:8px}
+.map-item{display:flex;align-items:center;gap:4px;font-size:12px;background:var(--card);padding:6px 10px;border-radius:8px;border:1px solid var(--border)}
+.map-item .arrow{color:var(--accent)}
+.map-item .via{font-size:10px;color:var(--muted);margin-left:2px}
+.declutter-item{padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)}
+.declutter-item:last-child{border-bottom:none}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+<div class="panel-overlay" id="overlay"></div>
+<div class="panel" id="panel"><button class="close" id="closePanel">✕</button><div id="panelContent"></div></div>
 
-<!-- Header -->
 <div class="header">
-  <div class="header-left">
-    <div class="header-icon">⚡</div>
-    <div class="header-text">
-      <h1>Hermes 项目工作台</h1>
-      <div class="sub">11 个自动化项目 · 28 个 Cron 任务 · 10 个 Obsidian 分区</div>
-    </div>
-  </div>
-  <div class="header-right">
-    <span><span class="dot"></span> 系统正常</span>
-    <time id="update-time">更新中…</time>
-  </div>
+  <h1>⚡ Hermes 工作台</h1>
+  <div class="conn-dots" id="connDots"></div>
 </div>
 
-<!-- Stats -->
-<div class="stats-row">
-  <div class="stat-card">
-    <div class="stat-value">11</div>
-    <div class="stat-label">活跃项目</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value">28</div>
-    <div class="stat-label">Cron 任务</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value">25</div>
-    <div class="stat-label">运行中</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value red">1</div>
-    <div class="stat-label">异常</div>
-  </div>
-</div>
-
-<!-- Main Grid -->
 <div class="grid">
-
-  <!-- Hermes Projects -->
-  <div class="card full">
-    <div class="card-header">
-      <div class="icon">🚀</div>
-      <h2>Hermes 自动化项目</h2>
-      <span class="badge badge-ok">11 活跃</span>
-    </div>
-    <div class="card-body">
-      <div class="projects-grid" id="projects-grid">
-        <!-- Populated by JS -->
-      </div>
-    </div>
+  <div class="card" onclick="openPanel('reading')">
+    <h3>📖 伴读 · <span id="readingCount">0</span>条</h3>
+    <div class="items" id="readingItems"></div>
   </div>
-
-  <!-- Obsidian Framework -->
-  <div class="card">
-    <div class="card-header">
-      <div class="icon">🧠</div>
-      <h2>Obsidian 知识框架</h2>
-      <span class="badge badge-ok">10 分区</span>
-    </div>
-    <div class="card-body" id="obsidian-body">
-      <!-- Populated by JS -->
-    </div>
+  <div class="card" onclick="openPanel('cron')">
+    <h3>⏰ 任务 · <span id="cronOk">0</span>/<span id="cronTotal">0</span></h3>
+    <div class="items" id="cronItems"></div>
   </div>
-
-  <!-- Cron Health -->
-  <div class="card">
-    <div class="card-header">
-      <div class="icon">⏱</div>
-      <h2>Cron 任务摘要</h2>
-      <span class="badge badge-ok" id="cron-health-badge">25/28</span>
-    </div>
-    <div class="card-body scroll-area" id="cron-list">
-      <!-- Populated by JS -->
-    </div>
+  <div class="card" onclick="openPanel('ideas')">
+    <h3>💡 灵感 · <span id="ideasCount">0</span>条</h3>
+    <div class="items" id="ideasItems"></div>
   </div>
-
+  <div class="card" onclick="openPanel('skills')">
+    <h3>🧩 Skills · <span id="skillsCount">0</span>个</h3>
+    <div class="items" id="skillsItems"></div>
+  </div>
 </div>
 
-<div class="footer">
-  <span>Hermes Workbench · 暖陶风</span>
-  <span id="footer-time"></span>
+<div class="section">
+  <h2>🔗 连线</h2>
+  <div class="map" id="map"></div>
+</div>
+
+<div class="section">
+  <h2>📁 Obsidian</h2>
+  <div id="obsidian"></div>
+</div>
+
+<div class="section">
+  <h2>🧹 断舍离</h2>
+  <div id="declutter"></div>
+</div>
+
+<div style="text-align:center;color:var(--muted);font-size:11px;margin-top:24px">
+  最后同步 · <span id="updated">—</span>
 </div>
 
 <script>
-// ── Data ──
-const PROJECTS = [
-  { id:"wechat-assistant", name:"微信助手", icon:"🏠", desc:"28 个 Cron 任务，全自动生活管家", status:"live", tags:["Cron ×28","DeepSeek","微信/飞书"], color:"var(--accent)", model:"V4 Flash/Pro" },
-  { id:"category-report", name:"品类半年报", icon:"📊", desc:"Y26H1 护肤品类趋势洞察报告", status:"live", tags:["CMI","中英双版","进行中"], color:"var(--blue)", model:"V4 Pro" },
-  { id:"market", name:"市场数据", icon:"📈", desc:"品牌排名 / 品类拆解 / 竞品分析", status:"live", tags:["DataViz","Excel→Chart","Top30"], color:"var(--accent)", model:"—" },
-  { id:"knowledge-base", name:"知识库", icon:"📚", desc:"13 份市场报告 + 文档自动归档", status:"live", tags:["自动归档","OCR","分类"], color:"var(--clay)", model:"—" },
-  { id:"xiaohongshu-auto", name:"小红书发布", icon:"📕", desc:"微博/小红书自动发布流水线", status:"live", tags:["Playwright","CDP","反Bot"], color:"var(--red)", model:"Script" },
-  { id:"social-monitor", name:"社交监测", icon:"👁", desc:"品牌官方微博新品动态监测", status:"dev", tags:["飞书表格","群聊推送","周报"], color:"var(--blue)", model:"V4 Flash" },
-  { id:"feishu-bridge", name:"飞书桥接", icon:"🔗", desc:"飞书 ↔ Claude 双向消息桥接", status:"live", tags:["消息路由","QQ邮件"], color:"var(--green)", model:"—" },
-  { id:"health-dashboard", name:"健康仪表盘", icon:"❤️", desc:"Apple Watch 健康数据追踪", status:"live", tags:["Apple Health","HRV","深睡"], color:"var(--red)", model:"Codex → V4 Flash" },
-  { id:"obsidian-dashboard", name:"Obsidian 看板", icon:"📋", desc:"每日看板刷新 + 对话沉淀", status:"live", tags:["Dataview","自动化"], color:"var(--clay)", model:"Script" },
-  { id:"english-companion", name:"英语伴侣", icon:"🦉", desc:"多邻国打卡 + 艾宾浩斯生词复习", status:"live", tags:["多邻国","vocab.py","每日"], color:"var(--green)", model:"V4 Flash" },
-  { id:"study-buddy", name:"学习伴侣", icon:"📖", desc:"豆瓣同步 + 观影/读书追踪", status:"live", tags:["豆瓣RSS","伴读记录"], color:"var(--amber)", model:"V4 Flash" }
-];
+// LIVE_DATA injected by refresh.py
+const D = LIVE_DATA;
 
-const OBSIDIAN = [
-  { name:"日记", icon:"📓", count:"6 篇", indent:true },
-  { name:"工作", icon:"💼", count:"1 文档", indent:true },
-  { name:"项目", icon:"🚀", count:"1 活跃", indent:true },
-  { name:"知识库", icon:"📚", count:"2 领域", indent:true },
-  { name:"健康", icon:"❤️", count:"2 笔记", indent:true },
-  { name:"伴读", icon:"📖", count:"4 待读", indent:true },
-  { name:"看板", icon:"📊", count:"2 面板", indent:true },
-  { name:"会议", icon:"📋", count:"—", indent:true },
-  { name:"微信收藏", icon:"💬", count:"1 篇", indent:true },
-  { name:"买房资料", icon:"🏡", count:"1 文档", indent:true }
-];
+// Connection dots
+document.getElementById('connDots').innerHTML = D.connections.map(c =>
+  `<div class="conn-dot"><span class="dot ${c.ok?'on':'off'}"></span>${c.icon} ${c.name}</div>`
+).join('');
 
-// ── Render ──
-function renderProjects() {
-  const el = document.getElementById('projects-grid');
-  el.innerHTML = PROJECTS.map(p => `
-    <div class="proj-card">
-      <div class="proj-top">
-        <div class="proj-avatar" style="background:${p.color}20;color:${p.color}">${p.icon}</div>
-        <div class="proj-info">
-          <div class="proj-name">${p.name}</div>
-          <div class="proj-desc">${p.desc}</div>
-          <div class="proj-meta">
-            <span>🧠 ${p.model}</span>
-            <span class="proj-status ${p.status==='live'?'status-live':p.status==='dev'?'status-dev':'status-idle'}">${p.status==='live'?'运行中':p.status==='dev'?'开发中':'待机'}</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-tags">
-        ${p.tags.map(t => `<span class="proj-tag active">${t}</span>`).join('')}
-      </div>
+// Reading card
+document.getElementById('readingCount').textContent = D.reading.total;
+document.getElementById('readingItems').innerHTML = D.reading.recent.slice(0,3).map(i =>
+  `<div class="item">${i.rating ? '⭐'.repeat(i.rating) : '📌'} ${i.title} <span class="tag">${i.type}</span></div>`
+).join('') || '<div class="item" style="color:var(--muted)">暂无</div>';
+
+// Cron card
+document.getElementById('cronOk').textContent = D.cron.ok;
+document.getElementById('cronTotal').textContent = D.cron.total;
+document.getElementById('cronItems').innerHTML = D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j =>
+  `<div class="item">🔴 ${j.name||j.id}</div>`
+).join('') + D.cron.jobs.filter(j=>j.last_status==='ok').slice(0,2).map(j =>
+  `<div class="item">🟢 ${j.name||j.id}</div>`
+).join('') || '<div class="item" style="color:var(--muted)">全部正常</div>';
+
+// Ideas card
+document.getElementById('ideasCount').textContent = D.ideas.total;
+document.getElementById('ideasItems').innerHTML = D.ideas.recent.map(i =>
+  `<div class="item">💡 ${i.idea?.substring(0,40)||''} <span class="tag">${i.tag||''}</span></div>`
+).join('') || '<div class="item" style="color:var(--muted)">暂无</div>';
+
+// Skills card
+document.getElementById('skillsCount').textContent = D.skills.length;
+document.getElementById('skillsItems').innerHTML = D.skills.slice(0,4).map(s =>
+  `<div class="item">🧩 ${s.name}</div>`
+).join('');
+
+// Connection map
+document.getElementById('map').innerHTML = D.connection_map.map(c =>
+  `<div class="map-item">${c.icon} ${c.from} <span class="arrow">→</span> ${c.to} <span class="via">·${c.via}</span></div>`
+).join('');
+
+// Obsidian
+document.getElementById('obsidian').innerHTML = D.obsidian.map(f =>
+  `<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="openObsidian('${f.name}')">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span>${f.icon} ${f.name} · ${f.count}篇</span><span style="color:var(--accent);font-size:12px">→</span>
     </div>
-  `).join('');
-}
+  </div>`
+).join('');
 
-function renderObsidian() {
-  const el = document.getElementById('obsidian-body');
-  let html = '<div class="vault-tree">';
-  html += '<div class="vault-item root">🏠 数字第二大脑</div>';
-  OBSIDIAN.forEach(f => {
-    html += `<div class="vault-item ${f.indent?'vault-indent':''}">
-      <span>${f.icon}</span> ${f.name}
-      <span class="count">${f.count}</span>
-    </div>`;
-  });
-  html += '</div>';
-  el.innerHTML = html;
-}
+// Declutter
+let dd = D.declutter;
+let dl = '';
+if (dd.pending && dd.pending.length) dl += dd.pending.map(i => `<div class="declutter-item">📋 ${i.name||'?'} (${i.category||'?'})</div>`).join('');
+if (dd.done_recent && dd.done_recent.length) dl += dd.done_recent.map(i => `<div class="declutter-item">✅ ${i.name||'?'} — ${i.method||''}</div>`).join('');
+document.getElementById('declutter').innerHTML = dl || '<div style="color:var(--muted);font-size:13px">暂无</div>';
 
-// ── Live data (injected by refresh.py) ──
-const LIVE_DATA = {"updated": "2026-08-03 15:13", "cron": {"total": 28, "ok": 26, "error": 2, "paused": 0, "jobs": [{"id": "5f31f7486b44", "state": "active", "name": "每个工作日 Au9999 收盘报价", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "74b0eca9ae0d", "state": "active", "name": "天气早报", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "8d2299d2faae", "state": "active", "name": "早高峰路况", "schedule": "15 9 * * 1-5", "last_status": "ok"}, {"id": "d1c8e0194622", "state": "active", "name": "晚高峰路况", "schedule": "45 18 * * 1-5", "last_status": "ok"}, {"id": "2e21d865c7e6", "state": "active", "name": "网球预约提醒", "schedule": "0 10 * * 4", "last_status": "ok"}, {"id": "b0f368314fca", "state": "active", "name": "英语打卡提醒", "schedule": "0 20 * * *", "last_status": "ok"}, {"id": "12ca6d928ebd", "state": "active", "name": "💪 健身提醒（AI判断型）", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "566eda02cdbc", "state": "active", "name": "📈 市场监控（A股/科创/纳斯达克/金价）", "schedule": "0 9-15,21-23 * * 1-5", "last_status": "ok"}, {"id": "7d7fda818943", "state": "active", "name": "🧠 每周学习报告（AI对用户的理解）", "schedule": "0 10 * * 7", "last_status": "ok"}, {"id": "533f670167e5", "state": "active", "name": "每晚多邻国打卡提醒", "schedule": "30 22 * * *", "last_status": "ok"}, {"id": "569eeec73be7", "state": "active", "name": "多邻国打卡确认+记录", "schedule": "50 23 * * *", "last_status": "ok"}, {"id": "5f9de1ad0926", "state": "active", "name": "小米集团每日收盘报价", "schedule": "10 16 * * 1-5", "last_status": "ok"}, {"id": "9192c6c37a9e", "state": "active", "name": "📱 健康数据导出提醒", "schedule": "0 10 */2 * *", "last_status": "ok"}, {"id": "13c0e433146f", "state": "active", "name": "📜 每周对话日志导出", "schedule": "0 12 * * 0", "last_status": "ok"}, {"id": "90da54cc8268", "state": "active", "name": "🗄️ 每日自动存档（对话+推送全量留底）", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "fbbeecf93bc7", "state": "active", "name": "📅 明日会议预告", "schedule": "0 21 * * *", "last_status": "ok"}, {"id": "658d338b387e", "state": "active", "name": "📋 每周复盘", "schedule": "0 20 * * 7", "last_status": "ok"}, {"id": "c9db047a71d1", "state": "active", "name": "你是用户的微信生活管家。检查是否有待处理的断舍离物品需要提醒用户。", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "29495086b4dc", "state": "active", "name": "📈 股票日报转发（GPT→邮箱→微信）", "schedule": "15 16 * * 1-5", "last_status": "ok"}, {"id": "8f19316e68ef", "state": "active", "name": "🥇 负鼠金价微博 · 全自动发布", "schedule": "0 16 * * 1-5", "script": "auto_opossum.py", "mode": "Script", "last_status": "error"}, {"id": "b9fa480c79fc", "state": "active", "name": "📚 每日生词复习", "schedule": "30 8 * * *", "last_status": "ok"}, {"id": "8cb41c5cba4f", "state": "active", "name": "🎫 美团每日自动领券", "schedule": "0 10 * * *", "last_status": "ok"}, {"id": "0759c99dafa2", "state": "active", "name": "🧹 每周断舍离周报", "schedule": "30 20 * * 0", "last_status": "ok"}, {"id": "127ecb2b1002", "state": "active", "name": "🧠 每日对话沉淀 → Obsidian", "schedule": "0 23 * * *", "last_status": "ok"}, {"id": "22f814f1a842", "state": "active", "name": "📊 Obsidian 看板刷新", "schedule": "0 8 * * *", "script": "dashboard_refresh.sh", "mode": "Script", "last_status": "ok"}, {"id": "d7a6f1cb1b06", "state": "active", "name": "🔄 豆瓣 → 伴读同步", "schedule": "0 7 * * *", "script": "douban_sync.sh", "mode": "Script", "last_status": "error"}, {"id": "5f9d262d5c3a", "state": "active", "name": "健康日报推送", "schedule": "15 10 * * *", "last_status": "ok"}, {"id": "c51f72ab78d6", "state": "active", "name": "🔄 Hermes 工作台数据刷新", "schedule": "0 */3 * * *", "last_status": "ok"}]}, "obsidian": [{"name": "attachments", "icon": "📁", "count": 0}, {"name": "买房资料", "icon": "🏡", "count": 1}, {"name": "会议", "icon": "📋", "count": 0}, {"name": "伴读", "icon": "📖", "count": 6}, {"name": "健康", "icon": "❤️", "count": 2}, {"name": "工作", "icon": "💼", "count": 1}, {"name": "微信收藏", "icon": "💬", "count": 1}, {"name": "日记", "icon": "📓", "count": 6}, {"name": "看板", "icon": "📊", "count": 2}, {"name": "知识库", "icon": "📚", "count": 4}, {"name": "项目", "icon": "🚀", "count": 1}]};
+// Updated
+document.getElementById('updated').textContent = D.updated;
 
-// ── Try loading injected or fetched live data ──
-function renderCronList(jobs) {
-  const el = document.getElementById('cron-list');
-  if (!jobs || !jobs.length) {
-    el.innerHTML = '<div style="padding:16px;color:var(--text-muted);font-size:13px">暂无实时数据</div>';
-    return;
-  }
-  // Group by prefix
-  const groups = {
-    '🌅 早间推送': ['天气早报','生词','早高峰','美团'],
-    '📈 市场 & 数据': ['市场监控','Au9999','负鼠','小米','股票日报'],
-    '💪 生活 & 健康': ['健身','断舍离','英语打卡','会议预告','晚高峰','多邻国','健康数据','健康日报','网球'],
-    '🗄️ 归档 & 同步': ['存档','豆瓣','对话沉淀','Obsidian 看板','对话日志'],
-    '📋 周常复盘': ['学习报告','每周复盘','断舍离周报']
-  };
+// Panel
+function openPanel(type) {
   let html = '';
-  for (const [section, keywords] of Object.entries(groups)) {
-    const matches = jobs.filter(j => keywords.some(k => (j.name||'').includes(k)));
-    if (!matches.length) continue;
-    html += `<div class="cron-section">${section}</div>`;
-    matches.forEach(j => {
-      const statusClass = j.last_status==='ok'?'ok':j.last_status==='error'?'err':'off';
-      const state = j.state==='paused' ? 'off' : statusClass;
-      html += `<div class="cron-row">
-        <span class="cron-dot ${state}"></span>
-        <span class="cron-name">${j.name||j.id}</span>
-        <span class="cron-time">${j.schedule||'—'}</span>
-        <span class="cron-model">${j.mode||'LLM'}</span>
-      </div>`;
-    });
-  }
-  el.innerHTML = html || '<div style="padding:16px;color:var(--text-muted);font-size:13px">暂无数据</div>';
-}
-
-async function loadLiveData() {
-  // 1) Try injected data (from refresh.py)
-  if (typeof LIVE_DATA === 'object' && LIVE_DATA && LIVE_DATA.cron) {
-    applyLiveData(LIVE_DATA);
-    return;
-  }
-  // 2) Try fetch data.json (works on GitHub Pages)
-  try {
-    const resp = await fetch('data.json?t=' + Date.now());
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data.cron) { applyLiveData(data); return; }
+  if (type === 'reading') {
+    html = '<h2>📖 伴读</h2>';
+    if (D.reading.toread.length) {
+      html += '<h3 style="margin-top:12px;color:var(--muted)">📌 待读</h3>';
+      D.reading.toread.forEach(i => html += `<div class="panel-item">${i.title} <span class="tag">${i.type}</span></div>`);
     }
-  } catch(e) {}
-  // 3) Fallback — show time only
-  const now = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
-  document.getElementById('update-time').textContent = now;
-  document.getElementById('footer-time').textContent = '数据更新: ' + now;
-  renderCronList([]);
-}
-
-function applyLiveData(data) {
-  const c = data.cron || {};
-  document.getElementById('update-time').textContent = data.updated || '';
-  document.getElementById('footer-time').textContent = '数据更新: ' + (data.updated || '—');
-  document.getElementById('cron-health-badge').textContent = `${c.ok||0}/${c.total||0}`;
-  document.querySelectorAll('.stat-value')[1].textContent = c.total || '—';
-  document.querySelectorAll('.stat-value')[2].textContent = c.ok || '—';
-  document.querySelectorAll('.stat-value')[3].textContent = c.error || '0';
-  if (c.jobs) renderCronList(c.jobs);
-  const dot = document.querySelector('.header-right .dot');
-  if (c.error > 0) { dot.className = 'dot err'; }
-}
-
-// ── Init ──
-renderProjects();
-renderObsidian();
-loadLiveData();
-</script>
-
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    html += '<h3 style="margin-top:12px;color:var(--muted)">⭐ 已读</h3>';
+    D.reading.read.forEach(i => html += `<div class="panel-item">${'⭐'.repeat(i.rating||0)} ${i.title} <span class="tag">${i.type}</span></div>`);
+  } else if (type === 'cron') {
+    html = '<h2>⏰ 任务</h2>';
+    D.cron.jobs.forEach(j => html += `<div class="panel-item">${j.last_status==='error'?'🔴':'🟢'} ${j.name||j.id} <span style="font-size:10px;color:var(--muted)">${j.schedule||''}</span></div>`);
+  } else if (type === 'ideas') {
+    html = '<h2>💡 灵感碎片</h2>';
+    D.ideas.recent.forEach(i => html += `<div class="panel-item">[${i.tag||''}] ${i.idea||''} <span style="font-size:10px;color:var(--muted)">${i.time||''}</span></div>`);
+  } else if (type === 'skills') {
+    html = '<h2>🧩 Skills</h2>';
+    D.skills.forEach(s => html += `<div class="panel-item"><div><strong>${s.name}</strong><br><span style="font-size:11px;color:var(--muted)">${s.desc.substring(0,80)}</span></div></div>`);
   }
+  document.getElementById('panelContent').innerHTML = html;
+  document.getElementById('panel').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+
+function openObsidian(name) {
+  let f = D.obsidian.find(o => o.name === name);
+  if (!f) return;
+  let html = `<h2>📁 ${f.icon} ${name}</h2>`;
+  f.items.forEach(i => html += `<div class="panel-item">${i.title.substring(0,60)}</div>`);
+  document.getElementById('panelContent').innerHTML = html;
+  document.getElementById('panel').classList.add('show');
+  document.getElementById('overlay').classList.add('show');
+}
+
+document.getElementById('closePanel').onclick = () => {
+  document.getElementById('panel').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+};
+document.getElementById('overlay').onclick = () => {
+  document.getElementById('panel').classList.remove('show');
+  document.getElementById('overlay').classList.remove('show');
+};
 </script>
 </body>
 </html>
