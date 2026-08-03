@@ -170,6 +170,7 @@ def main():
         "skills": get_skills(),
         "obsidian": get_obsidian(),
         "codex": get_codex(),
+        "dialogue": load_json(BASE / "dialogue_memory.json"),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
     data_json = json.dumps(data, ensure_ascii=False)
