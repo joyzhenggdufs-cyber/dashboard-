@@ -177,7 +177,7 @@ def main():
         path = BASE / fname
         if path.exists():
             html = path.read_text()
-            html = re.sub(r'const LIVE_DATA = \{.*?\};', f'const LIVE_DATA = {data_json};', html)
+            html = re.sub(r'const LIVE_DATA = \{.*?\};', f'const D = LIVE_DATA;', html)
             path.write_text(html)
     print(f"[OK] {data['cron']['total']} cron | {data['reading']['total']} reading | "
           f"{data['ideas']['total']} ideas | {len(data['skills'])} skills | "
