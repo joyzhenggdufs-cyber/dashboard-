@@ -157,6 +157,8 @@ def get_codex():
 
 # ─── 主函数 ───
 def main():
+    # 先提取对话记忆
+    subprocess.run(["/usr/bin/python3", str(BASE / "dialogue_memory.py")], capture_output=True, timeout=30)
     now = datetime.now(CST).strftime("%Y-%m-%d %H:%M")
     data = {
         "updated": now,

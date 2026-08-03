@@ -733,6 +733,12 @@
     "recent": [
       {
         "role": "assistant",
+        "text": "让 refresh.py 每次都先跑对话提取：",
+        "time": "08/03 23:32",
+        "source": "tui"
+      },
+      {
+        "role": "assistant",
         "text": "Dashboard 加「对话记忆」区块：",
         "time": "08/03 23:32",
         "source": "tui"
@@ -904,12 +910,6 @@
         "text": "好的，你跟我说一下整体要怎么改吧，我要说的说完了",
         "time": "08/03 23:06",
         "source": "tui"
-      },
-      {
-        "role": "assistant",
-        "text": "能。**不只读，还要能写回去**。\n\n```\ndashboard 上你点「标记已读」→ Mac 本地 JSON 更新\n                          → 我下次对话就知道你读了\ndashboard 上你点「重试」  → 触发 cron 立刻跑\ndashboard 上你删一条碎片 → 本地 JSON 同步删掉\n```\n\n技术链路：dashboard HTML → 调本地 Pyth",
-        "time": "08/03 23:06",
-        "source": "tui"
       }
     ],
     "extracted": [
@@ -954,6 +954,6 @@
         "time": "08/03 17:40"
       }
     ],
-    "updated": "2026-08-03T23:32:23.881868"
+    "updated": "2026-08-03T23:32:36.192216"
   }
 }
