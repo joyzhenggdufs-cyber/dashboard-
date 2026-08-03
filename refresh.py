@@ -84,20 +84,21 @@ def main():
         "obsidian": obsidian
     }
 
-    # Write data.json (for GitHub Pages fetch fallback)
+    # Write data.json
     (DASHBOARD / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
 
-    # Inject live data into dashboard.html
-    dash_path = DASHBOARD / "dashboard.html"
-    if dash_path.exists():
-        html = dash_path.read_text()
-        data_json = json.dumps(data, ensure_ascii=False)
-        # Replace the placeholder with actual data
-        html = html.replace(
-            'const LIVE_DATA = null;  // placeholder — refresh.py replaces this',
-            f'const LIVE_DATA = {data_json};'
-        )
-        dash_path.write_text(html)
+    data_json = json.dumps(data, ensure_ascii=False)
+    # Inject into both dashboard.html and index.html
+    for fname in ["dashboard.html", "index.html"]:
+        path = DASHBOARD / fname
+        if path.exists():
+            html = path.read_text()
+            html = re.sub(
+                r'const LIVE_DATA = \{.*?\};',
+                f'const LIVE_DATA = {data_json};',
+                html
+            )
+            path.write_text(html)
 
     print(f"[OK] {total} cron ({ok_count} ok, {err_count} err) | {len(obsidian)} vault folders | {now}")
 
