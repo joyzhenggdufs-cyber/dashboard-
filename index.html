@@ -97,6 +97,11 @@ body{background:var(--bg);color:var(--text);font-size:14px;padding:24px 20px 48p
   <div id="declutter"></div>
 </div>
 
+<div class="section">
+  <h2>🤖 Codex 项目</h2>
+  <div id="codex"></div>
+</div>
+
 <div style="text-align:center;color:var(--muted);font-size:11px;margin-top:24px">
   最后同步 · <span id="updated">—</span>
 </div>
@@ -157,6 +162,16 @@ let dl = '';
 if (dd.pending && dd.pending.length) dl += dd.pending.map(i => `<div class="declutter-item">📋 ${i.name||'?'} (${i.category||'?'})</div>`).join('');
 if (dd.done_recent && dd.done_recent.length) dl += dd.done_recent.map(i => `<div class="declutter-item">✅ ${i.name||'?'} — ${i.method||''}</div>`).join('');
 document.getElementById('declutter').innerHTML = dl || '<div style="color:var(--muted);font-size:13px">暂无</div>';
+
+// Codex
+document.getElementById('codex').innerHTML = D.codex.map(p =>
+  `<div class="card" style="margin-bottom:8px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <span>🤖 ${p.name} · ${p.file_count}文件</span>
+      <span style="font-size:11px;color:var(--muted)">${p.subdirs.join(' · ')}</span>
+    </div>
+  </div>`
+).join('') || '<div style="color:var(--muted);font-size:13px">暂无</div>';
 
 // Updated
 document.getElementById('updated').textContent = D.updated;

@@ -136,6 +136,25 @@ def get_obsidian():
     return folders
 
 
+# ─── Codex 项目 ───
+def get_codex():
+    codex_dir = Path.home() / "Desktop/Codex Work"
+    if not codex_dir.exists(): return []
+    projects = []
+    for d in sorted(codex_dir.iterdir()):
+        if d.is_dir() and not d.name.startswith("."):
+            subdirs = [s.name for s in d.iterdir() if s.is_dir()]
+            files = list(d.rglob("*"))
+            md_files = [f.stem for f in files if f.suffix == ".md"]
+            projects.append({
+                "name": d.name,
+                "subdirs": subdirs,
+                "file_count": len(files),
+                "recent": md_files[:5],
+            })
+    return projects
+
+
 # ─── 主函数 ───
 def main():
     now = datetime.now(CST).strftime("%Y-%m-%d %H:%M")
@@ -150,6 +169,7 @@ def main():
         "connection_map": get_connection_map(),
         "skills": get_skills(),
         "obsidian": get_obsidian(),
+        "codex": get_codex(),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
     data_json = json.dumps(data, ensure_ascii=False)
