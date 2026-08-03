@@ -138,20 +138,21 @@ def get_obsidian():
 
 # ─── Codex 项目 ───
 def get_codex():
-    codex_dir = Path.home() / "Desktop/Codex Work"
-    if not codex_dir.exists(): return []
+    codex_dirs = [Path.home() / "Desktop/Codex Work", Path.home() / "Desktop/Codexwork"]
     projects = []
-    for d in sorted(codex_dir.iterdir()):
-        if d.is_dir() and not d.name.startswith("."):
-            subdirs = [s.name for s in d.iterdir() if s.is_dir()]
-            files = list(d.rglob("*"))
-            md_files = [f.stem for f in files if f.suffix == ".md"]
-            projects.append({
-                "name": d.name,
-                "subdirs": subdirs,
-                "file_count": len(files),
-                "recent": md_files[:5],
-            })
+    for codex_dir in codex_dirs:
+        if not codex_dir.exists(): continue
+        for d in sorted(codex_dir.iterdir()):
+            if d.is_dir() and not d.name.startswith("."):
+                subdirs = [s.name for s in d.iterdir() if s.is_dir()]
+                files = list(d.rglob("*"))
+                md_files = [f.stem for f in files if f.suffix == ".md"]
+                projects.append({
+                    "name": d.name,
+                    "subdirs": subdirs,
+                    "file_count": len(files),
+                    "recent": md_files[:5],
+                })
     return projects
 
 
