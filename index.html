@@ -7,219 +7,149 @@
 <style>
 :root {
 --bg:#FBF7F2; --card:#FFFBF7; --border:#E8DDD4; --accent:#C49B7C; --accent2:#A67B5B;
---text:#3D322B; --muted:#8B7D74; --green:#7DA37D; --red:#C47B7B; --amber:#C49B5B;
---radius:18px; --shadow:0 1px 3px rgba(61,50,43,.06),0 4px 12px rgba(61,50,43,.04);
+--text:#3D322B; --muted:#8B7D74; --green:#7DA37D; --red:#C47B7B; --amber:#C49B5B; --blue:#7B9EC4;
+--radius:18px; --radius-sm:10px;
 font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-size:14px;padding:24px 20px 48px;max-width:1000px;margin:0 auto;line-height:1.5}
-/* Header */
-.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
-.header h1{font-size:22px;font-weight:600;letter-spacing:-.3px}
-.conn-dots{display:flex;gap:10px}
-.conn-dot{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--muted)}
-.conn-dot .dot{width:8px;height:8px;border-radius:50%}
-.conn-dot .dot.on{background:var(--green)}
-.conn-dot .dot.off{background:var(--red)}
-/* Cards */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-.card{background:var(--card);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s ease,box-shadow .15s ease;border:1px solid transparent}
-.card:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(61,50,43,.08),0 8px 20px rgba(61,50,43,.06);border-color:var(--border)}
-.card h3{font-size:13px;color:var(--muted);font-weight:500;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
-.card .stat{font-size:28px;font-weight:600;letter-spacing:-1px}
-.card .stat span{font-size:14px;font-weight:400;color:var(--muted)}
-.card .items{margin-top:10px;font-size:13px;color:var(--text)}
-.card .items .item{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--border)}
-.card .items .item:last-child{border-bottom:none}
-.item .tag{font-size:10px;padding:1px 6px;border-radius:4px;background:var(--accent);color:#fff;opacity:.8}
-.item .tag.red{background:var(--red)}
-/* Slide panel */
-.panel-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.15);z-index:99;display:none}
+body{background:var(--bg);color:var(--text);font-size:14px;padding:20px;max-width:1100px;margin:0 auto;line-height:1.5;-webkit-font-smoothing:antialiased}
+/* Top bar — Raycast style */
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;padding:0 4px}
+.topbar h1{font-size:24px;font-weight:700;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+.topbar .time{font-size:13px;color:var(--muted)}
+.quick-search{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px 14px;font-size:13px;color:var(--muted);cursor:text;width:200px;text-align:left}
+/* Connection pips */
+.conn-row{display:flex;gap:12px;margin-bottom:24px}
+.conn-pip{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);background:var(--card);padding:5px 10px;border-radius:20px;border:1px solid var(--border)}
+.conn-pip .d{width:7px;height:7px;border-radius:50%}
+.conn-pip .d.on{background:var(--green)}
+.conn-pip .d.off{background:var(--red)}
+/* Hero stats — Apple Health ring style */
+.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px}
+.hero-card{background:var(--card);border-radius:var(--radius);padding:20px;text-align:center;border:1px solid var(--border);cursor:pointer;transition:transform .15s;position:relative;overflow:hidden}
+.hero-card:hover{transform:translateY(-2px)}
+.hero-card .ring{display:inline-block;margin-bottom:8px}
+.hero-card svg{width:60px;height:60px}
+.hero-card .val{font-size:26px;font-weight:700;letter-spacing:-1px}
+.hero-card .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.hero-card .trend{font-size:10px;margin-top:2px}
+/* Grid sections */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.section-card{background:var(--card);border-radius:var(--radius);padding:16px 18px;border:1px solid var(--border)}
+.section-card h3{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;font-weight:500}
+.mini-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px}
+.mini-item:last-child{border:0}
+.mini-item .stars{color:var(--amber);font-size:12px}
+.mini-item .tag{font-size:9px;padding:2px 5px;border-radius:3px;background:var(--accent);color:#fff}
+.mini-item .tag.red{background:var(--red)} .mini-item .tag.green{background:var(--green)}
+/* Map */
+.map-grid{display:flex;flex-wrap:wrap;gap:6px}
+.map-chip{display:flex;align-items:center;gap:3px;font-size:11px;background:var(--card);padding:5px 8px;border-radius:6px;border:1px solid var(--border)}
+.map-chip .via{font-size:9px;color:var(--muted)}
+/* Panel */
+.panel-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(61,50,43,.18);z-index:99;display:none}
 .panel-overlay.show{display:block}
-.panel{position:fixed;top:0;right:0;width:420px;max-width:90vw;height:100%;background:rgba(251,247,242,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:-4px 0 24px rgba(0,0,0,.08);z-index:100;padding:24px;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.panel{position:fixed;top:0;right:0;width:440px;max-width:92vw;height:100%;background:rgba(251,247,242,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:-2px 0 30px rgba(0,0,0,.1);z-index:100;padding:28px 24px;overflow-y:auto;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
 .panel.show{transform:translateX(0)}
-.panel h2{font-size:20px;margin-bottom:16px;font-weight:600}
-.panel .close{position:absolute;top:16px;right:16px;width:28px;height:28px;border-radius:50%;background:var(--border);border:none;cursor:pointer;font-size:16px;color:var(--muted);display:flex;align-items:center;justify-content:center}
-.panel-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;display:flex;justify-content:space-between;align-items:center}
-.panel-item:last-child{border-bottom:none}
-/* Sections */
-.section{margin-bottom:20px}
-.section h2{font-size:15px;color:var(--muted);font-weight:500;margin-bottom:10px;letter-spacing:.5px}
-.map{display:flex;flex-wrap:wrap;gap:8px}
-.map-item{display:flex;align-items:center;gap:4px;font-size:12px;background:var(--card);padding:6px 10px;border-radius:8px;border:1px solid var(--border)}
-.map-item .arrow{color:var(--accent)}
-.map-item .via{font-size:10px;color:var(--muted);margin-left:2px}
-.declutter-item{padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)}
-.declutter-item:last-child{border-bottom:none}
-@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.panel h2{font-size:20px;font-weight:600;margin-bottom:18px}
+.panel .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:var(--border);border:0;cursor:pointer;font-size:15px;color:var(--muted)}
+.p-item{padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.p-item:last-child{border:0}
+/* Mobile */
+@media(max-width:680px){.hero{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+@media(max-width:420px){.hero{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="panel-overlay" id="overlay"></div>
-<div class="panel" id="panel"><button class="close" id="closePanel">✕</button><div id="panelContent"></div></div>
 
-<div class="header">
-  <h1>⚡ Hermes 工作台</h1>
-  <div class="conn-dots" id="connDots"></div>
-</div>
+<div class="panel-overlay" id="ov"></div>
+<div class="panel" id="pn"><button class="close" id="cl">✕</button><div id="pc"></div></div>
 
-<div class="grid">
-  <div class="card" onclick="openPanel('reading')">
-    <h3>📖 伴读 · <span id="readingCount">0</span>条</h3>
-    <div class="items" id="readingItems"></div>
-  </div>
-  <div class="card" onclick="openPanel('cron')">
-    <h3>⏰ 任务 · <span id="cronOk">0</span>/<span id="cronTotal">0</span></h3>
-    <div class="items" id="cronItems"></div>
-  </div>
-  <div class="card" onclick="openPanel('ideas')">
-    <h3>💡 灵感 · <span id="ideasCount">0</span>条</h3>
-    <div class="items" id="ideasItems"></div>
-  </div>
-  <div class="card" onclick="openPanel('skills')">
-    <h3>🧩 Skills · <span id="skillsCount">0</span>个</h3>
-    <div class="items" id="skillsItems"></div>
-  </div>
-</div>
-
-<div class="section">
-  <h2>🔗 连线</h2>
-  <div class="map" id="map"></div>
-</div>
-
-<div class="section">
-  <h2>📁 Obsidian</h2>
-  <div id="obsidian"></div>
-</div>
-
-<div class="section">
-  <h2>🧹 断舍离</h2>
-  <div id="declutter"></div>
-</div>
-
-<div class="section">
-  <h2>🤖 Codex 项目</h2>
-  <div id="codex"></div>
-</div>
-
-<div style="text-align:center;color:var(--muted);font-size:11px;margin-top:24px">
-  最后同步 · <span id="updated">—</span>
+<!-- Raycast top bar -->
+<div class="topbar">
+  <h1>⚡ Hermes</h1>
+  <div class="conn-row" id="pips"></div>
+  <div class="time" id="t"></div>
 </div>
 
 <script>
-// LIVE_DATA injected by refresh.py
 const D = {"updated": "2026-08-03 23:16", "reading": {"total": 15, "toread": [{"title": "GPT Live + Obsidian 口语系统", "type": "article", "rating": 0, "notes": "待读：Gloria的方案，GPT实时语音+Obsidian自动生成口语练习", "url": "", "added": "2026-07-26", "id": 1}, {"title": "麦肯锡风格视觉提示词", "type": "article", "rating": 0, "notes": "待读：15种商业隐喻库、封面信息图、白底深蓝配色，可复用于品类报告", "url": "", "added": "2026-07-26", "id": 2}, {"title": "八仙", "type": "movie", "rating": 0, "notes": "待写感想：中国神话八仙过海", "url": "", "added": "2026-07-27", "id": 3}, {"title": "人工智能 (AI)", "type": "movie", "rating": 0, "notes": "看了一半，待看完", "url": "", "added": "2026-07-27", "id": 5}], "read": [{"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}], "recent": [{"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}]}, "ideas": {"total": 8, "recent": [{"idea": "修改简历（周日）", "tag": "待办", "time": "2026-07-27 01:10", "done": false}, {"idea": "云鲸扫地机器人 — 无公开 API", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "小米智能家居 — 空调插座 token 还没拿到", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "YouTube 视频 → 思维导图 → Obsidian", "tag": "工具", "time": "2026-07-27 01:10", "done": false}, {"idea": "Codex 语音外教 — 按教材上第一节英语课", "tag": "伴读", "time": "2026-07-27 01:10", "done": false}]}, "declutter": {"total": 1, "pending": [], "done_recent": []}, "vocab": {"total": 0, "new": 0, "learning": 0, "mastered": 0}, "cron": {"total": 28, "ok": 27, "error": 1, "jobs": [{"id": "5f31f7486b44", "state": "active", "name": "每个工作日 Au9999 收盘报价", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "74b0eca9ae0d", "state": "active", "name": "天气早报", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "8d2299d2faae", "state": "active", "name": "早高峰路况", "schedule": "15 9 * * 1-5", "last_status": "ok"}, {"id": "d1c8e0194622", "state": "active", "name": "晚高峰路况", "schedule": "45 18 * * 1-5", "last_status": "ok"}, {"id": "2e21d865c7e6", "state": "active", "name": "网球预约提醒", "schedule": "0 10 * * 4", "last_status": "ok"}, {"id": "b0f368314fca", "state": "active", "name": "英语打卡提醒", "schedule": "0 20 * * *", "last_status": "ok"}, {"id": "12ca6d928ebd", "state": "active", "name": "💪 健身提醒（AI判断型）", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "566eda02cdbc", "state": "active", "name": "📈 市场监控（A股/科创/纳斯达克/金价）", "schedule": "0 9-15,21-23 * * 1-5", "last_status": "ok"}, {"id": "7d7fda818943", "state": "active", "name": "🧠 每周学习报告（AI对用户的理解）", "schedule": "0 10 * * 7", "last_status": "ok"}, {"id": "533f670167e5", "state": "active", "name": "每晚多邻国打卡提醒", "schedule": "30 22 * * *", "last_status": "ok"}, {"id": "569eeec73be7", "state": "active", "name": "多邻国打卡确认+记录", "schedule": "50 23 * * *", "last_status": "ok"}, {"id": "5f9de1ad0926", "state": "active", "name": "小米集团每日收盘报价", "schedule": "10 16 * * 1-5", "last_status": "ok"}, {"id": "9192c6c37a9e", "state": "active", "name": "📱 健康数据导出提醒", "schedule": "0 10 */2 * *", "last_status": "ok"}, {"id": "13c0e433146f", "state": "active", "name": "📜 每周对话日志导出", "schedule": "0 12 * * 0", "last_status": "ok"}, {"id": "90da54cc8268", "state": "active", "name": "🗄️ 每日自动存档（对话+推送全量留底）", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "fbbeecf93bc7", "state": "active", "name": "📅 明日会议预告", "schedule": "0 21 * * *", "last_status": "ok"}, {"id": "658d338b387e", "state": "active", "name": "📋 每周复盘", "schedule": "0 20 * * 7", "last_status": "ok"}, {"id": "c9db047a71d1", "state": "active", "name": "你是用户的微信生活管家。检查是否有待处理的断舍离物品需要提醒用户。", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "29495086b4dc", "state": "active", "name": "📈 股票日报转发（GPT→邮箱→微信）", "schedule": "15 16 * * 1-5", "last_status": "ok"}, {"id": "8f19316e68ef", "state": "active", "name": "🥇 负鼠金价微博 · 全自动发布", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "b9fa480c79fc", "state": "active", "name": "📚 每日生词复习", "schedule": "30 8 * * *", "last_status": "ok"}, {"id": "8cb41c5cba4f", "state": "active", "name": "🎫 美团每日自动领券", "schedule": "0 10 * * *", "last_status": "ok"}, {"id": "0759c99dafa2", "state": "active", "name": "🧹 每周断舍离周报", "schedule": "30 20 * * 0", "last_status": "ok"}, {"id": "127ecb2b1002", "state": "active", "name": "🧠 每日对话沉淀 → Obsidian", "schedule": "0 23 * * *", "last_status": "ok"}, {"id": "22f814f1a842", "state": "active", "name": "📊 Obsidian 看板刷新", "schedule": "0 8 * * *", "last_status": "ok"}, {"id": "d7a6f1cb1b06", "state": "active", "name": "🔄 豆瓣 → 伴读同步", "schedule": "0 7 * * *", "last_status": "error"}, {"id": "5f9d262d5c3a", "state": "active", "name": "健康日报推送", "schedule": "15 10 * * *", "last_status": "ok"}, {"id": "c51f72ab78d6", "state": "active", "name": "🔄 Hermes 工作台数据刷新", "schedule": "0 */3 * * *", "last_status": "ok"}]}, "connections": [{"name": "DeepSeek", "icon": "🧠", "ok": false}, {"name": "豆瓣", "icon": "📖", "ok": false}, {"name": "飞书", "icon": "💬", "ok": false}, {"name": "微信", "icon": "💬", "ok": true}], "connection_map": [{"from": "训记", "to": "健身数据", "via": "JSON", "icon": "🏋️"}, {"from": "Exchange", "to": "日历/早报", "via": "icalBuddy", "icon": "💼"}, {"from": "Apple Health", "to": "健康日报", "via": "XML→JSON", "icon": "🩺"}, {"from": "豆瓣", "to": "伴读", "via": "RSS", "icon": "📖"}, {"from": "上金所", "to": "微博", "via": "auto_opossum", "icon": "🥇"}, {"from": "美团", "to": "每日领券", "via": "Skill", "icon": "🎫"}, {"from": "多邻国", "to": "打卡记录", "via": "状态文件", "icon": "🟢"}], "skills": [{"name": "agently-mail", "desc": "name: agently-mail description: 通过 agently-cli 命令行工具操作邮件：发送、回复、转发、搜索、读取、下载附件、管理收件箱。当用户需要进行任何邮件相关操作时 version: 1.0.0 Agent"}, {"name": "category-report", "desc": "name: category-report description: Buycoor CMI 品类半年报工作流 — 电商市场品类演变与产品趋势洞察报告。中英双版本。含数据爬取、分析框架、报告生成。 外部品牌数据获取渠道 已验证可行的渠道"}, {"name": "chatcut", "desc": "name: chatcut description: > AI 视频剪辑工具 — 自然语言驱动 ffmpeg 自动剪片。 GitHub: ArtCog/chatcut (CLI) + ChatCut agent-plugin (534⭐)。"}, {"name": "computer-use", "desc": "name: computer-use description: | Drive the user's desktop in the background — clicking, typing, scrolling, dragging — w"}, {"name": "deepseek-provider-config", "desc": "name: deepseek-provider-config description: \"Configure DeepSeek models for Hermes, Claude Code, and other tools version:"}, {"name": "dogfood", "desc": "name: dogfood description: \"Exploratory QA of web apps: find bugs, evidence, reports.\" version: 1.0.0 platforms: [linux,"}, {"name": "gateway-platform-setup", "desc": "name: gateway-platform-setup description: \"Set up and troubleshoot messaging platforms (Feishu, WeChat, Yuanb version: 1"}, {"name": "hv-analysis", "desc": "name: hv-analysis description: 横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出。系统性研究产品、公司、 hv-analysis — 横纵分析法深度"}, {"name": "meituan-coupon", "desc": "name: meituan-coupon displayName: 美团红包助手 description: 【美团官方】美团红包助手，支持外卖、餐饮团购、酒店住宿、门票度假、休闲娱乐、闪购、医药等多品类优惠券/红包/神券的一键领取与历史领取"}, {"name": "neat-freak", "desc": "name: neat-freak description: > 会话结束后对项目文档和记忆进行洁癖级审查与同步。 MUST trigger when the user says: \"sync up\", \"tidy up docs\", \"up"}, {"name": "social-media-automation", "desc": "name: social-media-automation description: > Automate social media publishing (Weibo, Xiaohongshu) via Playwright with p"}, {"name": "web-automation", "desc": "name: web-automation description: > Playwright-based web automation with anti-bot bypass techniques. Use when automating"}, {"name": "weibo-auto", "desc": "name: weibo-auto description: > 微博自动发布：Playwright 持久化登录、图文发布、定时流水线。 When the user wants to auto-post to Weibo, schedule "}, {"name": "weibo-publish", "desc": "name: weibo-publish description: > 微博自动发布（Playwright + CDP 反机器人绕过）。涵盖文案+图片发布、 常见坑、session 管理。适用于任何需要通过 Playwright 自动发布微博"}, {"name": "yuanbao", "desc": "name: yuanbao description: \"Yuanbao (元宝) groups: @mention users, query info/members.\" version: 1.0.0 platforms: [linux, "}], "obsidian": [{"name": "attachments", "icon": "📁", "count": 0, "items": []}, {"name": "买房资料", "icon": "🏡", "count": 1, "items": [{"title": "关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告", "path": "买房资料/关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告.md"}]}, {"name": "会议", "icon": "📁", "count": 0, "items": []}, {"name": "伴读", "icon": "📖", "count": 7, "items": [{"title": "📋 今日复习", "path": "伴读/今日复习.md"}, {"title": "2026-07-26_Her", "path": "伴读/2026-07-26_Her.md"}, {"title": "2026-07-26_麦肯锡风格视觉提示词", "path": "伴读/2026-07-26_麦肯锡风格视觉提示词.md"}, {"title": "打卡记录", "path": "伴读/打卡记录.md"}, {"title": "2026-07-27_人工智能 (AI)", "path": "伴读/2026-07-27_人工智能 (AI).md"}, {"title": "📚 伴读记录", "path": "伴读/伴读记录.md"}, {"title": "English_for_Meetings", "path": "伴读/教材/English_for_Meetings.md"}]}, {"name": "健康", "icon": "❤️", "count": 2, "items": [{"title": "健康数据", "path": "健康/最新数据.md"}, {"title": "健康趋势", "path": "健康/健康趋势.md"}]}, {"name": "工作", "icon": "📁", "count": 1, "items": [{"title": "欢迎回来 👋", "path": "工作/README.md"}]}, {"name": "微信收藏", "icon": "💬", "count": 1, "items": [{"title": "一文快速读懂丨配售型保障性住房", "path": "微信收藏/一文快速读懂丨配售型保障性住房.md"}]}, {"name": "日记", "icon": "📓", "count": 7, "items": [{"title": "2026-07-27", "path": "日记/2026-07-27.md"}, {"title": "2026-07-28", "path": "日记/2026-07-28.md"}, {"title": "2026-08-01", "path": "日记/2026-08-01.md"}, {"title": "2026-08-02", "path": "日记/2026-08-02.md"}, {"title": "2026-08-03", "path": "日记/2026-08-03.md"}, {"title": "2026-07-15 周二", "path": "日记/2026-07-15.md"}, {"title": "2026-07-31", "path": "日记/2026-07-31.md"}]}, {"name": "看板", "icon": "📊", "count": 2, "items": [{"title": "总览", "path": "看板/总览.md"}, {"title": "💡 灵感碎片", "path": "看板/灵感碎片.md"}]}, {"name": "知识库", "icon": "📚", "count": 4, "items": [{"title": "Vibe Coding 保姆级教程", "path": "知识库/AI/Vibe Coding 保姆级教程.md"}, {"title": "Vibe Coding 思维导图", "path": "知识库/AI/Vibe Coding 思维导图.md"}, {"title": "自然堂（CHANDO）横纵分析报告", "path": "知识库/品牌研究/自然堂_横纵分析报告.md"}, {"title": "凌博士（PROF.LING）横纵分析报告", "path": "知识库/品牌研究/凌博士_横纵分析报告.md"}]}, {"name": "项目", "icon": "🚀", "count": 1, "items": [{"title": "微信助手", "path": "项目/微信助手.md"}]}], "codex": [{"name": "小红书创作", "subdirs": ["01-选题池", "05-复盘", "03-已发布", "04-素材", "02-创作中", "00-账号定位"], "file_count": 12, "recent": ["README", "首批选题池", "创作提案", "账号定位"]}, {"name": "简历求职", "subdirs": ["羽西项目", "月度报告", "年度品类报告"], "file_count": 37, "recent": []}, {"name": "视频剪辑", "subdirs": [], "file_count": 4, "recent": []}]};
-
-// Connection dots
-document.getElementById('connDots').innerHTML = D.connections.map(c =>
-  `<div class="conn-dot"><span class="dot ${c.ok?'on':'off'}"></span>${c.icon} ${c.name}</div>`
+document.getElementById('t').textContent = '更新 · '+D.updated;
+document.getElementById('pips').innerHTML = D.connections.map(c =>
+  `<div class="conn-pip">${c.icon} ${c.name}<span class="d ${c.ok?'on':'off'}"></span></div>`
 ).join('');
 
-// Reading card
-document.getElementById('readingCount').textContent = D.reading.total;
-document.getElementById('readingItems').innerHTML = D.reading.recent.slice(0,3).map(i =>
-  `<div class="item">${i.rating ? '⭐'.repeat(i.rating) : '📌'} ${i.title} <span class="tag">${i.type}</span></div>`
-).join('') || '<div class="item" style="color:var(--muted)">暂无</div>';
+let crOk = D.cron.ok, crT = D.cron.total;
+let crPct = Math.round(crOk/crT*100);
+let rdPct = D.reading.read.length? Math.round(D.reading.read.length/D.reading.total*100) : 0;
+let skActive = D.skills.length;
+let ideasN = D.ideas.total;
 
-// Cron card
-document.getElementById('cronOk').textContent = D.cron.ok;
-document.getElementById('cronTotal').textContent = D.cron.total;
-document.getElementById('cronItems').innerHTML = D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j =>
-  `<div class="item">🔴 ${j.name||j.id}</div>`
-).join('') + D.cron.jobs.filter(j=>j.last_status==='ok').slice(0,2).map(j =>
-  `<div class="item">🟢 ${j.name||j.id}</div>`
-).join('') || '<div class="item" style="color:var(--muted)">全部正常</div>';
+// Helper: SVG ring
+function ring(pct, color){ return `<svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border)" stroke-width="3"/><circle cx="18" cy="18" r="15.5" fill="none" stroke="${color}" stroke-width="3" stroke-dasharray="${pct},100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>`; }
 
-// Ideas card
-document.getElementById('ideasCount').textContent = D.ideas.total;
-document.getElementById('ideasItems').innerHTML = D.ideas.recent.map(i =>
-  `<div class="item">💡 ${i.idea?.substring(0,40)||''} <span class="tag">${i.tag||''}</span></div>`
-).join('') || '<div class="item" style="color:var(--muted)">暂无</div>';
+document.body.insertAdjacentHTML('afterbegin', `<div class="hero" style="display:none"></div>`);
+document.body.innerHTML = document.body.innerHTML.replace(/<div class="topbar">/, `
+<div class="hero">
+  <div class="hero-card" onclick="P('cron')"><div class="ring">${ring(crPct,'var(--green)')}</div><div class="val">${crOk}/${crT}</div><div class="lbl">任务健康</div><div class="trend" style="color:var(--green)">${crPct}%正常</div></div>
+  <div class="hero-card" onclick="P('reading')"><div class="ring">${ring(rdPct,'var(--amber)')}</div><div class="val">${D.reading.total}</div><div class="lbl">伴读</div><div class="trend" style="color:var(--muted)">${D.reading.toread.length}待读</div></div>
+  <div class="hero-card" onclick="P('skills')"><div class="ring">${ring(100,'var(--blue)')}</div><div class="val">${skActive}</div><div class="lbl">Skills</div><div class="trend" style="color:var(--blue)">已安装</div></div>
+  <div class="hero-card" onclick="P('ideas')"><div class="ring">${ring(Math.min(ideasN*12,100),'var(--accent)')}</div><div class="val">${ideasN}</div><div class="lbl">灵感碎片</div><div class="trend" style="color:var(--accent)">待处理</div></div>
+</div>
+<div class="topbar">
+`);
 
-// Skills card
-document.getElementById('skillsCount').textContent = D.skills.length;
-document.getElementById('skillsItems').innerHTML = D.skills.slice(0,4).map(s =>
-  `<div class="item">🧩 ${s.name}</div>`
-).join('');
+// Sections
+document.body.insertAdjacentHTML('beforeend', `
+<div class="grid2">
+  <div class="section-card">
+    <h3>📖 伴读 · 最近</h3>
+    ${D.reading.recent.map(i=>`<div class="mini-item"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span><span class="tag">${i.type}</span></div>`).join('')||'<div class="mini-item" style="color:var(--muted)">暂无</div>'}
+  </div>
+  <div class="section-card">
+    <h3>⏰ 任务 · 异常</h3>
+    ${D.cron.jobs.filter(j=>j.last_status==='error').slice(0,4).map(j=>`<div class="mini-item"><span>🔴 ${j.name||j.id}</span><span class="tag red">错误</span></div>`).join('')||'<div class="mini-item" style="color:var(--green)">🟢 全部正常</div>'}
+  </div>
+  <div class="section-card">
+    <h3>💡 灵感 · 最近</h3>
+    ${D.ideas.recent.map(i=>`<div class="mini-item"><span>[${i.tag}] ${(i.idea||'').substring(0,35)}</span></div>`).join('')||'<div class="mini-item" style="color:var(--muted)">暂无</div>'}
+  </div>
+  <div class="section-card">
+    <h3>🤖 Codex</h3>
+    ${D.codex.map(p=>`<div class="mini-item"><span>${p.name}</span><span style="font-size:10px;color:var(--muted)">${p.file_count}文件</span></div>`).join('')||'<div class="mini-item" style="color:var(--muted)">暂无</div>'}
+  </div>
+</div>
 
-// Connection map
-document.getElementById('map').innerHTML = D.connection_map.map(c =>
-  `<div class="map-item">${c.icon} ${c.from} <span class="arrow">→</span> ${c.to} <span class="via">·${c.via}</span></div>`
-).join('');
+<div class="section-card" style="margin-bottom:12px">
+  <h3>🔗 数据连线</h3>
+  <div class="map-grid">${D.connection_map.map(c=>`<div class="map-chip">${c.icon} ${c.from} → ${c.to}<span class="via">${c.via}</span></div>`).join('')}</div>
+</div>
 
-// Obsidian
-document.getElementById('obsidian').innerHTML = D.obsidian.map(f =>
-  `<div class="card" style="margin-bottom:8px;cursor:pointer" onclick="openObsidian('${f.name}')">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <span>${f.icon} ${f.name} · ${f.count}篇</span><span style="color:var(--accent);font-size:12px">→</span>
-    </div>
-  </div>`
-).join('');
+<div class="grid2">
+  <div class="section-card">
+    <h3>📁 Obsidian</h3>
+    ${D.obsidian.map(f=>`<div class="mini-item" style="cursor:pointer" onclick="PO('${f.name}')"><span>${f.icon} ${f.name}</span><span style="color:var(--muted)">${f.count}篇</span></div>`).join('')}
+  </div>
+  <div class="section-card">
+    <h3>🧹 断舍离</h3>
+    ${(D.declutter.pending||[]).map(i=>`<div class="mini-item"><span>📋 ${i.name||'?'}</span><span class="tag">${i.category||''}</span></div>`).join('')}${(D.declutter.done_recent||[]).map(i=>`<div class="mini-item"><span>✅ ${i.name||'?'}</span></div>`).join('')||'<div class="mini-item" style="color:var(--muted)">暂无</div>'}
+  </div>
+</div>
+`);
 
-// Declutter
-let dd = D.declutter;
-let dl = '';
-if (dd.pending && dd.pending.length) dl += dd.pending.map(i => `<div class="declutter-item">📋 ${i.name||'?'} (${i.category||'?'})</div>`).join('');
-if (dd.done_recent && dd.done_recent.length) dl += dd.done_recent.map(i => `<div class="declutter-item">✅ ${i.name||'?'} — ${i.method||''}</div>`).join('');
-document.getElementById('declutter').innerHTML = dl || '<div style="color:var(--muted);font-size:13px">暂无</div>';
-
-// Codex
-document.getElementById('codex').innerHTML = D.codex.map(p =>
-  `<div class="card" style="margin-bottom:8px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <span>🤖 ${p.name} · ${p.file_count}文件</span>
-      <span style="font-size:11px;color:var(--muted)">${p.subdirs.join(' · ')}</span>
-    </div>
-  </div>`
-).join('') || '<div style="color:var(--muted);font-size:13px">暂无</div>';
-
-// Updated
-document.getElementById('updated').textContent = D.updated;
-
-// Panel
-function openPanel(type) {
-  let html = '';
-  if (type === 'reading') {
-    html = '<h2>📖 伴读</h2>';
-    if (D.reading.toread.length) {
-      html += '<h3 style="margin-top:12px;color:var(--muted)">📌 待读</h3>';
-      D.reading.toread.forEach(i => html += `<div class="panel-item">${i.title} <span class="tag">${i.type}</span></div>`);
-    }
-    html += '<h3 style="margin-top:12px;color:var(--muted)">⭐ 已读</h3>';
-    D.reading.read.forEach(i => html += `<div class="panel-item">${'⭐'.repeat(i.rating||0)} ${i.title} <span class="tag">${i.type}</span></div>`);
-  } else if (type === 'cron') {
-    html = '<h2>⏰ 任务</h2>';
-    D.cron.jobs.forEach(j => html += `<div class="panel-item">${j.last_status==='error'?'🔴':'🟢'} ${j.name||j.id} <span style="font-size:10px;color:var(--muted)">${j.schedule||''}</span></div>`);
-  } else if (type === 'ideas') {
-    html = '<h2>💡 灵感碎片</h2>';
-    D.ideas.recent.forEach(i => html += `<div class="panel-item">[${i.tag||''}] ${i.idea||''} <span style="font-size:10px;color:var(--muted)">${i.time||''}</span></div>`);
-  } else if (type === 'skills') {
-    html = '<h2>🧩 Skills</h2>';
-    D.skills.forEach(s => html += `<div class="panel-item"><div><strong>${s.name}</strong><br><span style="font-size:11px;color:var(--muted)">${s.desc.substring(0,80)}</span></div></div>`);
-  }
-  document.getElementById('panelContent').innerHTML = html;
-  document.getElementById('panel').classList.add('show');
-  document.getElementById('overlay').classList.add('show');
+// Panel openers
+function P(type){
+  let t=''; let items=[];
+  if(type==='reading'){t='📖 伴读 · '+D.reading.total+'条'; items=[...D.reading.toread.map(i=>({l:'📌 '+i.title,r:i.type})),...D.reading.read.map(i=>({l:'⭐'.repeat(i.rating)+' '+i.title,r:i.type}))];}
+  else if(type==='cron'){t='⏰ 任务 · '+crOk+'/'+crT; items=D.cron.jobs.map(j=>({l:(j.last_status==='error'?'🔴':'🟢')+' '+j.name,r:j.schedule||''}));}
+  else if(type==='skills'){t='🧩 Skills · '+skActive; items=D.skills.map(s=>({l:s.name,r:s.desc.substring(0,50)}));}
+  else if(type==='ideas'){t='💡 灵感 · '+ideasN; items=D.ideas.recent.map(i=>({l:'['+i.tag+'] '+(i.idea||''),r:i.time||''}));}
+  document.getElementById('pc').innerHTML='<h2>'+t+'</h2>'+items.map(i=>`<div class="p-item">${i.l} <span style="font-size:10px;color:var(--muted);float:right">${i.r||''}</span></div>`).join('');
+  document.getElementById('pn').classList.add('show'); document.getElementById('ov').classList.add('show');
 }
-
-function openObsidian(name) {
-  let f = D.obsidian.find(o => o.name === name);
-  if (!f) return;
-  let html = `<h2>📁 ${f.icon} ${name}</h2>`;
-  f.items.forEach(i => html += `<div class="panel-item">${i.title.substring(0,60)}</div>`);
-  document.getElementById('panelContent').innerHTML = html;
-  document.getElementById('panel').classList.add('show');
-  document.getElementById('overlay').classList.add('show');
-}
-
-document.getElementById('closePanel').onclick = () => {
-  document.getElementById('panel').classList.remove('show');
-  document.getElementById('overlay').classList.remove('show');
-};
-document.getElementById('overlay').onclick = () => {
-  document.getElementById('panel').classList.remove('show');
-  document.getElementById('overlay').classList.remove('show');
-};
+function PO(n){let f=D.obsidian.find(o=>o.name===n); if(!f)return; document.getElementById('pc').innerHTML='<h2>📁 '+f.icon+' '+n+'</h2>'+f.items.map(i=>`<div class="p-item">${i.title.substring(0,60)}</div>`).join(''); document.getElementById('pn').classList.add('show'); document.getElementById('ov').classList.add('show');}
+document.getElementById('cl').onclick=()=>{document.getElementById('pn').classList.remove('show');document.getElementById('ov').classList.remove('show');}
+document.getElementById('ov').onclick=()=>{document.getElementById('pn').classList.remove('show');document.getElementById('ov').classList.remove('show');}
 </script>
 </body>
 </html>
