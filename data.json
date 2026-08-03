@@ -1,8 +1,8 @@
 {
-  "updated": "2026-08-03 15:06",
+  "updated": "2026-08-03 15:13",
   "cron": {
     "total": 28,
-    "ok": 25,
+    "ok": 26,
     "error": 2,
     "paused": 0,
     "jobs": [
@@ -205,7 +205,8 @@
         "id": "c51f72ab78d6",
         "state": "active",
         "name": "🔄 Hermes 工作台数据刷新",
-        "schedule": "0 */3 * * *"
+        "schedule": "0 */3 * * *",
+        "last_status": "ok"
       }
     ]
   },
