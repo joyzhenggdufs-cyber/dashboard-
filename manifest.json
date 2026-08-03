@@ -1,0 +1,17 @@
+{
+  "name": "Hermes 项目工作台",
+  "short_name": "Hermes",
+  "description": "Hermes 自动化项目全景面板",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FBF7F2",
+  "theme_color": "#FBF7F2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23FBF7F2'/><text x='50' y='68' text-anchor='middle' font-size='52'>⚡</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
