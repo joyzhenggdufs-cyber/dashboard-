@@ -28,89 +28,58 @@ body{background:var(--bg);color:var(--text);font-size:14px;padding:20px;max-widt
 .pi{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;display:flex;justify-content:space-between}.pi:last-child{border:0}
 .map-grid{display:flex;flex-wrap:wrap;gap:5px}
 @media(max-width:680px){.hero{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+/* Password gate */
+#gate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#gate input{padding:10px 16px;border:1px solid var(--border);border-radius:12px;font-size:16px;text-align:center;outline:none;background:var(--card);width:200px}
+#gate input:focus{border-color:var(--accent)}
+#gate button{padding:8px 24px;background:var(--accent);color:#fff;border:0;border-radius:12px;cursor:pointer;font-size:14px}
+#gate .err{color:var(--red);font-size:12px;display:none}
 </style>
 </head>
 <body>
+
+<!-- Password Gate -->
+<div id="gate">
+  <div style="font-size:40px">🔐</div>
+  <div style="color:var(--muted);font-size:13px">Hermes 工作台</div>
+  <input type="password" id="pw" placeholder="输入密码" onkeydown="if(event.key==='Enter')unlock()">
+  <button onclick="unlock()">解锁</button>
+  <div class="err" id="err">密码错误</div>
+</div>
+
 <div class="toast" id="toast" style="position:fixed;top:16px;right:16px;background:var(--card);padding:10px 16px;border-radius:12px;border:1px solid var(--border);z-index:200;display:none;font-size:13px"></div>
 <div id="content"></div>
 <div class="panel-overlay" id="ov"></div>
 <div class="panel" id="pn"><button class="close" id="cl">✕</button><div id="pc"></div></div>
 
-<script id="data-loader">
-// Data injected by refresh.py
-const D = {"updated": "2026-08-04 14:34", "reading": {"total": 15, "toread": [{"title": "GPT Live + Obsidian 口语系统", "type": "article", "rating": 0, "notes": "待读：Gloria的方案，GPT实时语音+Obsidian自动生成口语练习", "url": "", "added": "2026-07-26", "id": 1}, {"title": "麦肯锡风格视觉提示词", "type": "article", "rating": 0, "notes": "待读：15种商业隐喻库、封面信息图、白底深蓝配色，可复用于品类报告", "url": "", "added": "2026-07-26", "id": 2}, {"title": "八仙", "type": "movie", "rating": 0, "notes": "待写感想：中国神话八仙过海", "url": "", "added": "2026-07-27", "id": 3}, {"title": "人工智能 (AI)", "type": "movie", "rating": 0, "notes": "看了一半，待看完", "url": "", "added": "2026-07-27", "id": 5}], "read": [{"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}], "recent": [{"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}]}, "ideas": {"total": 8, "recent": [{"idea": "修改简历（周日）", "tag": "待办", "time": "2026-07-27 01:10", "done": false}, {"idea": "云鲸扫地机器人 — 无公开 API", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "小米智能家居 — 空调插座 token 还没拿到", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "YouTube 视频 → 思维导图 → Obsidian", "tag": "工具", "time": "2026-07-27 01:10", "done": false}, {"idea": "Codex 语音外教 — 按教材上第一节英语课", "tag": "伴读", "time": "2026-07-27 01:10", "done": false}]}, "declutter": {"total": 1, "pending": [], "done_recent": []}, "vocab": {"total": 0, "new": 0, "learning": 0, "mastered": 0}, "cron": {"total": 28, "ok": 25, "error": 3, "jobs": [{"id": "5f31f7486b44", "state": "active", "name": "每个工作日 Au9999 收盘报价", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "74b0eca9ae0d", "state": "active", "name": "天气早报", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "8d2299d2faae", "state": "active", "name": "早高峰路况", "schedule": "15 9 * * 1-5", "last_status": "ok"}, {"id": "d1c8e0194622", "state": "active", "name": "晚高峰路况", "schedule": "45 18 * * 1-5", "last_status": "ok"}, {"id": "2e21d865c7e6", "state": "active", "name": "网球预约提醒", "schedule": "0 10 * * 4", "last_status": "ok"}, {"id": "b0f368314fca", "state": "active", "name": "英语打卡提醒", "schedule": "0 20 * * *", "last_status": "ok"}, {"id": "12ca6d928ebd", "state": "active", "name": "💪 健身提醒（AI判断型）", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "566eda02cdbc", "state": "active", "name": "📈 市场监控（A股/科创/纳斯达克/金价）", "schedule": "0 9-15,21-23 * * 1-5", "last_status": "ok"}, {"id": "7d7fda818943", "state": "active", "name": "🧠 每周学习报告（AI对用户的理解）", "schedule": "0 10 * * 7", "last_status": "ok"}, {"id": "533f670167e5", "state": "active", "name": "每晚多邻国打卡提醒", "schedule": "30 22 * * *", "last_status": "ok"}, {"id": "569eeec73be7", "state": "active", "name": "多邻国打卡确认+记录", "schedule": "50 23 * * *", "last_status": "ok"}, {"id": "5f9de1ad0926", "state": "active", "name": "小米集团每日收盘报价", "schedule": "10 16 * * 1-5", "last_status": "ok"}, {"id": "9192c6c37a9e", "state": "active", "name": "📱 健康数据导出提醒", "schedule": "0 10 */2 * *", "last_status": "ok"}, {"id": "13c0e433146f", "state": "active", "name": "📜 每周对话日志导出", "schedule": "0 12 * * 0", "last_status": "ok"}, {"id": "90da54cc8268", "state": "active", "name": "🗄️ 每日自动存档（对话+推送全量留底）", "schedule": "0 9 * * *", "last_status": "error"}, {"id": "fbbeecf93bc7", "state": "active", "name": "📅 明日会议预告", "schedule": "0 21 * * *", "last_status": "ok"}, {"id": "658d338b387e", "state": "active", "name": "📋 每周复盘", "schedule": "0 20 * * 7", "last_status": "ok"}, {"id": "c9db047a71d1", "state": "active", "name": "你是用户的微信生活管家。检查是否有待处理的断舍离物品需要提醒用户。", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "29495086b4dc", "state": "active", "name": "📈 股票日报转发（GPT→邮箱→微信）", "schedule": "15 16 * * 1-5", "last_status": "ok"}, {"id": "8f19316e68ef", "state": "active", "name": "🥇 负鼠金价微博 · 全自动发布", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "b9fa480c79fc", "state": "active", "name": "📚 每日生词复习", "schedule": "30 8 * * *", "last_status": "ok"}, {"id": "8cb41c5cba4f", "state": "active", "name": "🎫 美团每日自动领券", "schedule": "0 10 * * *", "last_status": "error"}, {"id": "0759c99dafa2", "state": "active", "name": "🧹 每周断舍离周报", "schedule": "30 20 * * 0", "last_status": "ok"}, {"id": "127ecb2b1002", "state": "active", "name": "🧠 每日对话沉淀 → Obsidian", "schedule": "0 23 * * *", "last_status": "ok"}, {"id": "22f814f1a842", "state": "active", "name": "📊 Obsidian 看板刷新", "schedule": "0 8 * * *", "last_status": "ok"}, {"id": "d7a6f1cb1b06", "state": "active", "name": "🔄 豆瓣 → 伴读同步", "schedule": "0 7 * * *", "last_status": "ok"}, {"id": "5f9d262d5c3a", "state": "active", "name": "健康日报推送", "schedule": "15 10 * * *", "last_status": "error"}, {"id": "c51f72ab78d6", "state": "active", "name": "🔄 Hermes 工作台数据刷新", "schedule": "0 */3 * * *", "last_status": "ok"}]}, "connections": [{"name": "DeepSeek", "icon": "🧠", "ok": false}, {"name": "豆瓣", "icon": "📖", "ok": false}, {"name": "飞书", "icon": "💬", "ok": false}, {"name": "微信", "icon": "💬", "ok": true}], "connection_map": [{"from": "训记", "to": "健身数据", "via": "JSON", "icon": "🏋️"}, {"from": "Exchange", "to": "日历/早报", "via": "icalBuddy", "icon": "💼"}, {"from": "Apple Health", "to": "健康日报", "via": "XML→JSON", "icon": "🩺"}, {"from": "豆瓣", "to": "伴读", "via": "RSS", "icon": "📖"}, {"from": "上金所", "to": "微博", "via": "auto_opossum", "icon": "🥇"}, {"from": "美团", "to": "每日领券", "via": "Skill", "icon": "🎫"}, {"from": "多邻国", "to": "打卡记录", "via": "状态文件", "icon": "🟢"}], "skills": [{"name": "agently-mail", "desc": "name: agently-mail description: 通过 agently-cli 命令行工具操作邮件：发送、回复、转发、搜索、读取、下载附件、管理收件箱。当用户需要进行任何邮件相关操作时 version: 1.0.0 Agent"}, {"name": "category-report", "desc": "name: category-report description: Buycoor CMI 品类半年报工作流 — 电商市场品类演变与产品趋势洞察报告。中英双版本。含数据爬取、分析框架、报告生成。 外部品牌数据获取渠道 已验证可行的渠道"}, {"name": "chatcut", "desc": "name: chatcut description: > AI 视频剪辑工具 — 自然语言驱动 ffmpeg 自动剪片。 GitHub: ArtCog/chatcut (CLI) + ChatCut agent-plugin (534⭐)。"}, {"name": "computer-use", "desc": "name: computer-use description: | Drive the user's desktop in the background — clicking, typing, scrolling, dragging — w"}, {"name": "dashboard-development", "desc": "name: dashboard-development description: Hermes Dashboard 开发与维护 — 暖陶风数据面板的设计、数据引擎、部署模式 category: software-development Da"}, {"name": "deepseek-provider-config", "desc": "name: deepseek-provider-config description: \"Configure DeepSeek models for Hermes, Claude Code, and other tools version:"}, {"name": "dogfood", "desc": "name: dogfood description: \"Exploratory QA of web apps: find bugs, evidence, reports.\" version: 1.0.0 platforms: [linux,"}, {"name": "gaode", "desc": "name: \"高德地图\" version: \"2.0.0\" description: \"高德地图 Web API 工具与开发指南。Use for: (1) 用附带的零依赖 CLI 直接查地理编码/POI/路线/天气/IP tags: [\"g"}, {"name": "gateway-platform-setup", "desc": "name: gateway-platform-setup description: \"Set up and troubleshoot messaging platforms (Feishu, WeChat, Yuanb version: 1"}, {"name": "hv-analysis", "desc": "name: hv-analysis description: 横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出。系统性研究产品、公司、 hv-analysis — 横纵分析法深度"}, {"name": "meituan-coupon", "desc": "name: meituan-coupon displayName: 美团红包助手 description: 【美团官方】美团红包助手，支持外卖、餐饮团购、酒店住宿、门票度假、休闲娱乐、闪购、医药等多品类优惠券/红包/神券的一键领取与历史领取"}, {"name": "neat-freak", "desc": "name: neat-freak description: > 会话结束后对项目文档和记忆进行洁癖级审查与同步。 MUST trigger when the user says: \"sync up\", \"tidy up docs\", \"up"}, {"name": "social-media-automation", "desc": "name: social-media-automation description: > Automate social media publishing (Weibo, Xiaohongshu) via Playwright with p"}, {"name": "web-automation", "desc": "name: web-automation description: > Playwright-based web automation with anti-bot bypass techniques. Use when automating"}, {"name": "weibo-auto", "desc": "name: weibo-auto description: > 微博自动发布：Playwright 持久化登录、图文发布、定时流水线。 When the user wants to auto-post to Weibo, schedule "}, {"name": "weibo-publish", "desc": "name: weibo-publish description: > 微博自动发布（Playwright + CDP 反机器人绕过）。涵盖文案+图片发布、 常见坑、session 管理。适用于任何需要通过 Playwright 自动发布微博"}, {"name": "yuanbao", "desc": "name: yuanbao description: \"Yuanbao (元宝) groups: @mention users, query info/members.\" version: 1.0.0 platforms: [linux, "}], "obsidian": [{"name": "attachments", "icon": "📁", "count": 0, "items": []}, {"name": "买房资料", "icon": "🏡", "count": 1, "items": [{"title": "关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告", "path": "买房资料/关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告.md"}]}, {"name": "会议", "icon": "📁", "count": 0, "items": []}, {"name": "伴读", "icon": "📖", "count": 7, "items": [{"title": "📋 今日复习", "path": "伴读/今日复习.md"}, {"title": "2026-07-26_Her", "path": "伴读/2026-07-26_Her.md"}, {"title": "2026-07-26_麦肯锡风格视觉提示词", "path": "伴读/2026-07-26_麦肯锡风格视觉提示词.md"}, {"title": "打卡记录", "path": "伴读/打卡记录.md"}, {"title": "2026-07-27_人工智能 (AI)", "path": "伴读/2026-07-27_人工智能 (AI).md"}, {"title": "📚 伴读记录", "path": "伴读/伴读记录.md"}, {"title": "English_for_Meetings", "path": "伴读/教材/English_for_Meetings.md"}]}, {"name": "健康", "icon": "❤️", "count": 2, "items": [{"title": "健康数据", "path": "健康/最新数据.md"}, {"title": "健康趋势", "path": "健康/健康趋势.md"}]}, {"name": "工作", "icon": "📁", "count": 1, "items": [{"title": "欢迎回来 👋", "path": "工作/README.md"}]}, {"name": "微信收藏", "icon": "💬", "count": 1, "items": [{"title": "一文快速读懂丨配售型保障性住房", "path": "微信收藏/一文快速读懂丨配售型保障性住房.md"}]}, {"name": "日记", "icon": "📓", "count": 7, "items": [{"title": "2026-07-27", "path": "日记/2026-07-27.md"}, {"title": "2026-07-28", "path": "日记/2026-07-28.md"}, {"title": "2026-08-01", "path": "日记/2026-08-01.md"}, {"title": "2026-08-02", "path": "日记/2026-08-02.md"}, {"title": "2026-08-03", "path": "日记/2026-08-03.md"}, {"title": "2026-07-15 周二", "path": "日记/2026-07-15.md"}, {"title": "2026-07-31", "path": "日记/2026-07-31.md"}]}, {"name": "看板", "icon": "📊", "count": 2, "items": [{"title": "总览", "path": "看板/总览.md"}, {"title": "💡 灵感碎片", "path": "看板/灵感碎片.md"}]}, {"name": "知识库", "icon": "📚", "count": 4, "items": [{"title": "Vibe Coding 保姆级教程", "path": "知识库/AI/Vibe Coding 保姆级教程.md"}, {"title": "Vibe Coding 思维导图", "path": "知识库/AI/Vibe Coding 思维导图.md"}, {"title": "自然堂（CHANDO）横纵分析报告", "path": "知识库/品牌研究/自然堂_横纵分析报告.md"}, {"title": "凌博士（PROF.LING）横纵分析报告", "path": "知识库/品牌研究/凌博士_横纵分析报告.md"}]}, {"name": "项目", "icon": "🚀", "count": 1, "items": [{"title": "微信助手", "path": "项目/微信助手.md"}]}], "codex": [{"name": "小红书创作", "subdirs": ["01-选题池", "05-复盘", "03-已发布", "04-素材", "02-创作中", "00-账号定位"], "file_count": 12, "recent": ["README", "首批选题池", "创作提案", "账号定位"]}, {"name": "简历求职", "subdirs": ["羽西项目", "月度报告", "年度品类报告"], "file_count": 37, "recent": []}, {"name": "视频剪辑", "subdirs": [], "file_count": 4, "recent": []}], "dialogue": {"recent": [{"role": "assistant", "text": "问题找到了——`index.html` 里的数据是旧版注入的，不含 health/finance。`__DATA__` 占位符已经被替换掉了，refresh.py 正则匹配不了。", "time": "08/04 14:34", "source": "feishu"}, {"role": "user", "text": "我在 在线看板还是没看到 健康数据。你说了刷新了，咋还是没有", "time": "08/04 14:34", "source": "feishu"}, {"role": "assistant", "text": "在消费品语境下，**fragmented（碎片化）** 指市场集中度低，玩家多且分散，没有单一品牌或集团能主导。
-
-比如你的品类数据里：
-
-| 品类 | 集中度 | 表现 |
-|---|---|---|
-| 精华 | 碎片化 | 珀莱雅 #1 也只有 9.4% 份额，前十加起来不到一半 |
-| 防晒 | 相对集中 | 安热沙 + 资生堂 + 兰蔻占了相当比例 |
-
-**碎片化市场的机会**：没有巨", "time": "08/04 14:31", "source": "feishu"}, {"role": "user", "text": "fragmented是什么意思", "time": "08/04 14:30", "source": "feishu"}, {"role": "assistant", "text": "已归档 ✅ 贝恩咨询全球消费品报告，定价悖论的行业级印证。知识库现在 19 份市场资料，品类半年报的素材足够扎实了。", "time": "08/04 14:26", "source": "feishu"}, {"role": "user", "text": "[The user sent a document: '贝恩咨询_2024全球消费品年度报告_.pdf'. It is saved at: /Users/mac/.hermes/cache/documents/doc_42e60e3385f0_贝恩咨询《2024全球消费品年度报告》.pdf. Its text is not inlined here (it's a binary format su", "time": "08/04 14:26", "source": "feishu"}, {"role": "assistant", "text": "已存到知识库了。品类半年报可以直接引用这个概念做价格策略章节的分析框架。", "time": "08/04 14:26", "source": "feishu"}, {"role": "assistant", "text": "在美妆/消费品语境下，**Pricing Paradox（定价悖论）** 指这个矛盾：
-
-> 高端品牌持续涨价照样卖得好，大众品牌被迫降价反而增长乏力。**贵的越贵越有人买，便宜的越便宜越难卖。**
-
-之前你发的 EC Snapshot 讲的就是这个——日销承压、价格下探，Mass 品牌价格带在压缩，但 Dermo（功效护肤）+12%、修丽可 +76% 照样高增长。
-
-本质是：**消费者不是在比价", "time": "08/04 14:17", "source": "feishu"}, {"role": "user", "text": "pricing paradox是什么意思", "time": "08/04 14:17", "source": "feishu"}, {"role": "assistant", "text": "已推送 ✅ 等 30 秒刷新，健康和财务板块就有数据了——心率 71bpm、体重 63kg、HRV 28ms、血氧 98%、资产 ¥783,712。", "time": "08/04 14:00", "source": "feishu"}, {"role": "assistant", "text": "健康数据有了，财务部分也读到了资产。睡眠估算偏小（36min），后续再优化。", "time": "08/04 14:00", "source": "feishu"}, {"role": "user", "text": "看板上。健康数据和财务数据都是空的", "time": "08/04 13:58", "source": "feishu"}, {"role": "assistant", "text": "已添加 ✅
-
-| 日期 | 时间 | 事项 |
-|---|---|---|
-| 周五 8/7 | 19:00-22:00 | 🕷️ 蜘蛛侠 |
-| 周日 8/9 | 11:00-13:00 | 🎾 黄埔网球 |
-
-都在「个人」日历里，iPhone 上也会同步。", "time": "08/04 13:58", "source": "feishu"}, {"role": "user", "text": "然后已经约了周日11-13点黄埔打网球", "time": "08/04 13:57", "source": "feishu"}, {"role": "assistant", "text": "Operation interrupted: waiting for model response (4.0s elapsed).", "time": "08/04 13:57", "source": "feishu"}, {"role": "assistant", "text": "周五晚上，8月7号。帮你记着。
-
-要不要加到日历里，让明天的会议预告 cron 顺便提醒你？", "time": "08/04 13:56", "source": "feishu"}, {"role": "assistant", "text": "Operation interrupted: waiting for model response (1.8s elapsed).", "time": "08/04 13:56", "source": "feishu"}, {"role": "assistant", "text": "已推送 ✅ 等 30 秒刷新 https://joyzhenggdufs-cyber.github.io/dashboard-/ 就能看到最新数据。", "time": "08/04 12:30", "source": "feishu"}, {"role": "user", "text": "你注入dashboard数据吧", "time": "08/04 12:29", "source": "feishu"}, {"role": "assistant", "text": "## 同步完成
-
-### 文档变更
-| 文件 | 操作 |
-|---|---|
-| `STATE.md` | 重写至 v4.0，新增 Dashboard 在线版 + 健康日报链路 + 知识库 18 份 |
-| `ARCHITECTURE.md` | v3→v4，新增健康日报 cron + Dashboard 工作台章节 |
-| `MEMORY.md` | 更新体测数据、知识库数量、Dashboar", "time": "08/04 12:28", "source": "feishu"}, {"role": "user", "text": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want you to follow its instructions. The full skill content is loaded below.]
-
----
-name: neat-freak
-description: >
-  会话结束后对项目文档", "time": "08/04 12:26", "source": "feishu"}, {"role": "assistant", "text": "🎉 终于。
-
-那条死循环 debug 的链：`HERO_PLACEHOLDER 不存在 → #pips null → innerHTML 吞 script → 未转义 JSON 炸语法`，四个连环 bug 叠在一起。
-
-现在的架构干净了：`#content` 容器 + `__DATA__` 占位 → `refresh.py` 3 小时自动注射 → `git push` → GitHub Pages", "time": "08/04 12:25", "source": "feishu"}, {"role": "assistant", "text": "`refresh.py` 也同步了，以后 cron 自动刷新数据 → 注入 HTML → git push，在线版自动更新。这条链路彻底通了。", "time": "08/04 12:24", "source": "feishu"}, {"role": "assistant", "text": "MEDIA:/Users/mac/.hermes/cache/screenshots/browser_screenshot_8d61936fb43e4492ad57115cb8d4e9c4.png
-
-完整渲染！所有板块都在：连接状态、4张统计卡、伴读、任务、灵感、对话记忆、数据连线、Obsidian 11分区、Codex 3项目、财富管理。
-
-GitHub Pages 等一分钟构建，刷新 http", "time": "08/04 12:23", "source": "feishu"}, {"role": "assistant", "text": "🎉 本地完整渲染了！27 个元素全出来——顶栏、4 张卡片、伴读、任务、灵感、健康、对话记忆、连线、Obsidian、断舍离、Codex、财富管理。", "time": "08/04 12:21", "source": "feishu"}, {"role": "assistant", "text": "找到根因了。第 38 行的 `document.body.innerHTML = ... + document.body.innerHTML` 把 script 标签也捕获进去了——通过 innerHTML 插入的 script 不会执行，后面所有 JS 全废。
-
-这个版本太脆了，我直接重写一个干净的，保证在线版能用。", "time": "08/04 12:20", "source": "feishu"}, {"role": "assistant", "text": "找到了！`refresh.py` 的设计就是做这件事——把数据直接注入 HTML 再推送。我改 fetch 反而破坏了这个流程。
-
-恢复原始链路：`refresh.py 注入 → git push → GitHub Pages`。", "time": "08/04 12:18", "source": "feishu"}, {"role": "assistant", "text": "那就重新生成一个干净版——让 `refresh.py` 在生成 `data.json` 的同时，把数据直接写进 HTML，用 Python 的 `json.dumps()` 保证转义正确。", "time": "08/04 12:18", "source": "feishu"}, {"role": "assistant", "text": "好消息——新版 fetch 代码**已经部署成功**了！你看到的这个错误信息就是我的 catch 块输出的。
-
-问题很简单：`data.json` 需要 `api_server.py` 本地启动才能被 fetch 到。GitHub Pages 虽然文件在，但可能还没构建完。
-
-**在你的 Mac 上跑一下就行：**
-
-```bash
-cd ~/Desktop/claude\ work/hermes", "time": "08/04 12:18", "source": "feishu"}, {"role": "user", "text": "[The user sent an image~ Here's what I can see:
-This image is a minimal, static error state display, with a very wide, short banner aspect ratio (~2.9:1, landscape orientation):
-1.  **Background**: Th", "time": "08/04 12:14", "source": "feishu"}], "extracted": [{"type": "todo", "from": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want yo", "time": "08/04 12:26"}, {"type": "idea", "from": "我想要。昨晚在本地mac上做的那个版本，大概在昨晚12点", "time": "08/04 11:57"}, {"type": "decision", "from": "那个dashboard网页没有刷新。我在公司的电脑前。我需要清除缓存？", "time": "08/04 10:40"}], "updated": "2026-08-04T14:34:59.994740"}, "health": {"sleep": "36m", "resting_hr": "71.0 bpm", "weight": "63.0 kg", "hrv": "28.1847 ms", "wrist_temp": "36.4224°C", "spo2": "98%", "score": 80, "date": "2026-08-03"}, "finance": {"assets": "¥783712.70", "updated": "2026-08-03"}, "footprint": {"countries": 6, "cities_cn": 37, "days": 3053, "date": "2026-08-04"}};
-</script>
-
 <script>
-(function(){
+// ── Password gate ──
+const PASSWORD = 'hermes2026';
+function unlock(){
+  if(document.getElementById('pw').value === PASSWORD){
+    document.getElementById('gate').style.display='none';
+    sessionStorage.setItem('hermes_unlocked','1');
+    load();
+  }else{
+    document.getElementById('err').style.display='block';
+  }
+}
+if(sessionStorage.getItem('hermes_unlocked')==='1'){
+  document.getElementById('gate').style.display='none';
+  load();
+}
+
+// ── Main app ──
+function load(){
+fetch('data.json').then(r=>r.json()).then(D=>{
 const toast = document.getElementById('toast');
-function T(msg){toast.textContent=msg;toast.style.display='block';setTimeout(()=>toast.style.display='none',2000)}
+window.T = function(msg){toast.textContent=msg;toast.style.display='block';setTimeout(()=>toast.style.display='none',2000)};
 
 let crOk=D.cron.ok, crT=D.cron.total, crPct=Math.round(crOk/crT*100);
-
 let html='';
 
-// Topbar
 html+=`<div class="topbar"><h1>⚡ Hermes 工作台</h1><div class="pips">${D.connections.map(c=>`<div class="pip">${c.icon} ${c.name}<span class="d ${c.ok?'on':'off'}"></span></div>`).join('')}</div></div>`;
 
-// Hero cards
 html+=`<div class="hero">
 <div class="hc" onclick="P('cron')"><div class="val">${crOk}/${crT}</div><div class="lbl">任务 ${crPct}%</div></div>
 <div class="hc" onclick="P('reading')"><div class="val">${D.reading.total}</div><div class="lbl">伴读</div></div>
@@ -118,42 +87,34 @@ html+=`<div class="hero">
 <div class="hc" onclick="P('health')"><div class="val">${D.health?.score||'?'}</div><div class="lbl">健康分</div></div>
 </div>`;
 
-// Reading + Cron errors
 html+=`<div class="grid2">
 <div class="sc"><h3>📖 伴读 · ${D.reading.total}条</h3>${D.reading.recent.map(i=>`<div class="mi"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
 <div class="sc"><h3>⏰ 任务</h3>${D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j=>`<div class="mi">🔴 ${j.name||j.id}</div>`).join('')||'<div class="mi" style="color:var(--green)">🟢 全部正常</div>'}</div>
 </div>`;
 
-// Ideas + Health
 html+=`<div class="grid2">
 <div class="sc"><h3>💡 灵感 · ${D.ideas.total}条</h3>${D.ideas.recent.map(i=>`<div class="mi"><span>[${i.tag}] ${(i.idea||'').substring(0,35)}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
 <div class="sc"><h3>🩺 健康</h3><div class="mi"><span>😴 睡眠</span><span>${D.health?.sleep||'?'}</span></div><div class="mi"><span>❤️ 静息心率</span><span>${D.health?.resting_hr||'?'}</span></div><div class="mi"><span>⚖️ 体重</span><span>${D.health?.weight||'?'}</span></div></div>
 </div>`;
 
-// Dialogue + Connection map
 html+=`<div class="grid2">
 <div class="sc"><h3>💬 对话记忆</h3>${(D.dialogue?.extracted||[]).slice(0,4).map(e=>`<div class="mi"><span>${e.type==='todo'?'📌':e.type==='idea'?'💡':'🔧'} ${(e.from||'').substring(0,60)}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
 <div class="sc"><h3>🔗 数据连线</h3><div class="map-grid">${D.connection_map.map(c=>`<div class="map-chip">${c.icon} ${c.from} → ${c.to}</div>`).join('')}</div></div>
 </div>`;
 
-// Obsidian + Declutter
 html+=`<div class="grid2">
 <div class="sc"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="mi" style="cursor:pointer" onclick="PO('${f.name}')"><span>${f.icon} ${f.name}</span><span style="color:var(--muted)">${f.count}篇</span></div>`).join('')}</div>
 <div class="sc"><h3>🧹 断舍离</h3>${(D.declutter?.pending||[]).map(i=>`<div class="mi"><span>📋 ${i.name||'?'}</span></div>`).join('')}${(D.declutter?.done_recent||[]).map(i=>`<div class="mi"><span>✅ ${i.name||'?'}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
 </div>`;
 
-// Codex + Finance
 html+=`<div class="grid2">
 <div class="sc"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="mi"><span>${p.name}</span><span style="font-size:10px;color:var(--muted)">${p.file_count}文件</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
 <div class="sc"><h3>💰 财富管理</h3><div class="mi"><span>🏦 总资产</span><span>${D.finance?.assets||'?'}</span></div><div class="mi"><span>💵 月收入</span><span>${D.finance?.income||'?'}</span></div><div class="mi"><span>💸 月支出</span><span>${D.finance?.expense||'?'}</span></div><div class="mi"><span>📈 月结余</span><span style="color:var(--green)">${D.finance?.savings||'?'}</span></div></div>
 </div>`;
 
-// Footer
 html+=`<div class="sc" style="text-align:center;color:var(--muted);font-size:11px">🔄 最后同步 · ${D.updated||'?'}</div>`;
-
 document.getElementById('content').innerHTML = html;
 
-// Panel functions
 window.P = function(type){
  let t='',items=[];
  if(type==='reading'){t='📖 伴读 · '+D.reading.total+'条';D.reading.recent.forEach(i=>items.push({l:(i.rating?'⭐'.repeat(i.rating):'📌')+' '+i.title,r:''}));}
@@ -163,7 +124,6 @@ window.P = function(type){
  document.getElementById('pc').innerHTML='<h2>'+t+'</h2>'+items.map(i=>`<div class="pi"><span>${i.l}</span><span style="font-size:10px;color:var(--muted)">${i.r||''}</span></div>`).join('');
  document.getElementById('pn').classList.add('show');document.getElementById('ov').classList.add('show');
 };
-
 window.PO = function(n){
  let f=D.obsidian.find(o=>o.name===n);
  if(!f)return;
@@ -173,7 +133,8 @@ window.PO = function(n){
 
 document.getElementById('cl').onclick=()=>{document.getElementById('pn').classList.remove('show');document.getElementById('ov').classList.remove('show');}
 document.getElementById('ov').onclick=()=>{document.getElementById('pn').classList.remove('show');document.getElementById('ov').classList.remove('show');}
-})();
+}).catch(()=>document.getElementById('content').innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">⚠️ 无法加载数据<br><small>请确认 data.json 已部署</small></div>');
+}
 </script>
 </body>
 </html>

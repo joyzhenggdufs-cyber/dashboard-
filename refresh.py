@@ -266,16 +266,9 @@ def main():
         "footprint": get_footprint(),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
-    data_json = json.dumps(data, ensure_ascii=False)
-    for fname in ["dashboard.html", "index.html"]:
-        path = BASE / fname
-        if path.exists():
-            html = path.read_text()
-            html = re.sub(r'const D = __DATA__;', f'const D = {data_json};', html)
-            path.write_text(html)
     print(f"[OK] {data['cron']['total']} cron | {data['reading']['total']} reading | "
           f"{data['ideas']['total']} ideas | {len(data['skills'])} skills | "
-          f"{len(data['obsidian'])} vault | {now}")
+          f"{len(data['obsidian'])} vault | h:{data.get('health',{}).get('score','?')} | f:{'ok' if data.get('finance') else '?'} | {now}")
 
 
 if __name__ == "__main__":
