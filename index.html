@@ -73,7 +73,8 @@ let rdPct=D.reading.read.length?Math.round(D.reading.read.length/D.reading.total
 
 function ring(pct,color){return`<svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--border)" stroke-width="3"/><circle cx="18" cy="18" r="15.5" fill="none" stroke="${color}" stroke-width="3" stroke-dasharray="${pct},100" stroke-linecap="round" transform="rotate(-90 18 18)"/></svg>`}
 
-document.body.innerHTML = document.body.innerHTML.replace('',D.connections.map(c=>`<div class="conn-pip">${c.icon} ${c.name}<span class="d ${c.ok?'on':'off'}"></span></div>`).join(''));
+// Build full page content
+let topbarHTML = `<div class="topbar"><h1>⚡ Hermes 工作台</h1><div class="pips">`+D.connections.map(c=>`<div class="conn-pip">${c.icon} ${c.name}<span class="d ${c.ok?'on':'off'}"></span></div>`).join('')+`</div></div>`;
 
 let heroHTML=`
 <div class="hero">
@@ -82,10 +83,12 @@ let heroHTML=`
 <div class="hc" onclick="P('skills')"><div class="val">${D.skills.length}</div><div class="lbl">Skills</div></div>
 <div class="hc" onclick="P('health')"><div class="val">${D.health.score||'?'}</div><div class="lbl">健康分</div></div>
 </div>`;
-// Insert hero + sections after topbar
-let mainWrap = document.createElement('div');
-mainWrap.innerHTML = heroHTML + sections;
-document.body.insertBefore(mainWrap, document.querySelector('.panel-overlay'));
+// Insert all content before panel overlay
+let pageHTML = topbarHTML + heroHTML + sections;
+let target = document.querySelector('.panel-overlay');
+let wrapper = document.createElement('div');
+wrapper.innerHTML = pageHTML;
+document.body.insertBefore(wrapper, target);
 
 let sections=`
 <div class="grid2">
