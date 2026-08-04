@@ -127,10 +127,15 @@ function showDetail(project){
   let dd=D.declutter;
   H+=`<div class="detail-header"><div class="icon-xl">🧹</div><div><h2>断舍离</h2><p>物品登记与处理追踪，给生活做减法</p></div></div>`;
   H+=`<div class="badge active">活跃</div>`;
-  H+=`<div class="detail-grid"><div class="detail-card"><h4>📊 统计</h4><div class="metric">${dd.total||0}</div><div class="metric-sub">总物品</div></div>`;
-  H+=`<div class="detail-card"><h4>📋 待处理</h4><div class="metric">${(dd.pending||[]).length}</div><div class="metric-sub">件待处理</div></div></div>`;
-  H+=`<div class="card"><h4>📋 待处理清单</h4><ul class="detail-list">${(dd.pending||[]).map(i=>`<li>${i.name||'?'} — ${i.category||''}</li>`).join('')||'<li style="color:var(--quiet)">全部处理完毕 🎉</li>'}</ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>每周日 20:30 自动推送周报</li><li>物品库接入 Dashboard 可视化</li></ul></div>`;
+  H+=`<div class="detail-grid">`;
+  H+=`<div class="detail-card"><h4>📊 总览</h4><div class="metric">${dd.total||0}</div><div class="metric-sub">总物品 · ${dd.pending||0} 待处理 · ${dd.done||0} 已处理</div></div>`;
+  H+=`<div class="detail-card"><h4>📂 分类</h4>`;
+  let cats = D.declutter_detail?.categories || {};
+  Object.entries(cats).forEach(([k,v]) => H+=`<div class="metric-sub">${k}: ${v}件</div>`);
+  H+=`</div></div>`;
+  H+=`<div class="card"><h4>📋 物品清单</h4><ul class="detail-list">${(D.declutter_detail?.pending_list||[]).map(i=>`<li>${i.name||'?'} <span class="tag">${i.category||''}</span></li>`).join('')||'<li style="color:var(--quiet)">全部处理完毕 🎉</li>'}</ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>✅ 最近处理</h4><ul class="detail-list">${(D.declutter_detail?.recent_done||[]).map(i=>`<li>${i.name||'?'} → ${i.method||''} <span style="font-size:11px;color:var(--quiet)">${i.date||''}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无记录</li>'}</ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>微信/飞书说「断舍离」登记待处理物品</li><li>物品拍照存 data/photos/</li><li>每周日 20:30 自动推送周报</li></ul></div>`;
  }else if(project==='finance'){
   H+=`<div class="detail-header"><div class="icon-xl">💰</div><div><h2>财富管理 · 百万计划</h2><p>每月一次高质量更新，持续掌握资产、负债、现金流</p></div></div>`;
   H+=`<div class="badge active">更新至 2026-08-03</div>`;
@@ -139,15 +144,16 @@ function showDetail(project){
   H+=`<div class="card"><h4>📋 管理原则</h4><ul class="detail-list"><li>每月一次高质量更新，优先于每日流水</li><li>应急现金、近期目标资金、长期投资资金分离管理</li><li>先保证现金流和目标进度，再讨论投资收益</li><li>未知数字留空并待核实，不虚构精确度</li></ul></div>`;
   H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>下次月度更新时按模板填写</li><li>长期资产分类确认（类别、估值、流动性）</li></ul></div>`;
  }else if(project==='health'){
-  let hh=D.health;
-  H+=`<div class="detail-header"><div class="icon-xl">🩺</div><div><h2>健康管理</h2><p>Apple Watch → iPhone 导出 → Hermes 解析</p></div></div>`;
-  H+=`<div class="badge ${hh.score>70?'active':'pending'}">健康分 ${hh.score} · 数据 ${hh.date}</div>`;
-  H+=`<div class="detail-grid"><div class="detail-card"><h4>😴 睡眠</h4><div class="metric">${hh.sleep||'?'}</div></div>`;
-  H+=`<div class="detail-card"><h4>❤️ 静息心率</h4><div class="metric">${hh.resting_hr||'?'}</div></div>`;
-  H+=`<div class="detail-card"><h4>⚖️ 体重</h4><div class="metric">${hh.weight||'?'}</div></div>`;
-  H+=`<div class="detail-card"><h4>📊 HRV</h4><div class="metric">${D.vocab?.hrv||'—'}</div></div></div>`;
-  H+=`<div class="card"><h4>📋 数据来源</h4><ul class="detail-list"><li>iPhone 健康 App 手动导出 XML</li><li>health_parser.py 流式解析 → health_latest.json</li><li>早报自动集成睡眠数据</li></ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>提升数据导出频率（从每周到每天）</li><li>加入运动数据对比分析</li></ul></div>`;
+  let hh=D.health_detail||D.health;
+  let notes=D.health_detail?.notes||[];
+  H+=`<div class="detail-header"><div class="icon-xl">🩺</div><div><h2>健康管理</h2><p>最近睡眠 ${hh.sleep_hrs||hh.sleep||'?'}h · 静息心率 ${hh.resting_hr||'?'}bpm · 体重 ${hh.weight||'?'}kg</p></div></div>`;
+  H+=`<div class="badge ${(hh.score||0)>70?'active':'pending'}">健康分 ${hh.score||'?'} · 数据 ${hh.sleep_count||D.health.date||'?'}</div>`;
+  H+=`<div class="detail-grid"><div class="detail-card"><h4>😴 睡眠</h4><div class="metric">${hh.sleep_hrs||hh.sleep||'?'}h</div><div class="metric-sub">深睡 ${hh.deep_h||'?'}h · REM ${hh.rem_h||'?'}h · 核心 ${hh.core_h||'?'}h · 效率 ${hh.efficiency||'?'}%</div></div>`;
+  H+=`<div class="detail-card"><h4>❤️ 心率</h4><div class="metric">${hh.resting_hr||'?'} bpm</div><div class="metric-sub">7天范围 ${hh.hr_range||'?'}</div></div>`;
+  H+=`<div class="detail-card"><h4>⚖️ 体重</h4><div class="metric">${hh.weight||'?'} kg</div></div>`;
+  H+=`<div class="detail-card"><h4>🧠 健康笔记</h4><div class="metric-sub">${notes.length?notes.map(n=>n.substring(0,40)).join('<br>'):'暂无'}</div></div></div>`;
+  H+=`<div class="card"><h4>📋 数据管道</h4><ul class="detail-list"><li>iPhone 健康 App 手动导出 XML → AirDrop</li><li>health_parser.py 流式解析 → health_latest.json</li><li>早报自动集成睡眠摘要</li><li>Apple Watch 每日 10:00 推送健康日报到微信</li></ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>午睡控制在 20-30 分钟，下午 3 点前结束</li><li>提升数据导出频率</li><li>加入运动数据对比分析</li></ul></div>`;
  }else if(project==='reading'){
   H+=`<div class="detail-header"><div class="icon-xl">📖</div><div><h2>伴读</h2><p>15条记录 · 豆瓣 RSS 每天 7:00 自动同步</p></div></div>`;
   H+=`<div class="detail-grid"><div class="detail-card"><h4>📌 待读</h4><div class="metric">${D.reading.toread.length}</div></div>`;
