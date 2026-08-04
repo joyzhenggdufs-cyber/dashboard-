@@ -112,7 +112,15 @@ H+=`<div class="card"><h3>🗺️ 足迹</h3><div class="item"><span>🌍 国家
 H+=`<div class="card"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="item"><span>${f.icon} ${f.name}</span><span>${f.count}篇</span></div>`).join('')}</div>`;
 H+=`<div class="card"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="item"><span>${p.name}</span><span>${p.file_count}文件</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
 H+=`</div>`;
-H+=`<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
+H+=`<div class="card" style="margin-top:12px"><h3>🧠 工作哲学</h3>
+<div class="item"><span>📋 STATE.md 铁律</span><span style="font-size:11px;color:var(--quiet)">不确定时先读STATE.md再回答</span></div>
+<div class="item"><span>⏱️ 改完即记</span><span style="font-size:11px;color:var(--quiet)">每次重要更改后更新状态+时间戳</span></div>
+<div class="item"><span>📂 不重复造轮子</span><span style="font-size:11px;color:var(--quiet)">能归入旧项目就优先归入</span></div>
+<div class="item"><span>🧘 慢即是快</span><span style="font-size:11px;color:var(--quiet)">允许迟疑、反思、承认不确定——AI可以慢下来思考</span></div>
+<div class="item"><span>📝 写给未来</span><span style="font-size:11px;color:var(--quiet)">文档要让未来的自己和AI都能看懂</span></div>
+<div class="item"><span>✂️ 留痕有度</span><span style="font-size:11px;color:var(--quiet)">重要操作留痕，临时试错不必过度记录</span></div>
+</div>
+<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
 document.getElementById('main').innerHTML=H;updateConns();
 }
 
