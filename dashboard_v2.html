@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes 项目工作台</title>
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --surface: #F7F8FA;
+    --border: #E2E6EB;
+    --divider: #EFF1F4;
+    --ink: #1A1E24;
+    --ink-secondary: #5A6270;
+    --ink-tertiary: #8E97A3;
+    --navy: #1B2A4A;
+    --navy-light: #2D4370;
+    --accent: #2255CC;
+    --accent-bg: #EBF1FC;
+    --green: #1A7D4C;
+    --green-bg: #EDF7F1;
+    --red: #CC3355;
+    --red-bg: #FDF2F4;
+    --amber: #B87A15;
+    --amber-bg: #FDF7ED;
+    --cool-gray: #C4CBD4;
+    --radius: 2px;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'Menlo', monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Top Bar ── */
+  .topbar {
+    background: var(--navy);
+    color: #FFFFFF;
+    padding: 0 28px;
+    height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.02em;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .topbar-brand {
+    font-weight: 600; font-size: 15px; letter-spacing: 0.04em;
+    color: #FFFFFF;
+  }
+  .topbar-label {
+    font-size: 11px; color: rgba(255,255,255,0.5);
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .topbar-right {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 12px; color: rgba(255,255,255,0.65);
+  }
+  .topbar-right .sys-ok {
+    width: 7px; height: 7px; border-radius: 50%; background: #4ECB71; display: inline-block; margin-right: 6px;
+  }
+  .topbar-right .sys-err {
+    width: 7px; height: 7px; border-radius: 50%; background: #FF5C72; display: inline-block; margin-right: 6px;
+  }
+  .topbar-right .sep { color: rgba(255,255,255,0.2); }
+
+  /* ── Main Layout ── */
+  .main {
+    padding: 28px 28px 40px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* ── Section Header ── */
+  .section-label {
+    font-size: 10px; font-weight: 600; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  /* ── KPI Row ── */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .kpi-card {
+    background: var(--bg); padding: 20px 24px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .kpi-value {
+    font-size: 36px; font-weight: 300; color: var(--navy);
+    letter-spacing: -0.02em; line-height: 1;
+  }
+  .kpi-value.warn { color: var(--red); }
+  .kpi-label { font-size: 11px; color: var(--ink-tertiary); font-weight: 500; }
+  .kpi-sub { font-size: 11px; color: var(--ink-secondary); margin-top: 2px; }
+
+  /* ── Grid ── */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .full { grid-column: 1 / -1; }
+
+  /* ── Panel ── */
+  .panel {
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .panel-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--divider);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .panel-header h2 {
+    font-size: 12px; font-weight: 600; color: var(--ink);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .panel-header .count {
+    font-size: 10px; color: var(--ink-tertiary);
+    margin-left: auto; font-family: var(--font-mono);
+  }
+  .panel-body { padding: 0; }
+
+  /* ── Project Table ── */
+  .proj-table { width: 100%; border-collapse: collapse; }
+  .proj-table th {
+    font-size: 10px; font-weight: 600; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 10px 20px; text-align: left;
+    border-bottom: 1px solid var(--border); background: var(--surface);
+  }
+  .proj-table td {
+    padding: 12px 20px; font-size: 13px;
+    border-bottom: 1px solid var(--divider);
+    vertical-align: middle;
+  }
+  .proj-table tr:last-child td { border-bottom: none; }
+  .proj-table tr:hover td { background: var(--surface); }
+  .proj-name { font-weight: 600; color: var(--ink); }
+  .proj-name span.icon { margin-right: 8px; font-size: 15px; }
+  .proj-desc { font-size: 12px; color: var(--ink-secondary); margin-top: 1px; }
+  .proj-model { font-size: 11px; color: var(--ink-tertiary); font-family: var(--font-mono); }
+  .proj-status {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 2px; letter-spacing: 0.05em;
+    display: inline-block;
+  }
+  .status-live { background: var(--green-bg); color: var(--green); }
+  .status-dev { background: var(--amber-bg); color: var(--amber); }
+  .proj-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .proj-tag {
+    font-size: 10px; color: var(--ink-tertiary);
+    border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px;
+  }
+
+  /* ── Obsidian Tree ── */
+  .obs-tree { padding: 8px 0; }
+  .obs-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 20px; font-size: 13px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .obs-row:last-child { border-bottom: none; }
+  .obs-row.root {
+    font-weight: 600; color: var(--navy);
+    background: var(--surface); border-bottom: 1px solid var(--border);
+  }
+  .obs-row .count { margin-left: auto; font-size: 11px; color: var(--ink-tertiary); font-family: var(--font-mono); }
+  .obs-indent { padding-left: 40px; }
+
+  /* ── Cron List ── */
+  .cron-section-label {
+    font-size: 10px; font-weight: 600; color: var(--navy-light);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 14px 20px 6px; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+  .cron-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 20px; font-size: 12px;
+    border-bottom: 1px solid var(--divider);
+  }
+  .cron-row:last-child { border-bottom: none; }
+  .cron-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .cron-dot.ok { background: var(--green); }
+  .cron-dot.err { background: var(--red); }
+  .cron-dot.off { background: var(--cool-gray); }
+  .cron-name { flex: 1; color: var(--ink); }
+  .cron-sched { font-size: 11px; color: var(--ink-tertiary); font-family: var(--font-mono); white-space: nowrap; }
+  .cron-model { font-size: 10px; color: var(--ink-tertiary); font-family: var(--font-mono); }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: 32px; padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--ink-tertiary);
+  }
+  .footer span:last-child { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-brand">HERMES</span>
+    <span class="topbar-label">Project Workbench</span>
+  </div>
+  <div class="topbar-right">
+    <span><span class="sys-ok" id="sys-dot"></span> <span id="sys-text">系统正常</span></span>
+    <span class="sep">|</span>
+    <span>11 Projects</span>
+    <span class="sep">|</span>
+    <span id="update-time" style="font-family:var(--font-mono)">更新中…</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- KPI Row -->
+  <div class="section-label">Overview</div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value" id="kpi-projects">11</div>
+      <div class="kpi-label">Active Projects</div>
+      <div class="kpi-sub">10 live · 1 dev</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value" id="kpi-cron-total">28</div>
+      <div class="kpi-label">Cron Jobs</div>
+      <div class="kpi-sub" id="kpi-cron-sub">4 groups</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value" id="kpi-ok">25</div>
+      <div class="kpi-label">Running Healthy</div>
+      <div class="kpi-sub" id="kpi-ok-sub">89.3% uptime</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value warn" id="kpi-err">1</div>
+      <div class="kpi-label">Needs Attention</div>
+      <div class="kpi-sub" id="kpi-err-sub">1 error</div>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid">
+
+    <!-- Projects -->
+    <div class="panel full">
+      <div class="panel-header">
+        <h2>Projects</h2>
+        <span class="count">11 active</span>
+      </div>
+      <div class="panel-body">
+        <table class="proj-table">
+          <thead><tr><th>Project</th><th>Model</th><th>Status</th></tr></thead>
+          <tbody id="projects-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Obsidian -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Knowledge Base</h2>
+        <span class="count">10 sections</span>
+      </div>
+      <div class="panel-body obs-tree" id="obs-tree"></div>
+    </div>
+
+    <!-- Cron Health -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Cron Jobs</h2>
+        <span class="count" id="cron-count">25/28</span>
+      </div>
+      <div class="panel-body" id="cron-body"></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>Hermes Workbench · McKinsey Consulting Visual System</span>
+    <span id="footer-time"></span>
+  </div>
+</div>
+
+<script>
+const PROJECTS = [
+  { id:"wechat-assistant", name:"微信助手", icon:"🏠", desc:"28 个 Cron 任务，全自动生活管家", status:"live", tags:["Cron ×28","DeepSeek","微信/飞书"], model:"V4 Flash/Pro" },
+  { id:"category-report", name:"品类半年报", icon:"📊", desc:"Y26H1 护肤品类趋势洞察报告", status:"live", tags:["CMI","中英双版","进行中"], model:"V4 Pro" },
+  { id:"market", name:"市场数据", icon:"📈", desc:"品牌排名 / 品类拆解 / 竞品分析", status:"live", tags:["DataViz","Excel→Chart","Top30"], model:"—" },
+  { id:"knowledge-base", name:"知识库", icon:"📚", desc:"16 份市场报告 + 文档自动归档", status:"live", tags:["自动归档","OCR","分类"], model:"—" },
+  { id:"xiaohongshu-auto", name:"小红书发布", icon:"📕", desc:"微博/小红书自动发布流水线", status:"live", tags:["Playwright","CDP","反Bot"], model:"Script" },
+  { id:"social-monitor", name:"社交监测", icon:"👁", desc:"品牌官方微博新品动态监测", status:"dev", tags:["飞书表格","群聊推送","周报"], model:"V4 Flash" },
+  { id:"feishu-bridge", name:"飞书桥接", icon:"🔗", desc:"飞书 ↔ Claude 双向消息桥接", status:"live", tags:["消息路由","QQ邮件"], model:"—" },
+  { id:"health-dashboard", name:"健康仪表盘", icon:"❤️", desc:"Apple Watch 健康数据追踪", status:"live", tags:["Apple Health","HRV","深睡"], model:"Codex→Flash" },
+  { id:"obsidian-dashboard", name:"Obsidian 看板", icon:"📋", desc:"每日看板刷新 + 对话沉淀", status:"live", tags:["Dataview","自动化"], model:"Script" },
+  { id:"english-companion", name:"英语伴侣", icon:"🦉", desc:"多邻国打卡 + 艾宾浩斯生词复习", status:"live", tags:["多邻国","vocab.py","每日"], model:"V4 Flash" },
+  { id:"study-buddy", name:"学习伴侣", icon:"📖", desc:"豆瓣同步 + 观影/读书追踪", status:"live", tags:["豆瓣RSS","伴读记录"], model:"V4 Flash" }
+];
+
+const OBSIDIAN = [
+  { name:"日记", icon:"📓", count:"6 篇" },
+  { name:"工作", icon:"💼", count:"1 文档" },
+  { name:"项目", icon:"🚀", count:"1 活跃" },
+  { name:"知识库", icon:"📚", count:"2 领域" },
+  { name:"健康", icon:"❤️", count:"2 笔记" },
+  { name:"伴读", icon:"📖", count:"4 待读" },
+  { name:"看板", icon:"📊", count:"2 面板" },
+  { name:"会议", icon:"📋", count:"—" },
+  { name:"微信收藏", icon:"💬", count:"1 篇" },
+  { name:"买房资料", icon:"🏡", count:"1 文档" }
+];
+
+function renderProjects() {
+  const tbody = document.getElementById('projects-tbody');
+  tbody.innerHTML = PROJECTS.map(p => `
+    <tr>
+      <td>
+        <div class="proj-name"><span class="icon">${p.icon}</span>${p.name}</div>
+        <div class="proj-desc">${p.desc}</div>
+        <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
+      </td>
+      <td><span class="proj-model">${p.model}</span></td>
+      <td><span class="proj-status ${p.status==='live'?'status-live':'status-dev'}">${p.status==='live'?'Live':'Dev'}</span></td>
+    </tr>
+  `).join('');
+}
+
+function renderObsidian() {
+  const el = document.getElementById('obs-tree');
+  el.innerHTML = '<div class="obs-row root">🏠 数字第二大脑</div>' +
+    OBSIDIAN.map(f => `
+      <div class="obs-row obs-indent">
+        <span>${f.icon}</span> ${f.name}
+        <span class="count">${f.count}</span>
+      </div>
+    `).join('');
+}
+
+function renderCron(jobs) {
+  const el = document.getElementById('cron-body');
+  if (!jobs || !jobs.length) {
+    el.innerHTML = '<div style="padding:20px;color:var(--ink-tertiary);font-size:12px">No live data</div>';
+    return;
+  }
+  const groups = {
+    'Morning Briefing': ['天气早报','生词','早高峰','美团'],
+    'Market & Data': ['市场监控','Au9999','负鼠','小米','股票日报'],
+    'Life & Health': ['健身','断舍离','英语打卡','会议预告','晚高峰','多邻国','健康数据','健康日报','网球'],
+    'Archive & Sync': ['存档','豆瓣','对话沉淀','Obsidian','对话日志'],
+    'Weekly Reports': ['学习报告','每周复盘','断舍离周报']
+  };
+  let html = '';
+  for (const [section, keywords] of Object.entries(groups)) {
+    const matches = jobs.filter(j => keywords.some(k => (j.name||'').includes(k)));
+    if (!matches.length) continue;
+    html += `<div class="cron-section-label">${section}</div>`;
+    matches.forEach(j => {
+      const cls = j.last_status==='ok'?'ok':j.last_status==='error'?'err':'off';
+      const s = j.state==='paused'?'off':cls;
+      html += `<div class="cron-row">
+        <span class="cron-dot ${s}"></span>
+        <span class="cron-name">${j.name||j.id}</span>
+        <span class="cron-sched">${j.schedule||'—'}</span>
+        <span class="cron-model">${j.mode||'LLM'}</span>
+      </div>`;
+    });
+  }
+  el.innerHTML = html || '<div style="padding:20px;color:var(--ink-tertiary);font-size:12px">No data</div>';
+}
+
+async function loadLiveData() {
+  if (typeof LIVE_DATA === 'object' && LIVE_DATA && LIVE_DATA.cron) { applyLive(LIVE_DATA); return; }
+  try {
+    const resp = await fetch('data.json?t=' + Date.now());
+    if (resp.ok) { const data = await resp.json(); if (data.cron) { applyLive(data); return; } }
+  } catch(e) {}
+  const now = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
+  document.getElementById('update-time').textContent = now;
+  document.getElementById('footer-time').textContent = 'Updated: ' + now;
+  renderCron([]);
+}
+
+function applyLive(data) {
+  const c = data.cron || {};
+  document.getElementById('update-time').textContent = data.updated || '';
+  document.getElementById('footer-time').textContent = 'Updated: ' + (data.updated || '—');
+  document.getElementById('cron-count').textContent = `${c.ok||0}/${c.total||0}`;
+  document.getElementById('kpi-cron-total').textContent = c.total || '—';
+  document.getElementById('kpi-ok').textContent = c.ok || '—';
+  document.getElementById('kpi-err').textContent = c.error || '0';
+  document.getElementById('kpi-ok-sub').textContent = c.total ? (c.ok/c.total*100).toFixed(0)+'% healthy' : '—';
+  if (c.jobs) renderCron(c.jobs);
+  if (c.error > 0) {
+    document.getElementById('sys-dot').className = 'sys-err';
+    document.getElementById('sys-text').textContent = 'Attention needed';
+    document.getElementById('kpi-err').classList.add('warn');
+  }
+}
+
+renderProjects();
+renderObsidian();
+loadLiveData();
+</script>
+
+<script>
+  if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+</script>
+</body>
+</html>

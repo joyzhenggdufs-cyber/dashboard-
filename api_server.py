@@ -2,8 +2,9 @@
 """
 🔌 Dashboard API Server — localhost:8765
 处理: 健康数据 / 删除灵感 / 删除伴读 / 刷新看板
+安全: API key 鉴权 + 仅本地 CORS + subprocess 替代 os.system
 """
-import json, os, sys, re
+import json, os, sys, re, subprocess, secrets
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
@@ -14,6 +15,8 @@ IDEAS = ASSISTANT / "data/ideas.json"
 READING = ASSISTANT / "data/reading_log.json"
 DECLUTTER = ASSISTANT / "data/declutter.json"
 
+# Simple API key — only localhost callers know this
+API_KEY = "hermes-local-api-2026"
 
 def load_json(path):
     if not path.exists(): return {}
@@ -23,19 +26,31 @@ def save_json(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w") as f: json.dump(data, f, ensure_ascii=False, indent=2)
 
+def check_auth(handler):
+    """Verify API key from Authorization header"""
+    auth = handler.headers.get("Authorization", "")
+    return auth == f"Bearer {API_KEY}"
 
 class Handler(BaseHTTPRequestHandler):
+    def send_cors(self):
+        origin = self.headers.get("Origin", "")
+        # Only allow localhost origins
+        if origin.startswith("http://localhost") or origin.startswith("http://127.0.0.1") or origin.startswith("null"):
+            self.send_header("Access-Control-Allow-Origin", origin)
+        else:
+            self.send_header("Access-Control-Allow-Origin", "http://localhost:8765")
+        self.send_header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type,Authorization")
+
     def do_OPTIONS(self):
         self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
+        self.send_cors()
         self.end_headers()
 
     def do_GET(self):
         path = urlparse(self.path).path
         self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_cors()
         self.send_header("Content-Type", "application/json")
         self.end_headers()
 
@@ -53,11 +68,15 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         path = urlparse(self.path).path
-        qs = parse_qs(urlparse(self.path).query)
         self.send_response(200)
-        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_cors()
         self.send_header("Content-Type", "application/json")
         self.end_headers()
+
+        # Auth check for mutation endpoints
+        if not check_auth(self):
+            self.wfile.write(json.dumps({"ok": False, "error": "unauthorized"}).encode())
+            return
 
         try:
             if path.startswith("/ideas/"):
@@ -96,7 +115,9 @@ class Handler(BaseHTTPRequestHandler):
                     self.wfile.write(json.dumps({"ok": False, "error": "index out of range"}).encode())
 
             elif path == "/refresh":
-                os.system(f'/usr/bin/python3 {Path.home()}/Desktop/claude\\ work/hermes-workbench/refresh.py 2>/dev/null &')
+                refresh_path = str(Path.home() / "Desktop/claude work/hermes-workbench/refresh.py")
+                subprocess.Popen(["/usr/bin/python3", refresh_path],
+                                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 self.wfile.write(json.dumps({"ok": True, "refreshing": True}).encode())
 
             else:
@@ -105,17 +126,18 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"ok": False, "error": str(e)}).encode())
 
     def log_message(self, format, *args):
-        pass  # 安静模式
+        pass  # quiet
 
 
 if __name__ == "__main__":
     port = 8765
     server = HTTPServer(("127.0.0.1", port), Handler)
     print(f"🔌 Dashboard API → http://localhost:{port}")
+    print(f"   API Key: {API_KEY}")
     print(f"   GET  /health — 健康数据")
-    print(f"   DELETE /ideas/0 — 删灵感")
-    print(f"   DELETE /reading/0 — 删伴读")
-    print(f"   DELETE /declutter/0 — 删断舍离")
+    print(f"   DELETE /ideas/0 — 删灵感 (需 Authorization)")
+    print(f"   DELETE /reading/0 — 删伴读 (需 Authorization)")
+    print(f"   DELETE /declutter/0 — 删断舍离 (需 Authorization)")
     print(f"   GET  /refresh — 刷新看板")
     try:
         server.serve_forever()

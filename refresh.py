@@ -244,26 +244,33 @@ def get_footprint():
 
 
 # ─── 主函数 ───
+def safe_collect(fn, name):
+    """Wrap collector to catch errors without crashing the pipeline"""
+    try:
+        return fn()
+    except Exception as e:
+        print(f"  ⚠️ {name} failed: {e}", file=sys.stderr)
+        return None if name in ("health","finance","footprint") else ({} if name == "dialogue" else [])
+
 def main():
-    # 先提取对话记忆
     subprocess.run(["/usr/bin/python3", str(BASE / "dialogue_memory.py")], capture_output=True, timeout=30)
     now = datetime.now(CST).strftime("%Y-%m-%d %H:%M")
     data = {
         "updated": now,
-        "reading": get_reading(),
-        "ideas": get_ideas(),
-        "declutter": get_declutter(),
-        "vocab": get_vocab(),
-        "cron": get_cron(),
-        "connections": check_connections(),
+        "reading": safe_collect(get_reading, "reading"),
+        "ideas": safe_collect(get_ideas, "ideas"),
+        "declutter": safe_collect(get_declutter, "declutter"),
+        "vocab": safe_collect(get_vocab, "vocab"),
+        "cron": safe_collect(get_cron, "cron"),
+        "connections": safe_collect(check_connections, "connections"),
         "connection_map": get_connection_map(),
-        "skills": get_skills(),
-        "obsidian": get_obsidian(),
-        "codex": get_codex(),
-        "dialogue": load_json(BASE / "dialogue_memory.json"),
-        "health": get_health(),
-        "finance": get_finance(),
-        "footprint": get_footprint(),
+        "skills": safe_collect(get_skills, "skills"),
+        "obsidian": safe_collect(get_obsidian, "obsidian"),
+        "codex": safe_collect(get_codex, "codex"),
+        "dialogue": safe_collect(lambda: load_json(BASE / "dialogue_memory.json"), "dialogue"),
+        "health": safe_collect(get_health, "health"),
+        "finance": safe_collect(get_finance, "finance"),
+        "footprint": safe_collect(get_footprint, "footprint"),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
     print(f"[OK] {data['cron']['total']} cron | {data['reading']['total']} reading | "
