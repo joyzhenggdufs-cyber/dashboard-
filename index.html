@@ -63,7 +63,6 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
   <div class="nav-item" onclick="showDetail('ideas')">💡 灵感</div>
 </nav>
 <main id="main"></main>
-<script src="data.json"></script>
 <script>
 // data.json is loaded as window.D
 fetch('data.json').then(r=>r.json()).then(D=>{window.D=D;showOverview()});

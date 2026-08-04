@@ -229,11 +229,11 @@ def get_finance():
     r['gold'] = ex(r'黄金.*?¥([\d,]+)') or '0'
     r['funds'] = ex(r'基金.*?¥([\d,]+)') or '0'
     r['stocks'] = ex(r'A股.*?¥([\d,]+)') or '0'
-    r['housing_fund'] = ex(r'公积金.*?¥([\d,]+)') or ex(r'广州公积金.*?¥([\d,]+)') or '0'
+    funds = re.findall(r'公积金.*?¥([\d,]+)', text); r['housing_fund'] = str(sum(int(f.replace(',','')) for f in funds)) if funds else '0'
     r['insurance'] = ex(r'寿险.*?¥([\d,]+)') or ex(r'中意寿险.*?¥([\d,]+)') or '0'
     r['pension'] = ex(r'养老.*?¥([\d,]+)') or '0'
     r['income'] = ex(r'税后工资.*?¥([\d,]+)') or '22,498'
-    r['expense'] = ex(r'月支出.*?\*?\*?¥([\d,]+)') or '9,000'
+    exp_match = re.search(r'月支出.*?¥([\d,]+)(?:-¥?([\d,]+))?', text); exp_raw = exp_match.group(2) or exp_match.group(1) if exp_match else '9000'; r['expense'] = exp_raw.replace(',','')
     r['monthly_expense'] = r['expense']
     inc = int(r['income'].replace(',',''))
     exp = int(r['expense'].replace(',',''))
