@@ -66,7 +66,7 @@ async function del(type,idx){
   else T('❌ '+j.error)}catch(e){T('⚠️ API未连接，请运行 api_server.py')}
 }
 
-document.getElementById('pips').innerHTML = D.connections.map(c=>`<div class="conn-pip">${c.icon} ${c.name}<span class="d ${c.ok?'on':'off'}"></span></div>`).join('');
+// pips rendered in topbarHTML below
 
 let crOk=D.cron.ok, crT=D.cron.total, crPct=Math.round(crOk/crT*100);
 let rdPct=D.reading.read.length?Math.round(D.reading.read.length/D.reading.total*100):0;
