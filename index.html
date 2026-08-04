@@ -121,7 +121,7 @@ function showBreakdown(type){
   ];
  }
  document.getElementById('pc').innerHTML='<h2>'+t+'</h2>'+items.map(i=>{
-  let style=i.color?'color:'+i.color+(i.bold?';font-weight:510':'':'):'';
+  let style=i.color?'color:'+i.color+(i.bold?';font-weight:510':''):'';
   return '<div class="pi"><span style="'+style+'">'+i.l+'</span><span style="'+style+'">'+i.r+'</span></div>';
  }).join('');
  document.getElementById('pn').classList.add('s');document.getElementById('ov').classList.add('s');
