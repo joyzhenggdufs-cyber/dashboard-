@@ -140,8 +140,12 @@ function showDetail(project){
   H+=`<div class="detail-header"><div class="icon-xl">💰</div><div><h2>财富管理 · 百万计划</h2><p>可支配净资产 ¥${D.finance.net_worth} · 储蓄率 60% · 应急覆盖 1.0 个月</p></div></div>`;
   H+=`<div class="badge active">更新至 ${D.finance.updated}</div>`;
   H+=`<div class="detail-grid">`;
-  H+=`<div class="detail-card"><h4>💰 可投资净资产</h4><div class="metric">¥${D.finance.net_worth}</div><div class="metric-sub">现金+黄金+基金+A股−负债 · FIRE口径</div></div>`;
-  H+=`<div class="detail-card"><h4>🏦 总净资产</h4><div class="metric">¥${D.finance.assets}</div><div class="metric-sub">含公积金+寿险</div></div></div>`;
+  H+=`<div class="detail-card"><h4>💰 可投资净资产</h4><div class="metric">¥${D.finance.investable}</div><div class="metric-sub">现金+黄金+基金+A股−负债 · FIRE口径</div></div>`;
+  H+=`<div class="detail-card"><h4>🏦 总净资产</h4><div class="metric">¥${D.finance.assets}</div><div class="metric-sub">含公积金+养老+寿险</div></div>
+  <div class="detail-card"><h4>🆘 应急覆盖</h4><div class="metric">1.0 个月</div><div class="metric-sub">现金 / 月支出 · 目标 3</div></div>
+  <div class="detail-card"><h4>🔥 FIRE 进度</h4><div class="metric">17.6%</div><div class="metric-sub">可投资 / (年支出x25)</div></div>
+  <div class="detail-card"><h4>💰 储蓄率</h4><div class="metric">60%</div><div class="metric-sub">月存 / 月入</div></div>
+  <div class="detail-card"><h4>📊 资产配置</h4><div class="metric-sub">A股30% · 公积金25% · 养老16% · 基金12% · 寿险9% · 黄金7%</div></div></div>`;
 
   H+=`<div class="card"><h4>📊 按流动性分层</h4><ul class="detail-list">`;
   H+=`<li><span>💧 流动（24h可取）</span><span style="color:var(--text);font-weight:510">¥${D.finance.cash}</span> — 中信+微信+余额宝</li>`;
