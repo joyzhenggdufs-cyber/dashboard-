@@ -16,7 +16,7 @@ nav .nav-item.active{background:var(--accent-dim);color:var(--text);font-weight:
 nav .nav-divider{height:1px;background:var(--border-sub);margin:8px 6px}
 main{margin-left:var(--nav-width);flex:1;padding:28px 32px 48px;max-width:1100px}
 h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px}
 .stat{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:18px 20px;cursor:pointer}
 .stat:hover{border-color:var(--border)}
 .stat .n{font-size:36px;font-weight:510;color:var(--text);letter-spacing:-1px}
@@ -84,7 +84,9 @@ function showOverview(){
  H+=`<div class="stat" onclick="showDetail('cron')"><div class="n">${crOk}/${crT}</div><div class="l">Cron 任务</div><div class="s">${crOk>crT-2?'全部正常':(crT-crOk)+' 异常'}</div></div>`;
  H+=`<div class="stat" onclick="showDetail('reading')"><div class="n">${D.reading.total}</div><div class="l">伴读</div><div class="s">${D.reading.toread.length} 待读</div></div>`;
  H+=`<div class="stat" onclick="showDetail('skills')"><div class="n">${D.skills.length}</div><div class="l">Skills</div><div class="s">活跃能力</div></div>`;
- H+=`<div class="stat" onclick="showDetail('health')"><div class="n">${D.health.score||'?'}</div><div class="l">健康分</div><div class="s">${D.health.sleep||'?'} · ${D.health.resting_hr||'?'}</div></div>`;
+ H+=`<div class="stat" onclick="showDetail('health')"><div class="n">${D.health.score||'?'}</div><div class="l">健康分</div><div class="s">${D.health.sleep||'?'} · ${D.health.resting_hr||'?'}</div></div>
+<div class="stat" onclick="showDetail('finance')"><div class="n">¥${D.finance.assets}</div><div class="l">总资产</div><div class="s">¥${D.finance.net_worth} 净资产</div></div>
+<div class="stat" onclick="showDetail('finance')"><div class="n">${D.finance.invest_progress}%</div><div class="l">投资目标</div><div class="s">¥${D.finance.investable||D.finance.invest_total} / ¥1,000,000</div></div>`;
  H+=`</div>`;
  H+=`<div class="grid">`;
  H+=`<div class="card"><h3>📖 伴读</h3>${D.reading.recent.map(i=>`<div class="item"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span><span class="tag">${i.type}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
