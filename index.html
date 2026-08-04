@@ -80,7 +80,7 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
 
 <script>
 // data.json is loaded as window.D
-fetch('data.json').then(r=>r.json()).then(D=>{window.D=D;showOverview()});
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(D=>{window.D=D;showOverview()});
 
 function updateConns(){
   document.querySelectorAll('.conns').forEach(e=>e.remove());
