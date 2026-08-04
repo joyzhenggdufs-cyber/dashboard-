@@ -210,32 +210,47 @@ def get_health():
 
 # ─── 财务数据 ───
 def get_finance():
-    finance_paths = [
-        Path.home() / "Desktop/Codexwork/CURRENT_FINANCIAL_PROFILE.md",
-        Path.home() / "Desktop/Codex Work/CURRENT_FINANCIAL_PROFILE.md",
-    ]
-    for fp in finance_paths:
-        if not fp.exists(): continue
-        text = fp.read_text()
-        result = {}
-        for line in text.split("\n"):
-            line = line.strip()
-            if "总资产" in line or "Total Assets" in line:
-                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
-                if m: result["assets"] = "¥" + m.group()
-            elif "月收入" in line or "Monthly Income" in line:
-                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
-                if m: result["income"] = "¥" + m.group()
-            elif "月支出" in line or "Monthly Expense" in line:
-                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
-                if m: result["expense"] = "¥" + m.group()
-            elif "月结余" in line or "Monthly Savings" in line:
-                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
-                if m: result["savings"] = "¥" + m.group()
-        if result:
-            result["updated"] = datetime.fromtimestamp(fp.stat().st_mtime).strftime("%Y-%m-%d")
-            return result
-    return None
+    fp = Path.home() / "Desktop/Codexwork/CURRENT_FINANCIAL_PROFILE.md"
+    if not fp.exists():
+        fp = Path.home() / "Desktop/Codex Work/CURRENT_FINANCIAL_PROFILE.md"
+    if not fp.exists():
+        return None
+    text = fp.read_text()
+    
+    def ex(pattern, text=text):
+        m = re.search(pattern, text)
+        return m.group(1).strip().replace(',', '') if m else None
+    
+    r = {}
+    r['assets'] = ex(r'净资产.*?\*?\*?¥([\d,]+)') or ex(r'总资产\*\*.*?¥([\d,]+)') or '0'
+    r['net_worth'] = ex(r'净资产.*?\*?\*?¥([\d,]+)') or r['assets']
+    r['liabilities'] = ex(r'总负债.*?\*?\*?¥([\d,]+)') or '0'
+    r['cash'] = ex(r'现金及活期.*?¥([\d,]+)') or '0'
+    r['gold'] = ex(r'黄金.*?¥([\d,]+)') or '0'
+    r['funds'] = ex(r'基金.*?¥([\d,]+)') or '0'
+    r['stocks'] = ex(r'A股.*?¥([\d,]+)') or '0'
+    r['housing_fund'] = ex(r'公积金.*?¥([\d,]+)') or ex(r'广州公积金.*?¥([\d,]+)') or '0'
+    r['insurance'] = ex(r'寿险.*?¥([\d,]+)') or ex(r'中意寿险.*?¥([\d,]+)') or '0'
+    r['pension'] = ex(r'养老.*?¥([\d,]+)') or '0'
+    r['income'] = ex(r'税后工资.*?¥([\d,]+)') or '22,498'
+    r['expense'] = ex(r'月支出.*?\*?\*?¥([\d,]+)') or '9,000'
+    r['monthly_expense'] = r['expense']
+    inc = int(r['income'].replace(',',''))
+    exp = int(r['expense'].replace(',',''))
+    r['savings'] = str(inc - exp)
+    r['savings_rate'] = round((inc - exp) / inc * 100) if inc else 60
+    r['emergency_months'] = round(int(r['cash'].replace(',','')) / exp, 1) if exp else 1.0
+    inv = int(r['cash'].replace(',','')) + int(r['gold'].replace(',','')) + int(r['funds'].replace(',','')) + int(r['stocks'].replace(',',''))
+    r['invest_total'] = f'{inv:,}'
+    r['invest_target'] = '1,000,000'
+    r['invest_progress'] = round(inv / 1000000 * 100, 1)
+    r['invest_gap'] = f'{1000000 - inv:,}'
+    r['investable'] = r['invest_total']
+    r['annual_expense'] = f'{exp * 12:,}'
+    r['fire_target'] = f'{exp * 12 * 25:,}'
+    r['fire_pct'] = round(inv / (exp * 12 * 25) * 100, 1) if exp else 17.6
+    r['updated'] = datetime.fromtimestamp(fp.stat().st_mtime).strftime("%Y-%m-%d")
+    return r
 
 
 # ─── 足迹 ───
