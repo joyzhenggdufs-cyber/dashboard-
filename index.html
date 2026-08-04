@@ -137,10 +137,10 @@ function showDetail(project){
   H+=`<div class="card" style="margin-top:12px"><h4>✅ 最近处理</h4><ul class="detail-list">${(D.declutter_detail?.recent_done||[]).map(i=>`<li>${i.name||'?'} → ${i.method||''} <span style="font-size:11px;color:var(--quiet)">${i.date||''}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无记录</li>'}</ul></div>`;
   H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>微信/飞书说「断舍离」登记待处理物品</li><li>物品拍照存 data/photos/</li><li>每周日 20:30 自动推送周报</li></ul></div>`;
  }else if(project==='finance'){
-  H+=`<div class="detail-header"><div class="icon-xl">💰</div><div><h2>财富管理 · 百万计划</h2><p>可支配净资产 ¥${D.finance.net_worth} · 储蓄率 43% · 零房贷零消费贷</p></div></div>`;
+  H+=`<div class="detail-header"><div class="icon-xl">💰</div><div><h2>财富管理 · 百万计划</h2><p>可支配净资产 ¥${D.finance.net_worth} · 储蓄率 60% · 应急覆盖 1.0 个月</p></div></div>`;
   H+=`<div class="badge active">更新至 ${D.finance.updated}</div>`;
   H+=`<div class="detail-grid">`;
-  H+=`<div class="detail-card"><h4>💰 可支配净资产</h4><div class="metric">¥${D.finance.net_worth}</div><div class="metric-sub">流动资产 − 负债</div></div>`;
+  H+=`<div class="detail-card"><h4>💰 可投资净资产</h4><div class="metric">¥${D.finance.net_worth}</div><div class="metric-sub">现金+黄金+基金+A股−负债 · FIRE口径</div></div>`;
   H+=`<div class="detail-card"><h4>🏦 总净资产</h4><div class="metric">¥${D.finance.assets}</div><div class="metric-sub">含公积金+寿险</div></div></div>`;
 
   H+=`<div class="card"><h4>📊 按流动性分层</h4><ul class="detail-list">`;
