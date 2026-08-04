@@ -4,512 +4,413 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hermes 项目工作台</title>
-<meta name="description" content="Hermes 自动化项目全景面板">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#FBF7F2">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Hermes">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23FBF7F2'/><text x='50' y='68' text-anchor='middle' font-size='52'>⚡</text></svg>">
 <style>
   :root {
-    --bg: #FBF7F2;
-    --card: #FFFBF7;
-    --card-hover: #FFF8F0;
-    --border: #E8DDD4;
-    --accent: #C49B7C;
-    --accent-deep: #A67B5B;
-    --accent-light: #E8D5C4;
-    --clay: #9B8E85;
-    --clay-light: #C4B8AF;
-    --text: #3D322B;
-    --text-muted: #8B7D74;
-    --text-light: #B0A399;
-    --green: #7DA37D;
-    --green-bg: #EDF5EB;
-    --red: #C47B7B;
-    --red-bg: #FBF0F0;
-    --amber: #C49B5B;
-    --amber-bg: #FBF3E8;
-    --blue: #7B9EC4;
-    --blue-bg: #EDF3FA;
-    --radius: 18px;
-    --radius-sm: 10px;
-    --radius-xs: 6px;
-    --shadow: 0 1px 3px rgba(61,50,43,0.06), 0 4px 12px rgba(61,50,43,0.04);
-    --shadow-lg: 0 1px 2px rgba(61,50,43,0.04), 0 8px 24px rgba(61,50,43,0.06);
-    --font-serif: 'Georgia', 'Noto Serif SC', 'Songti SC', 'STSong', serif;
-    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    --bg: #FFFFFF;
+    --surface: #F7F8FA;
+    --border: #E2E6EB;
+    --divider: #EFF1F4;
+    --ink: #1A1E24;
+    --ink-secondary: #5A6270;
+    --ink-tertiary: #8E97A3;
+    --navy: #1B2A4A;
+    --navy-light: #2D4370;
+    --accent: #2255CC;
+    --accent-bg: #EBF1FC;
+    --green: #1A7D4C;
+    --green-bg: #EDF7F1;
+    --red: #CC3355;
+    --red-bg: #FDF2F4;
+    --amber: #B87A15;
+    --amber-bg: #FDF7ED;
+    --cool-gray: #C4CBD4;
+    --radius: 2px;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', 'Segoe UI', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', 'Menlo', monospace;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--bg);
-    color: var(--text);
+    color: var(--ink);
     font-family: var(--font-sans);
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    padding: 24px 20px 48px;
-    max-width: 1200px;
+  }
+
+  /* ── Top Bar ── */
+  .topbar {
+    background: var(--navy);
+    color: #FFFFFF;
+    padding: 0 28px;
+    height: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; letter-spacing: 0.02em;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 16px; }
+  .topbar-brand {
+    font-weight: 600; font-size: 15px; letter-spacing: 0.04em;
+    color: #FFFFFF;
+  }
+  .topbar-label {
+    font-size: 11px; color: rgba(255,255,255,0.5);
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .topbar-right {
+    display: flex; align-items: center; gap: 20px;
+    font-size: 12px; color: rgba(255,255,255,0.65);
+  }
+  .topbar-right .sys-ok {
+    width: 7px; height: 7px; border-radius: 50%; background: #4ECB71; display: inline-block; margin-right: 6px;
+  }
+  .topbar-right .sys-err {
+    width: 7px; height: 7px; border-radius: 50%; background: #FF5C72; display: inline-block; margin-right: 6px;
+  }
+  .topbar-right .sep { color: rgba(255,255,255,0.2); }
+
+  /* ── Main Layout ── */
+  .main {
+    padding: 28px 28px 40px;
+    max-width: 1280px;
     margin: 0 auto;
   }
 
-  /* Header */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-left { display: flex; align-items: center; gap: 14px; }
-  .header-icon {
-    width: 42px; height: 42px;
-    background: var(--accent-light);
-    border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-  .header-text h1 {
-    font-family: var(--font-serif);
-    font-size: 24px; font-weight: 400;
-    color: var(--text); letter-spacing: 0.02em;
-  }
-  .header-text .sub {
-    font-size: 12px; color: var(--text-muted);
-  }
-  .header-right {
-    display: flex; align-items: center; gap: 12px;
-    font-size: 12px; color: var(--text-muted);
-  }
-  .header-right .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: inline-block; }
-  .header-right .dot.warn { background: var(--amber); }
-  .header-right .dot.err { background: var(--red); }
-  .header-right time {
-    color: var(--clay); font-feature-settings: "tnum"; margin-left: 8px;
+  /* ── Section Header ── */
+  .section-label {
+    font-size: 10px; font-weight: 600; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 8px;
   }
 
-  /* Stats */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 24px;
+  /* ── KPI Row ── */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    margin-bottom: 32px;
   }
-  .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    box-shadow: var(--shadow);
+  .kpi-card {
+    background: var(--bg); padding: 20px 24px;
     display: flex; flex-direction: column; gap: 4px;
   }
-  .stat-value {
-    font-family: var(--font-serif);
-    font-size: 30px; font-weight: 400;
-    color: var(--accent-deep);
+  .kpi-value {
+    font-size: 36px; font-weight: 300; color: var(--navy);
+    letter-spacing: -0.02em; line-height: 1;
   }
-  .stat-value.red { color: var(--red); }
-  .stat-label { font-size: 12px; color: var(--text-muted); }
+  .kpi-value.warn { color: var(--red); }
+  .kpi-label { font-size: 11px; color: var(--ink-tertiary); font-weight: 500; }
+  .kpi-sub { font-size: 11px; color: var(--ink-secondary); margin-top: 2px; }
 
-  /* Grid */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
+  /* ── Grid ── */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .full { grid-column: 1 / -1; }
 
-  /* Cards */
-  .card {
-    background: var(--card);
+  /* ── Panel ── */
+  .panel {
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
+    background: var(--bg);
   }
-  .card-header {
-    padding: 14px 18px 12px;
-    border-bottom: 1px solid var(--border);
+  .panel-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--divider);
     display: flex; align-items: center; gap: 10px;
   }
-  .card-header .icon {
-    font-size: 16px; width: 30px; height: 30px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--bg); border-radius: var(--radius-sm);
+  .panel-header h2 {
+    font-size: 12px; font-weight: 600; color: var(--ink);
+    text-transform: uppercase; letter-spacing: 0.06em;
   }
-  .card-header h2 {
-    font-family: var(--font-serif);
-    font-size: 14px; font-weight: 400;
+  .panel-header .count {
+    font-size: 10px; color: var(--ink-tertiary);
+    margin-left: auto; font-family: var(--font-mono);
   }
-  .card-header .badge {
-    font-size: 11px; padding: 2px 9px; border-radius: 20px; font-weight: 500;
-    margin-left: auto;
-  }
-  .badge-ok { background: var(--green-bg); color: var(--green); }
-  .badge-warn { background: var(--amber-bg); color: var(--amber); }
-  .badge-err { background: var(--red-bg); color: var(--red); }
-  .card-body { padding: 14px 18px; }
+  .panel-body { padding: 0; }
 
-  /* Project cards */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
+  /* ── Project Table ── */
+  .proj-table { width: 100%; border-collapse: collapse; }
+  .proj-table th {
+    font-size: 10px; font-weight: 600; color: var(--ink-tertiary);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 10px 20px; text-align: left;
+    border-bottom: 1px solid var(--border); background: var(--surface);
   }
-  .proj-card {
-    background: var(--bg);
-    border-radius: var(--radius-sm);
-    padding: 14px 16px;
-    display: flex; flex-direction: column; gap: 8px;
-    transition: all 0.15s;
-    cursor: default;
-    border: 1px solid transparent;
+  .proj-table td {
+    padding: 12px 20px; font-size: 13px;
+    border-bottom: 1px solid var(--divider);
+    vertical-align: middle;
   }
-  .proj-card:hover {
-    background: var(--card-hover);
-    border-color: var(--accent-light);
-  }
-  .proj-top {
-    display: flex; align-items: flex-start; gap: 10px;
-  }
-  .proj-avatar {
-    width: 36px; height: 36px; border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px; flex-shrink: 0;
-  }
-  .proj-info { flex: 1; min-width: 0; }
-  .proj-name {
-    font-size: 14px; font-weight: 600; color: var(--text);
-    margin-bottom: 2px;
-  }
-  .proj-desc {
-    font-size: 12px; color: var(--text-muted);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .proj-meta {
-    display: flex; gap: 10px; font-size: 11px; color: var(--text-light);
-    margin-top: 4px;
-  }
-  .proj-meta span { display: flex; align-items: center; gap: 4px; }
-  .proj-tags {
-    display: flex; gap: 5px; flex-wrap: wrap; margin-top: 2px;
-  }
-  .proj-tag {
-    font-size: 10px; padding: 2px 8px; border-radius: 10px;
-    background: var(--border); color: var(--clay);
-  }
-  .proj-tag.active { background: var(--green-bg); color: var(--green); }
-  .proj-tag.error { background: var(--red-bg); color: var(--red); }
+  .proj-table tr:last-child td { border-bottom: none; }
+  .proj-table tr:hover td { background: var(--surface); }
+  .proj-name { font-weight: 600; color: var(--ink); }
+  .proj-name span.icon { margin-right: 8px; font-size: 15px; }
+  .proj-desc { font-size: 12px; color: var(--ink-secondary); margin-top: 1px; }
+  .proj-model { font-size: 11px; color: var(--ink-tertiary); font-family: var(--font-mono); }
   .proj-status {
-    font-size: 11px; padding: 2px 8px; border-radius: 10px;
-    font-weight: 500;
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 2px; letter-spacing: 0.05em;
+    display: inline-block;
   }
   .status-live { background: var(--green-bg); color: var(--green); }
   .status-dev { background: var(--amber-bg); color: var(--amber); }
-  .status-idle { background: var(--bg); color: var(--clay); }
+  .proj-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+  .proj-tag {
+    font-size: 10px; color: var(--ink-tertiary);
+    border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px;
+  }
 
-  /* Obsidian tree */
-  .vault-tree { display: flex; flex-direction: column; gap: 2px; }
-  .vault-item {
-    display: flex; align-items: center; gap: 7px; padding: 7px 10px;
-    border-radius: var(--radius-sm); font-size: 13px; color: var(--text);
-    cursor: default; transition: background 0.15s;
+  /* ── Obsidian Tree ── */
+  .obs-tree { padding: 8px 0; }
+  .obs-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 20px; font-size: 13px;
+    border-bottom: 1px solid var(--divider);
   }
-  .vault-item:hover { background: var(--bg); }
-  .vault-item.root {
-    font-family: var(--font-serif); font-size: 14px;
-    color: var(--accent-deep); font-weight: 600;
-    background: var(--bg); margin-bottom: 4px;
+  .obs-row:last-child { border-bottom: none; }
+  .obs-row.root {
+    font-weight: 600; color: var(--navy);
+    background: var(--surface); border-bottom: 1px solid var(--border);
   }
-  .vault-item .count {
-    margin-left: auto; font-size: 11px; color: var(--text-light);
-  }
-  .vault-indent { padding-left: 24px; }
+  .obs-row .count { margin-left: auto; font-size: 11px; color: var(--ink-tertiary); font-family: var(--font-mono); }
+  .obs-indent { padding-left: 40px; }
 
-  /* Cron list */
-  .cron-section {
-    font-size: 11px; font-weight: 600; color: var(--accent-deep);
-    text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 10px 0 4px; opacity: 0.7;
-  }
-  .cron-row {
-    display: flex; align-items: center; gap: 10px;
-    padding: 8px 0; font-size: 13px;
+  /* ── Cron List ── */
+  .cron-section-label {
+    font-size: 10px; font-weight: 600; color: var(--navy-light);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 14px 20px 6px; background: var(--surface);
     border-bottom: 1px solid var(--border);
   }
-  .cron-row:last-child { border-bottom: none; }
-  .cron-dot {
-    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  .cron-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 20px; font-size: 12px;
+    border-bottom: 1px solid var(--divider);
   }
+  .cron-row:last-child { border-bottom: none; }
+  .cron-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
   .cron-dot.ok { background: var(--green); }
   .cron-dot.err { background: var(--red); }
-  .cron-dot.off { background: var(--clay-light); }
-  .cron-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .cron-time { font-size: 11px; color: var(--clay); white-space: nowrap; font-feature-settings: "tnum"; }
-  .cron-model { font-size: 10px; color: var(--text-light); white-space: nowrap; }
+  .cron-dot.off { background: var(--cool-gray); }
+  .cron-name { flex: 1; color: var(--ink); }
+  .cron-sched { font-size: 11px; color: var(--ink-tertiary); font-family: var(--font-mono); white-space: nowrap; }
+  .cron-model { font-size: 10px; color: var(--ink-tertiary); font-family: var(--font-mono); }
 
-  /* Footer */
+  /* ── Footer ── */
   .footer {
-    margin-top: 24px; padding-top: 14px; border-top: 1px solid var(--border);
+    margin-top: 32px; padding-top: 16px;
+    border-top: 1px solid var(--border);
     display: flex; justify-content: space-between;
-    font-size: 11px; color: var(--text-light);
+    font-size: 11px; color: var(--ink-tertiary);
   }
-
-  /* Scroll */
-  .scroll-area { max-height: 400px; overflow-y: auto; }
-  .scroll-area::-webkit-scrollbar { width: 4px; }
-  .scroll-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    body { padding: 14px 12px 36px; }
-    .header { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .header-text h1 { font-size: 20px; }
-    .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .stat-card { padding: 12px 14px; }
-    .stat-value { font-size: 24px; }
-    .grid { grid-template-columns: 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-  }
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .projects-grid { grid-template-columns: repeat(2, 1fr); }
-  }
+  .footer span:last-child { font-family: var(--font-mono); }
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-  <div class="header-left">
-    <div class="header-icon">⚡</div>
-    <div class="header-text">
-      <h1>Hermes 项目工作台</h1>
-      <div class="sub">11 个自动化项目 · 28 个 Cron 任务 · 10 个 Obsidian 分区</div>
-    </div>
+<!-- Top Bar -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-brand">HERMES</span>
+    <span class="topbar-label">Project Workbench</span>
   </div>
-  <div class="header-right">
-    <span><span class="dot"></span> 系统正常</span>
-    <time id="update-time">更新中…</time>
-  </div>
-</div>
-
-<!-- Stats -->
-<div class="stats-row">
-  <div class="stat-card">
-    <div class="stat-value">11</div>
-    <div class="stat-label">活跃项目</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value">28</div>
-    <div class="stat-label">Cron 任务</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value">25</div>
-    <div class="stat-label">运行中</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-value red">1</div>
-    <div class="stat-label">异常</div>
+  <div class="topbar-right">
+    <span><span class="sys-ok" id="sys-dot"></span> <span id="sys-text">系统正常</span></span>
+    <span class="sep">|</span>
+    <span>11 Projects</span>
+    <span class="sep">|</span>
+    <span id="update-time" style="font-family:var(--font-mono)">更新中…</span>
   </div>
 </div>
 
-<!-- Main Grid -->
-<div class="grid">
+<div class="main">
 
-  <!-- Hermes Projects -->
-  <div class="card full">
-    <div class="card-header">
-      <div class="icon">🚀</div>
-      <h2>Hermes 自动化项目</h2>
-      <span class="badge badge-ok">11 活跃</span>
+  <!-- KPI Row -->
+  <div class="section-label">Overview</div>
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value" id="kpi-projects">11</div>
+      <div class="kpi-label">Active Projects</div>
+      <div class="kpi-sub">10 live · 1 dev</div>
     </div>
-    <div class="card-body">
-      <div class="projects-grid" id="projects-grid">
-        <!-- Populated by JS -->
+    <div class="kpi-card">
+      <div class="kpi-value" id="kpi-cron-total">28</div>
+      <div class="kpi-label">Cron Jobs</div>
+      <div class="kpi-sub" id="kpi-cron-sub">4 groups</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value" id="kpi-ok">25</div>
+      <div class="kpi-label">Running Healthy</div>
+      <div class="kpi-sub" id="kpi-ok-sub">89.3% uptime</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value warn" id="kpi-err">1</div>
+      <div class="kpi-label">Needs Attention</div>
+      <div class="kpi-sub" id="kpi-err-sub">1 error</div>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid">
+
+    <!-- Projects -->
+    <div class="panel full">
+      <div class="panel-header">
+        <h2>Projects</h2>
+        <span class="count">11 active</span>
+      </div>
+      <div class="panel-body">
+        <table class="proj-table">
+          <thead><tr><th>Project</th><th>Model</th><th>Status</th></tr></thead>
+          <tbody id="projects-tbody"></tbody>
+        </table>
       </div>
     </div>
+
+    <!-- Obsidian -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Knowledge Base</h2>
+        <span class="count">10 sections</span>
+      </div>
+      <div class="panel-body obs-tree" id="obs-tree"></div>
+    </div>
+
+    <!-- Cron Health -->
+    <div class="panel">
+      <div class="panel-header">
+        <h2>Cron Jobs</h2>
+        <span class="count" id="cron-count">25/28</span>
+      </div>
+      <div class="panel-body" id="cron-body"></div>
+    </div>
+
   </div>
 
-  <!-- Obsidian Framework -->
-  <div class="card">
-    <div class="card-header">
-      <div class="icon">🧠</div>
-      <h2>Obsidian 知识框架</h2>
-      <span class="badge badge-ok">10 分区</span>
-    </div>
-    <div class="card-body" id="obsidian-body">
-      <!-- Populated by JS -->
-    </div>
+  <div class="footer">
+    <span>Hermes Workbench · McKinsey Consulting Visual System</span>
+    <span id="footer-time"></span>
   </div>
-
-  <!-- Cron Health -->
-  <div class="card">
-    <div class="card-header">
-      <div class="icon">⏱</div>
-      <h2>Cron 任务摘要</h2>
-      <span class="badge badge-ok" id="cron-health-badge">25/28</span>
-    </div>
-    <div class="card-body scroll-area" id="cron-list">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-
-</div>
-
-<div class="footer">
-  <span>Hermes Workbench · 暖陶风</span>
-  <span id="footer-time"></span>
 </div>
 
 <script>
-// ── Data ──
 const PROJECTS = [
-  { id:"wechat-assistant", name:"微信助手", icon:"🏠", desc:"28 个 Cron 任务，全自动生活管家", status:"live", tags:["Cron ×28","DeepSeek","微信/飞书"], color:"var(--accent)", model:"V4 Flash/Pro" },
-  { id:"category-report", name:"品类半年报", icon:"📊", desc:"Y26H1 护肤品类趋势洞察报告", status:"live", tags:["CMI","中英双版","进行中"], color:"var(--blue)", model:"V4 Pro" },
-  { id:"market", name:"市场数据", icon:"📈", desc:"品牌排名 / 品类拆解 / 竞品分析", status:"live", tags:["DataViz","Excel→Chart","Top30"], color:"var(--accent)", model:"—" },
-  { id:"knowledge-base", name:"知识库", icon:"📚", desc:"13 份市场报告 + 文档自动归档", status:"live", tags:["自动归档","OCR","分类"], color:"var(--clay)", model:"—" },
-  { id:"xiaohongshu-auto", name:"小红书发布", icon:"📕", desc:"微博/小红书自动发布流水线", status:"live", tags:["Playwright","CDP","反Bot"], color:"var(--red)", model:"Script" },
-  { id:"social-monitor", name:"社交监测", icon:"👁", desc:"品牌官方微博新品动态监测", status:"dev", tags:["飞书表格","群聊推送","周报"], color:"var(--blue)", model:"V4 Flash" },
-  { id:"feishu-bridge", name:"飞书桥接", icon:"🔗", desc:"飞书 ↔ Claude 双向消息桥接", status:"live", tags:["消息路由","QQ邮件"], color:"var(--green)", model:"—" },
-  { id:"health-dashboard", name:"健康仪表盘", icon:"❤️", desc:"Apple Watch 健康数据追踪", status:"live", tags:["Apple Health","HRV","深睡"], color:"var(--red)", model:"Codex → V4 Flash" },
-  { id:"obsidian-dashboard", name:"Obsidian 看板", icon:"📋", desc:"每日看板刷新 + 对话沉淀", status:"live", tags:["Dataview","自动化"], color:"var(--clay)", model:"Script" },
-  { id:"english-companion", name:"英语伴侣", icon:"🦉", desc:"多邻国打卡 + 艾宾浩斯生词复习", status:"live", tags:["多邻国","vocab.py","每日"], color:"var(--green)", model:"V4 Flash" },
-  { id:"study-buddy", name:"学习伴侣", icon:"📖", desc:"豆瓣同步 + 观影/读书追踪", status:"live", tags:["豆瓣RSS","伴读记录"], color:"var(--amber)", model:"V4 Flash" }
+  { id:"wechat-assistant", name:"微信助手", icon:"🏠", desc:"28 个 Cron 任务，全自动生活管家", status:"live", tags:["Cron ×28","DeepSeek","微信/飞书"], model:"V4 Flash/Pro" },
+  { id:"category-report", name:"品类半年报", icon:"📊", desc:"Y26H1 护肤品类趋势洞察报告", status:"live", tags:["CMI","中英双版","进行中"], model:"V4 Pro" },
+  { id:"market", name:"市场数据", icon:"📈", desc:"品牌排名 / 品类拆解 / 竞品分析", status:"live", tags:["DataViz","Excel→Chart","Top30"], model:"—" },
+  { id:"knowledge-base", name:"知识库", icon:"📚", desc:"16 份市场报告 + 文档自动归档", status:"live", tags:["自动归档","OCR","分类"], model:"—" },
+  { id:"xiaohongshu-auto", name:"小红书发布", icon:"📕", desc:"微博/小红书自动发布流水线", status:"live", tags:["Playwright","CDP","反Bot"], model:"Script" },
+  { id:"social-monitor", name:"社交监测", icon:"👁", desc:"品牌官方微博新品动态监测", status:"dev", tags:["飞书表格","群聊推送","周报"], model:"V4 Flash" },
+  { id:"feishu-bridge", name:"飞书桥接", icon:"🔗", desc:"飞书 ↔ Claude 双向消息桥接", status:"live", tags:["消息路由","QQ邮件"], model:"—" },
+  { id:"health-dashboard", name:"健康仪表盘", icon:"❤️", desc:"Apple Watch 健康数据追踪", status:"live", tags:["Apple Health","HRV","深睡"], model:"Codex→Flash" },
+  { id:"obsidian-dashboard", name:"Obsidian 看板", icon:"📋", desc:"每日看板刷新 + 对话沉淀", status:"live", tags:["Dataview","自动化"], model:"Script" },
+  { id:"english-companion", name:"英语伴侣", icon:"🦉", desc:"多邻国打卡 + 艾宾浩斯生词复习", status:"live", tags:["多邻国","vocab.py","每日"], model:"V4 Flash" },
+  { id:"study-buddy", name:"学习伴侣", icon:"📖", desc:"豆瓣同步 + 观影/读书追踪", status:"live", tags:["豆瓣RSS","伴读记录"], model:"V4 Flash" }
 ];
 
 const OBSIDIAN = [
-  { name:"日记", icon:"📓", count:"6 篇", indent:true },
-  { name:"工作", icon:"💼", count:"1 文档", indent:true },
-  { name:"项目", icon:"🚀", count:"1 活跃", indent:true },
-  { name:"知识库", icon:"📚", count:"2 领域", indent:true },
-  { name:"健康", icon:"❤️", count:"2 笔记", indent:true },
-  { name:"伴读", icon:"📖", count:"4 待读", indent:true },
-  { name:"看板", icon:"📊", count:"2 面板", indent:true },
-  { name:"会议", icon:"📋", count:"—", indent:true },
-  { name:"微信收藏", icon:"💬", count:"1 篇", indent:true },
-  { name:"买房资料", icon:"🏡", count:"1 文档", indent:true }
+  { name:"日记", icon:"📓", count:"6 篇" },
+  { name:"工作", icon:"💼", count:"1 文档" },
+  { name:"项目", icon:"🚀", count:"1 活跃" },
+  { name:"知识库", icon:"📚", count:"2 领域" },
+  { name:"健康", icon:"❤️", count:"2 笔记" },
+  { name:"伴读", icon:"📖", count:"4 待读" },
+  { name:"看板", icon:"📊", count:"2 面板" },
+  { name:"会议", icon:"📋", count:"—" },
+  { name:"微信收藏", icon:"💬", count:"1 篇" },
+  { name:"买房资料", icon:"🏡", count:"1 文档" }
 ];
 
-// ── Render ──
 function renderProjects() {
-  const el = document.getElementById('projects-grid');
-  el.innerHTML = PROJECTS.map(p => `
-    <div class="proj-card">
-      <div class="proj-top">
-        <div class="proj-avatar" style="background:${p.color}20;color:${p.color}">${p.icon}</div>
-        <div class="proj-info">
-          <div class="proj-name">${p.name}</div>
-          <div class="proj-desc">${p.desc}</div>
-          <div class="proj-meta">
-            <span>🧠 ${p.model}</span>
-            <span class="proj-status ${p.status==='live'?'status-live':p.status==='dev'?'status-dev':'status-idle'}">${p.status==='live'?'运行中':p.status==='dev'?'开发中':'待机'}</span>
-          </div>
-        </div>
-      </div>
-      <div class="proj-tags">
-        ${p.tags.map(t => `<span class="proj-tag active">${t}</span>`).join('')}
-      </div>
-    </div>
+  const tbody = document.getElementById('projects-tbody');
+  tbody.innerHTML = PROJECTS.map(p => `
+    <tr>
+      <td>
+        <div class="proj-name"><span class="icon">${p.icon}</span>${p.name}</div>
+        <div class="proj-desc">${p.desc}</div>
+        <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
+      </td>
+      <td><span class="proj-model">${p.model}</span></td>
+      <td><span class="proj-status ${p.status==='live'?'status-live':'status-dev'}">${p.status==='live'?'Live':'Dev'}</span></td>
+    </tr>
   `).join('');
 }
 
 function renderObsidian() {
-  const el = document.getElementById('obsidian-body');
-  let html = '<div class="vault-tree">';
-  html += '<div class="vault-item root">🏠 数字第二大脑</div>';
-  OBSIDIAN.forEach(f => {
-    html += `<div class="vault-item ${f.indent?'vault-indent':''}">
-      <span>${f.icon}</span> ${f.name}
-      <span class="count">${f.count}</span>
-    </div>`;
-  });
-  html += '</div>';
-  el.innerHTML = html;
+  const el = document.getElementById('obs-tree');
+  el.innerHTML = '<div class="obs-row root">🏠 数字第二大脑</div>' +
+    OBSIDIAN.map(f => `
+      <div class="obs-row obs-indent">
+        <span>${f.icon}</span> ${f.name}
+        <span class="count">${f.count}</span>
+      </div>
+    `).join('');
 }
 
-// ── Live data (injected by refresh.py) ──
-const D = {"updated": "2026-08-03 23:16", "reading": {"total": 15, "toread": [{"title": "GPT Live + Obsidian 口语系统", "type": "article", "rating": 0, "notes": "待读：Gloria的方案，GPT实时语音+Obsidian自动生成口语练习", "url": "", "added": "2026-07-26", "id": 1}, {"title": "麦肯锡风格视觉提示词", "type": "article", "rating": 0, "notes": "待读：15种商业隐喻库、封面信息图、白底深蓝配色，可复用于品类报告", "url": "", "added": "2026-07-26", "id": 2}, {"title": "八仙", "type": "movie", "rating": 0, "notes": "待写感想：中国神话八仙过海", "url": "", "added": "2026-07-27", "id": 3}, {"title": "人工智能 (AI)", "type": "movie", "rating": 0, "notes": "看了一半，待看完", "url": "", "added": "2026-07-27", "id": 5}], "read": [{"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}], "recent": [{"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}]}, "ideas": {"total": 8, "recent": [{"idea": "修改简历（周日）", "tag": "待办", "time": "2026-07-27 01:10", "done": false}, {"idea": "云鲸扫地机器人 — 无公开 API", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "小米智能家居 — 空调插座 token 还没拿到", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "YouTube 视频 → 思维导图 → Obsidian", "tag": "工具", "time": "2026-07-27 01:10", "done": false}, {"idea": "Codex 语音外教 — 按教材上第一节英语课", "tag": "伴读", "time": "2026-07-27 01:10", "done": false}]}, "declutter": {"total": 1, "pending": [], "done_recent": []}, "vocab": {"total": 0, "new": 0, "learning": 0, "mastered": 0}, "cron": {"total": 28, "ok": 27, "error": 1, "jobs": [{"id": "5f31f7486b44", "state": "active", "name": "每个工作日 Au9999 收盘报价", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "74b0eca9ae0d", "state": "active", "name": "天气早报", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "8d2299d2faae", "state": "active", "name": "早高峰路况", "schedule": "15 9 * * 1-5", "last_status": "ok"}, {"id": "d1c8e0194622", "state": "active", "name": "晚高峰路况", "schedule": "45 18 * * 1-5", "last_status": "ok"}, {"id": "2e21d865c7e6", "state": "active", "name": "网球预约提醒", "schedule": "0 10 * * 4", "last_status": "ok"}, {"id": "b0f368314fca", "state": "active", "name": "英语打卡提醒", "schedule": "0 20 * * *", "last_status": "ok"}, {"id": "12ca6d928ebd", "state": "active", "name": "💪 健身提醒（AI判断型）", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "566eda02cdbc", "state": "active", "name": "📈 市场监控（A股/科创/纳斯达克/金价）", "schedule": "0 9-15,21-23 * * 1-5", "last_status": "ok"}, {"id": "7d7fda818943", "state": "active", "name": "🧠 每周学习报告（AI对用户的理解）", "schedule": "0 10 * * 7", "last_status": "ok"}, {"id": "533f670167e5", "state": "active", "name": "每晚多邻国打卡提醒", "schedule": "30 22 * * *", "last_status": "ok"}, {"id": "569eeec73be7", "state": "active", "name": "多邻国打卡确认+记录", "schedule": "50 23 * * *", "last_status": "ok"}, {"id": "5f9de1ad0926", "state": "active", "name": "小米集团每日收盘报价", "schedule": "10 16 * * 1-5", "last_status": "ok"}, {"id": "9192c6c37a9e", "state": "active", "name": "📱 健康数据导出提醒", "schedule": "0 10 */2 * *", "last_status": "ok"}, {"id": "13c0e433146f", "state": "active", "name": "📜 每周对话日志导出", "schedule": "0 12 * * 0", "last_status": "ok"}, {"id": "90da54cc8268", "state": "active", "name": "🗄️ 每日自动存档（对话+推送全量留底）", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "fbbeecf93bc7", "state": "active", "name": "📅 明日会议预告", "schedule": "0 21 * * *", "last_status": "ok"}, {"id": "658d338b387e", "state": "active", "name": "📋 每周复盘", "schedule": "0 20 * * 7", "last_status": "ok"}, {"id": "c9db047a71d1", "state": "active", "name": "你是用户的微信生活管家。检查是否有待处理的断舍离物品需要提醒用户。", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "29495086b4dc", "state": "active", "name": "📈 股票日报转发（GPT→邮箱→微信）", "schedule": "15 16 * * 1-5", "last_status": "ok"}, {"id": "8f19316e68ef", "state": "active", "name": "🥇 负鼠金价微博 · 全自动发布", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "b9fa480c79fc", "state": "active", "name": "📚 每日生词复习", "schedule": "30 8 * * *", "last_status": "ok"}, {"id": "8cb41c5cba4f", "state": "active", "name": "🎫 美团每日自动领券", "schedule": "0 10 * * *", "last_status": "ok"}, {"id": "0759c99dafa2", "state": "active", "name": "🧹 每周断舍离周报", "schedule": "30 20 * * 0", "last_status": "ok"}, {"id": "127ecb2b1002", "state": "active", "name": "🧠 每日对话沉淀 → Obsidian", "schedule": "0 23 * * *", "last_status": "ok"}, {"id": "22f814f1a842", "state": "active", "name": "📊 Obsidian 看板刷新", "schedule": "0 8 * * *", "last_status": "ok"}, {"id": "d7a6f1cb1b06", "state": "active", "name": "🔄 豆瓣 → 伴读同步", "schedule": "0 7 * * *", "last_status": "error"}, {"id": "5f9d262d5c3a", "state": "active", "name": "健康日报推送", "schedule": "15 10 * * *", "last_status": "ok"}, {"id": "c51f72ab78d6", "state": "active", "name": "🔄 Hermes 工作台数据刷新", "schedule": "0 */3 * * *", "last_status": "ok"}]}, "connections": [{"name": "DeepSeek", "icon": "🧠", "ok": false}, {"name": "豆瓣", "icon": "📖", "ok": false}, {"name": "飞书", "icon": "💬", "ok": false}, {"name": "微信", "icon": "💬", "ok": true}], "connection_map": [{"from": "训记", "to": "健身数据", "via": "JSON", "icon": "🏋️"}, {"from": "Exchange", "to": "日历/早报", "via": "icalBuddy", "icon": "💼"}, {"from": "Apple Health", "to": "健康日报", "via": "XML→JSON", "icon": "🩺"}, {"from": "豆瓣", "to": "伴读", "via": "RSS", "icon": "📖"}, {"from": "上金所", "to": "微博", "via": "auto_opossum", "icon": "🥇"}, {"from": "美团", "to": "每日领券", "via": "Skill", "icon": "🎫"}, {"from": "多邻国", "to": "打卡记录", "via": "状态文件", "icon": "🟢"}], "skills": [{"name": "agently-mail", "desc": "name: agently-mail description: 通过 agently-cli 命令行工具操作邮件：发送、回复、转发、搜索、读取、下载附件、管理收件箱。当用户需要进行任何邮件相关操作时 version: 1.0.0 Agent"}, {"name": "category-report", "desc": "name: category-report description: Buycoor CMI 品类半年报工作流 — 电商市场品类演变与产品趋势洞察报告。中英双版本。含数据爬取、分析框架、报告生成。 外部品牌数据获取渠道 已验证可行的渠道"}, {"name": "chatcut", "desc": "name: chatcut description: > AI 视频剪辑工具 — 自然语言驱动 ffmpeg 自动剪片。 GitHub: ArtCog/chatcut (CLI) + ChatCut agent-plugin (534⭐)。"}, {"name": "computer-use", "desc": "name: computer-use description: | Drive the user's desktop in the background — clicking, typing, scrolling, dragging — w"}, {"name": "deepseek-provider-config", "desc": "name: deepseek-provider-config description: \"Configure DeepSeek models for Hermes, Claude Code, and other tools version:"}, {"name": "dogfood", "desc": "name: dogfood description: \"Exploratory QA of web apps: find bugs, evidence, reports.\" version: 1.0.0 platforms: [linux,"}, {"name": "gateway-platform-setup", "desc": "name: gateway-platform-setup description: \"Set up and troubleshoot messaging platforms (Feishu, WeChat, Yuanb version: 1"}, {"name": "hv-analysis", "desc": "name: hv-analysis description: 横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出。系统性研究产品、公司、 hv-analysis — 横纵分析法深度"}, {"name": "meituan-coupon", "desc": "name: meituan-coupon displayName: 美团红包助手 description: 【美团官方】美团红包助手，支持外卖、餐饮团购、酒店住宿、门票度假、休闲娱乐、闪购、医药等多品类优惠券/红包/神券的一键领取与历史领取"}, {"name": "neat-freak", "desc": "name: neat-freak description: > 会话结束后对项目文档和记忆进行洁癖级审查与同步。 MUST trigger when the user says: \"sync up\", \"tidy up docs\", \"up"}, {"name": "social-media-automation", "desc": "name: social-media-automation description: > Automate social media publishing (Weibo, Xiaohongshu) via Playwright with p"}, {"name": "web-automation", "desc": "name: web-automation description: > Playwright-based web automation with anti-bot bypass techniques. Use when automating"}, {"name": "weibo-auto", "desc": "name: weibo-auto description: > 微博自动发布：Playwright 持久化登录、图文发布、定时流水线。 When the user wants to auto-post to Weibo, schedule "}, {"name": "weibo-publish", "desc": "name: weibo-publish description: > 微博自动发布（Playwright + CDP 反机器人绕过）。涵盖文案+图片发布、 常见坑、session 管理。适用于任何需要通过 Playwright 自动发布微博"}, {"name": "yuanbao", "desc": "name: yuanbao description: \"Yuanbao (元宝) groups: @mention users, query info/members.\" version: 1.0.0 platforms: [linux, "}], "obsidian": [{"name": "attachments", "icon": "📁", "count": 0, "items": []}, {"name": "买房资料", "icon": "🏡", "count": 1, "items": [{"title": "关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告", "path": "买房资料/关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告.md"}]}, {"name": "会议", "icon": "📁", "count": 0, "items": []}, {"name": "伴读", "icon": "📖", "count": 7, "items": [{"title": "📋 今日复习", "path": "伴读/今日复习.md"}, {"title": "2026-07-26_Her", "path": "伴读/2026-07-26_Her.md"}, {"title": "2026-07-26_麦肯锡风格视觉提示词", "path": "伴读/2026-07-26_麦肯锡风格视觉提示词.md"}, {"title": "打卡记录", "path": "伴读/打卡记录.md"}, {"title": "2026-07-27_人工智能 (AI)", "path": "伴读/2026-07-27_人工智能 (AI).md"}, {"title": "📚 伴读记录", "path": "伴读/伴读记录.md"}, {"title": "English_for_Meetings", "path": "伴读/教材/English_for_Meetings.md"}]}, {"name": "健康", "icon": "❤️", "count": 2, "items": [{"title": "健康数据", "path": "健康/最新数据.md"}, {"title": "健康趋势", "path": "健康/健康趋势.md"}]}, {"name": "工作", "icon": "📁", "count": 1, "items": [{"title": "欢迎回来 👋", "path": "工作/README.md"}]}, {"name": "微信收藏", "icon": "💬", "count": 1, "items": [{"title": "一文快速读懂丨配售型保障性住房", "path": "微信收藏/一文快速读懂丨配售型保障性住房.md"}]}, {"name": "日记", "icon": "📓", "count": 7, "items": [{"title": "2026-07-27", "path": "日记/2026-07-27.md"}, {"title": "2026-07-28", "path": "日记/2026-07-28.md"}, {"title": "2026-08-01", "path": "日记/2026-08-01.md"}, {"title": "2026-08-02", "path": "日记/2026-08-02.md"}, {"title": "2026-08-03", "path": "日记/2026-08-03.md"}, {"title": "2026-07-15 周二", "path": "日记/2026-07-15.md"}, {"title": "2026-07-31", "path": "日记/2026-07-31.md"}]}, {"name": "看板", "icon": "📊", "count": 2, "items": [{"title": "总览", "path": "看板/总览.md"}, {"title": "💡 灵感碎片", "path": "看板/灵感碎片.md"}]}, {"name": "知识库", "icon": "📚", "count": 4, "items": [{"title": "Vibe Coding 保姆级教程", "path": "知识库/AI/Vibe Coding 保姆级教程.md"}, {"title": "Vibe Coding 思维导图", "path": "知识库/AI/Vibe Coding 思维导图.md"}, {"title": "自然堂（CHANDO）横纵分析报告", "path": "知识库/品牌研究/自然堂_横纵分析报告.md"}, {"title": "凌博士（PROF.LING）横纵分析报告", "path": "知识库/品牌研究/凌博士_横纵分析报告.md"}]}, {"name": "项目", "icon": "🚀", "count": 1, "items": [{"title": "微信助手", "path": "项目/微信助手.md"}]}], "codex": [{"name": "小红书创作", "subdirs": ["01-选题池", "05-复盘", "03-已发布", "04-素材", "02-创作中", "00-账号定位"], "file_count": 12, "recent": ["README", "首批选题池", "创作提案", "账号定位"]}, {"name": "简历求职", "subdirs": ["羽西项目", "月度报告", "年度品类报告"], "file_count": 37, "recent": []}, {"name": "视频剪辑", "subdirs": [], "file_count": 4, "recent": []}]};
-
-// ── Try loading injected or fetched live data ──
-function renderCronList(jobs) {
-  const el = document.getElementById('cron-list');
+function renderCron(jobs) {
+  const el = document.getElementById('cron-body');
   if (!jobs || !jobs.length) {
-    el.innerHTML = '<div style="padding:16px;color:var(--text-muted);font-size:13px">暂无实时数据</div>';
+    el.innerHTML = '<div style="padding:20px;color:var(--ink-tertiary);font-size:12px">No live data</div>';
     return;
   }
-  // Group by prefix
   const groups = {
-    '🌅 早间推送': ['天气早报','生词','早高峰','美团'],
-    '📈 市场 & 数据': ['市场监控','Au9999','负鼠','小米','股票日报'],
-    '💪 生活 & 健康': ['健身','断舍离','英语打卡','会议预告','晚高峰','多邻国','健康数据','健康日报','网球'],
-    '🗄️ 归档 & 同步': ['存档','豆瓣','对话沉淀','Obsidian 看板','对话日志'],
-    '📋 周常复盘': ['学习报告','每周复盘','断舍离周报']
+    'Morning Briefing': ['天气早报','生词','早高峰','美团'],
+    'Market & Data': ['市场监控','Au9999','负鼠','小米','股票日报'],
+    'Life & Health': ['健身','断舍离','英语打卡','会议预告','晚高峰','多邻国','健康数据','健康日报','网球'],
+    'Archive & Sync': ['存档','豆瓣','对话沉淀','Obsidian','对话日志'],
+    'Weekly Reports': ['学习报告','每周复盘','断舍离周报']
   };
   let html = '';
   for (const [section, keywords] of Object.entries(groups)) {
     const matches = jobs.filter(j => keywords.some(k => (j.name||'').includes(k)));
     if (!matches.length) continue;
-    html += `<div class="cron-section">${section}</div>`;
+    html += `<div class="cron-section-label">${section}</div>`;
     matches.forEach(j => {
-      const statusClass = j.last_status==='ok'?'ok':j.last_status==='error'?'err':'off';
-      const state = j.state==='paused' ? 'off' : statusClass;
+      const cls = j.last_status==='ok'?'ok':j.last_status==='error'?'err':'off';
+      const s = j.state==='paused'?'off':cls;
       html += `<div class="cron-row">
-        <span class="cron-dot ${state}"></span>
+        <span class="cron-dot ${s}"></span>
         <span class="cron-name">${j.name||j.id}</span>
-        <span class="cron-time">${j.schedule||'—'}</span>
+        <span class="cron-sched">${j.schedule||'—'}</span>
         <span class="cron-model">${j.mode||'LLM'}</span>
       </div>`;
     });
   }
-  el.innerHTML = html || '<div style="padding:16px;color:var(--text-muted);font-size:13px">暂无数据</div>';
+  el.innerHTML = html || '<div style="padding:20px;color:var(--ink-tertiary);font-size:12px">No data</div>';
 }
 
 async function loadLiveData() {
-  // 1) Try injected data (from refresh.py)
-  if (typeof LIVE_DATA === 'object' && LIVE_DATA && LIVE_DATA.cron) {
-    applyLiveData(LIVE_DATA);
-    return;
-  }
-  // 2) Try fetch data.json (works on GitHub Pages)
+  if (typeof LIVE_DATA === 'object' && LIVE_DATA && LIVE_DATA.cron) { applyLive(LIVE_DATA); return; }
   try {
     const resp = await fetch('data.json?t=' + Date.now());
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data.cron) { applyLiveData(data); return; }
-    }
+    if (resp.ok) { const data = await resp.json(); if (data.cron) { applyLive(data); return; } }
   } catch(e) {}
-  // 3) Fallback — show time only
   const now = new Date().toLocaleString('zh-CN', {timeZone:'Asia/Shanghai'});
   document.getElementById('update-time').textContent = now;
-  document.getElementById('footer-time').textContent = '数据更新: ' + now;
-  renderCronList([]);
+  document.getElementById('footer-time').textContent = 'Updated: ' + now;
+  renderCron([]);
 }
 
-function applyLiveData(data) {
+function applyLive(data) {
   const c = data.cron || {};
   document.getElementById('update-time').textContent = data.updated || '';
-  document.getElementById('footer-time').textContent = '数据更新: ' + (data.updated || '—');
-  document.getElementById('cron-health-badge').textContent = `${c.ok||0}/${c.total||0}`;
-  document.querySelectorAll('.stat-value')[1].textContent = c.total || '—';
-  document.querySelectorAll('.stat-value')[2].textContent = c.ok || '—';
-  document.querySelectorAll('.stat-value')[3].textContent = c.error || '0';
-  if (c.jobs) renderCronList(c.jobs);
-  const dot = document.querySelector('.header-right .dot');
-  if (c.error > 0) { dot.className = 'dot err'; }
+  document.getElementById('footer-time').textContent = 'Updated: ' + (data.updated || '—');
+  document.getElementById('cron-count').textContent = `${c.ok||0}/${c.total||0}`;
+  document.getElementById('kpi-cron-total').textContent = c.total || '—';
+  document.getElementById('kpi-ok').textContent = c.ok || '—';
+  document.getElementById('kpi-err').textContent = c.error || '0';
+  document.getElementById('kpi-ok-sub').textContent = c.total ? (c.ok/c.total*100).toFixed(0)+'% healthy' : '—';
+  if (c.jobs) renderCron(c.jobs);
+  if (c.error > 0) {
+    document.getElementById('sys-dot').className = 'sys-err';
+    document.getElementById('sys-text').textContent = 'Attention needed';
+    document.getElementById('kpi-err').classList.add('warn');
+  }
 }
 
-// ── Init ──
 renderProjects();
 renderObsidian();
 loadLiveData();
 </script>
 
 <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
+  if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
 </script>
 </body>
 </html>

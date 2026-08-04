@@ -1,13 +1,8 @@
-const CACHE = 'hermes-wb-v1';
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./', 'dashboard.html', 'manifest.json'])));
-  self.skipWaiting();
-});
+const CACHE = 'hermes-wb-v3';
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => e.waitUntil(clients.claim()));
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).then(resp => {
-      if (resp.ok) { const clone = resp.clone(); caches.open(CACHE).then(c => c.put(e.request, clone)); }
-      return resp;
-    }))
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });
