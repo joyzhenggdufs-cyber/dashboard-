@@ -50,6 +50,13 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
 .eye-btn{position:fixed;top:20px;right:24px;background:var(--surface);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:200;transition:color .2s}
 .eye-btn:hover{color:var(--text)}
 .blur-num{filter:blur(8px)}
+
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;display:none}.ov.s{display:block}
+.pn{position:fixed;top:0;right:0;width:420px;max-width:92vw;height:100%;background:var(--panel);border-left:1px solid var(--border);z-index:100;padding:24px;overflow-y:auto;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}.pn.s{transform:translateX(0)}
+.pn h2{font-size:18px;font-weight:510;color:var(--text);margin-bottom:16px}
+.pn .close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.pi{padding:8px 0;border-bottom:1px solid var(--border-sub);font-size:13px;color:var(--body);display:flex;justify-content:space-between}.pi:last-child{border:0}
+
 </style>
 </head>
 <body>
@@ -68,6 +75,9 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
   <div id="eye" class="nav-item" onclick="toggleEye()" title="隐藏/显示金额">👁️ 隐藏金额</div>
 </nav>
 <main id="main"></main>
+<div class="ov" id="ov" onclick="cls()"></div>
+<div class="pn" id="pn"><button class="close" onclick="cls()">✕</button><div id="pc"></div></div>
+
 <script>
 // data.json is loaded as window.D
 fetch('data.json').then(r=>r.json()).then(D=>{window.D=D;showOverview()});
@@ -80,6 +90,43 @@ function updateConns(){
 }
 
 function setActive(id){document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+
+function showBreakdown(type){
+ let D=window.D,f=D.finance,items=[],t='';
+ if(type==='assets'){
+  t='💰 净资产明细 · ¥'+f.net_worth;
+  items=[
+   {l:'💵 现金及活期',r:'¥'+f.cash},
+   {l:'🥇 黄金（支付宝）',r:'¥'+f.gold},
+   {l:'📈 基金（同花顺）',r:'¥'+f.funds},
+   {l:'📊 A股（同花顺）',r:'¥'+f.stocks},
+   {l:'🏠 公积金（广州+中山）',r:'¥'+f.housing_fund},
+   {l:'🛡️ 中意寿险（现价）',r:'¥'+f.insurance},
+   {l:'👴 养老个账',r:'¥'+f.pension},
+   {l:'💳 信用卡负债',r:'-¥'+f.liabilities,color:'var(--red)'},
+   {l:'━━━━━━━━━━━━',r:''},
+   {l:'',r:'¥'+f.net_worth,color:'var(--text)',bold:true}
+  ];
+ }else if(type==='investable'){
+  t='💰 可投资净资产明细 · ¥'+f.investable;
+  items=[
+   {l:'💵 现金及活期',r:'¥'+f.cash},
+   {l:'🥇 黄金（支付宝）',r:'¥'+f.gold},
+   {l:'📈 基金（同花顺）',r:'¥'+f.funds},
+   {l:'📊 A股（同花顺）',r:'¥'+f.stocks},
+   {l:'💳 信用卡负债',r:'-¥'+f.liabilities,color:'var(--red)'},
+   {l:'━━━━━━━━━━━━',r:''},
+   {l:'',r:'¥'+f.investable,color:'var(--text)',bold:true}
+  ];
+ }
+ document.getElementById('pc').innerHTML='<h2>'+t+'</h2>'+items.map(i=>{
+  let style=i.color?'color:'+i.color+(i.bold?';font-weight:510':'':'):'';
+  return '<div class="pi"><span style="'+style+'">'+i.l+'</span><span style="'+style+'">'+i.r+'</span></div>';
+ }).join('');
+ document.getElementById('pn').classList.add('s');document.getElementById('ov').classList.add('s');
+}
+function cls(){document.getElementById('pn').classList.remove('s');document.getElementById('ov').classList.remove('s');}
 
 function toggleEye(){
  let el=document.getElementById('eye'),blur=document.querySelectorAll('.stat .n');
@@ -101,8 +148,8 @@ function showOverview(){
  H+=`<div class="stat" onclick="showDetail('reading')"><div class="n">${D.reading.total}</div><div class="l">伴读</div><div class="s">${D.reading.toread.length} 待读</div></div>`;
  H+=`<div class="stat" onclick="showDetail('skills')"><div class="n">${D.skills.length}</div><div class="l">Skills</div><div class="s">活跃能力</div></div>`;
  H+=`<div class="stat" onclick="showDetail('health')"><div class="n">${D.health.score||'?'}</div><div class="l">健康分</div><div class="s">${D.health.sleep||'?'} · ${D.health.resting_hr||'?'}</div></div>
-<div class="stat" onclick="showDetail('finance')"><div class="n">¥${D.finance.assets}</div><div class="l">总资产</div><div class="s">¥${D.finance.net_worth} 净资产</div></div>
-<div class="stat" onclick="showDetail('finance')"><div class="n">${D.finance.invest_progress}%</div><div class="l">投资目标</div><div class="s">¥${D.finance.investable||D.finance.invest_total} / ¥1,000,000</div></div>`;
+<div class="stat" onclick="showBreakdown('assets')"><div class="n">¥${D.finance.assets}</div><div class="l">总资产</div><div class="s">¥${D.finance.net_worth} 净资产</div></div>
+<div class="stat" onclick="showBreakdown('investable')"><div class="n">${D.finance.invest_progress}%</div><div class="l">投资目标</div><div class="s">¥${D.finance.investable||D.finance.invest_total} / ¥1,000,000</div></div>`;
  H+=`</div>`;
  H+=`<div class="grid">`;
  H+=`<div class="card"><h3>📖 伴读</h3>${D.reading.recent.map(i=>`<div class="item"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span><span class="tag">${i.type}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
