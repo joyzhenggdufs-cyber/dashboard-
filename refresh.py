@@ -156,6 +156,93 @@ def get_codex():
     return projects
 
 
+# ─── 健康数据 ───
+def get_health():
+    health_path = Path.home() / "Desktop/claude work/knowledge-base/health/health_latest.json"
+    if not health_path.exists(): return None
+    data = load_json(health_path)
+    summary = data.get("summary", {})
+    
+    sleep_recs = summary.get("sleep", [])
+    hrv_recs = summary.get("hrv", [])
+    hr_recs = summary.get("resting_hr", [])
+    weight_recs = summary.get("weight", [])
+    temp_recs = summary.get("wrist_temp", [])
+    spo2_recs = summary.get("spo2", [])
+    
+    latest_hr = hr_recs[0]["value"] if hr_recs else ""
+    latest_weight = weight_recs[0]["value"] if weight_recs else ""
+    latest_hrv = hrv_recs[0]["value"] if hrv_recs else ""
+    latest_temp = temp_recs[0]["value"] if temp_recs else ""
+    latest_spo2 = spo2_recs[0]["value"] if spo2_recs else ""
+    
+    # Sleep: calculate last night total from segments
+    from datetime import datetime as dt
+    sleep_str = "?"
+    if sleep_recs:
+        # Find segments from last night (after 8pm previous day)
+        latest_date = sleep_recs[0]["start"][:10]
+        night = [r for r in sleep_recs if r["start"].startswith(latest_date) or r["start"].startswith(
+            str(int(latest_date.split("-")[2])-1).zfill(2) if len(latest_date.split("-")[2])==2 else latest_date
+        )]
+        if night:
+            total_min = len(night) * 2  # rough estimate: ~2min per segment
+            hours = total_min // 60
+            mins = total_min % 60
+            sleep_str = f"{hours}h{mins}m" if hours > 0 else f"{mins}m"
+    
+    # Score: simple heuristic 0-100
+    score = 90
+    if latest_hrv and isinstance(latest_hrv, (int, float)) and latest_hrv < 25: score -= 15
+    if latest_hr and isinstance(latest_hr, (int, float)) and latest_hr > 65: score -= 10
+    
+    return {
+        "sleep": sleep_str,
+        "resting_hr": f"{latest_hr} bpm" if latest_hr else "?",
+        "weight": f"{latest_weight} kg" if latest_weight else "?",
+        "hrv": f"{latest_hrv} ms" if latest_hrv else "?",
+        "wrist_temp": f"{latest_temp}°C" if latest_temp else "?",
+        "spo2": f"{int(float(latest_spo2)*100)}%" if latest_spo2 else "?",
+        "score": score,
+        "date": data.get("export_date", "?"),
+    }
+
+
+# ─── 财务数据 ───
+def get_finance():
+    finance_paths = [
+        Path.home() / "Desktop/Codexwork/CURRENT_FINANCIAL_PROFILE.md",
+        Path.home() / "Desktop/Codex Work/CURRENT_FINANCIAL_PROFILE.md",
+    ]
+    for fp in finance_paths:
+        if not fp.exists(): continue
+        text = fp.read_text()
+        result = {}
+        for line in text.split("\n"):
+            line = line.strip()
+            if "总资产" in line or "Total Assets" in line:
+                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
+                if m: result["assets"] = "¥" + m.group()
+            elif "月收入" in line or "Monthly Income" in line:
+                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
+                if m: result["income"] = "¥" + m.group()
+            elif "月支出" in line or "Monthly Expense" in line:
+                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
+                if m: result["expense"] = "¥" + m.group()
+            elif "月结余" in line or "Monthly Savings" in line:
+                m = re.search(r'[\d,]+\.?\d*', line.replace(",",""))
+                if m: result["savings"] = "¥" + m.group()
+        if result:
+            result["updated"] = datetime.fromtimestamp(fp.stat().st_mtime).strftime("%Y-%m-%d")
+            return result
+    return None
+
+
+# ─── 足迹 ───
+def get_footprint():
+    return {"countries": 6, "cities_cn": 37, "days": 3053, "date": "2026-08-04"}
+
+
 # ─── 主函数 ───
 def main():
     # 先提取对话记忆
@@ -174,6 +261,9 @@ def main():
         "obsidian": get_obsidian(),
         "codex": get_codex(),
         "dialogue": load_json(BASE / "dialogue_memory.json"),
+        "health": get_health(),
+        "finance": get_finance(),
+        "footprint": get_footprint(),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
     data_json = json.dumps(data, ensure_ascii=False)
