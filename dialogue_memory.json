@@ -2,6 +2,36 @@
   "recent": [
     {
       "role": "assistant",
+      "text": "`assets` 和 `net_worth` 值一样——正则抓反了，先抓到净资产。修：",
+      "time": "08/05 01:22",
+      "source": "tui"
+    },
+    {
+      "role": "assistant",
+      "text": "加两个财富大卡片——点数字跳详情：",
+      "time": "08/05 01:22",
+      "source": "tui"
+    },
+    {
+      "role": "assistant",
+      "text": "总览页的四个卡片里没有财富。加进去——点数字直接跳财富详情：",
+      "time": "08/05 01:21",
+      "source": "tui"
+    },
+    {
+      "role": "user",
+      "text": "在总资产跟净资产这个大的指标，如果我点这两个大指标，可以给我展示明细吗",
+      "time": "08/05 01:21",
+      "source": "tui"
+    },
+    {
+      "role": "assistant",
+      "text": "Codex 审查后修了三个致命 bug：\n\n| Bug | 症状 | 修复 |\n|---|---|---|\n| 🔴 `<script src=\"data.json\">` | JSON 当 JS 解析，页面崩溃 | 删除 |\n| 🟠 公积金只读到广州 | 丢了中山 ¥14,759 | 改为 sum 所有公积金 |\n| 🟠 月支出正则截断 | 范围值只读到下限 | 取范围上限 |\n\n刷新 `local",
+      "time": "08/05 01:20",
+      "source": "tui"
+    },
+    {
+      "role": "assistant",
       "text": "Codex 找到致命 bug 了——`<script src=\"data.json\"></script>` 让浏览器把 JSON 当 JS 解析，直接崩溃。立刻修：",
       "time": "08/05 01:20",
       "source": "tui"
@@ -149,36 +179,6 @@
       "text": "工具已装好，但需要先登录 DeepSeek 才能用：\n\n```bash\ncd ~/Desktop/claude\\ work/deepseek-vision-cli\n/usr/bin/python3 dsv.py --login 你的手机号\n```\n\n收到验证码后：\n```bash\n/usr/bin/python3 dsv.py --verify 验证码\n```\n\n登录完就能一行看图了：\n```ba",
       "time": "08/05 01:12",
       "source": "feishu"
-    },
-    {
-      "role": "user",
-      "text": "[Your active task list was preserved across context compression]\n- [>] d1. 写 dialogue_memory.py — 从对话提取关键信息 (in_progress)\n- [ ] d2. 集成到 refresh.py + data.json (pending)\n- [ ] d3. Dashboard 加「对话记忆」卡片 (",
-      "time": "08/05 01:11",
-      "source": "tui"
-    },
-    {
-      "role": "user",
-      "text": "改好了吗？打开我看一下效果，好像没有数字",
-      "time": "08/05 01:11",
-      "source": "tui"
-    },
-    {
-      "role": "assistant",
-      "text": "修好了 ✅ 根源是数据流——之前手动注入被 refresh.py 覆盖。现在改成了：\n\n```\nCURRENT_FINANCIAL_PROFILE.md（你今晚更新的数据）\n        ↓ refresh.py 自动读\n    data.json\n        ↓\n    index.html\n```\n\n以后改数字只改这一个 MD 文件，Dashboard 自动刷新。点「财富管理」现在能看到",
-      "time": "08/05 01:11",
-      "source": "tui"
-    },
-    {
-      "role": "assistant",
-      "text": "现在让 refresh.py 能读这份新文件，跑一遍出数据：",
-      "time": "08/05 01:11",
-      "source": "tui"
-    },
-    {
-      "role": "assistant",
-      "text": "数据被 `refresh.py` 覆盖了。得从源头修——把今晚的数字写进 `CURRENT_FINANCIAL_PROFILE.md`，让 refresh.py 每次自动读：",
-      "time": "08/05 01:11",
-      "source": "tui"
     }
   ],
   "extracted": [
@@ -188,5 +188,5 @@
       "time": "08/05 01:11"
     }
   ],
-  "updated": "2026-08-05T01:20:26.969914"
+  "updated": "2026-08-05T01:22:53.371796"
 }

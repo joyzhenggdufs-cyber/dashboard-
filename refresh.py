@@ -222,7 +222,8 @@ def get_finance():
         return m.group(1).strip().replace(',', '') if m else None
     
     r = {}
-    r['assets'] = ex(r'净资产.*?\*?\*?¥([\d,]+)') or ex(r'总资产\*\*.*?¥([\d,]+)') or '0'
+    r['assets'] = ex(r'总资产.*?¥([\d,]+)') or '0'
+    r['net_worth'] = ex(r'净资产.*?¥([\d,]+)') or r['assets']
     r['net_worth'] = ex(r'净资产.*?\*?\*?¥([\d,]+)') or r['assets']
     r['liabilities'] = ex(r'总负债.*?\*?\*?¥([\d,]+)') or '0'
     r['cash'] = ex(r'现金及活期.*?¥([\d,]+)') or '0'
