@@ -47,6 +47,9 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
 .conn{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:450;color:var(--quiet)}
 .conn::before{content:'';width:5px;height:5px;border-radius:50%}.conn.on::before{background:var(--green)}.conn.off::before{background:var(--red)}
 @media(max-width:768px){nav{display:none}main{margin-left:0}.stats{grid-template-columns:1fr 1fr}.grid,.detail-grid{grid-template-columns:1fr}}
+.eye-btn{position:fixed;top:20px;right:24px;background:var(--surface);border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:200;transition:color .2s}
+.eye-btn:hover{color:var(--text)}
+.blur-num{filter:blur(8px)}
 </style>
 </head>
 <body>
@@ -61,6 +64,8 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
   <div class="nav-item" onclick="showDetail('cron')">⏰ 任务</div>
   <div class="nav-item" onclick="showDetail('skills')">🧩 Skills</div>
   <div class="nav-item" onclick="showDetail('ideas')">💡 灵感</div>
+  <div class="nav-divider"></div>
+  <div id="eye" class="nav-item" onclick="toggleEye()" title="隐藏/显示金额">👁️ 隐藏金额</div>
 </nav>
 <main id="main"></main>
 <script>
@@ -75,6 +80,17 @@ function updateConns(){
 }
 
 function setActive(id){document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function toggleEye(){
+ let el=document.getElementById('eye'),blur=document.querySelectorAll('.stat .n');
+ if(el.dataset.hidden==='1'){
+  el.innerHTML='👁️ 隐藏金额';el.dataset.hidden='0';
+  blur.forEach(b=>b.classList.remove('blur-num'));
+ }else{
+  el.innerHTML='🙈 显示金额';el.dataset.hidden='1';
+  blur.forEach(b=>b.classList.add('blur-num'));
+ }
+}
 
 function showOverview(){
  setActive('nav-overview');
