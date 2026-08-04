@@ -82,7 +82,10 @@ let heroHTML=`
 <div class="hc" onclick="P('skills')"><div class="val">${D.skills.length}</div><div class="lbl">Skills</div></div>
 <div class="hc" onclick="P('health')"><div class="val">${D.health.score||'?'}</div><div class="lbl">健康分</div></div>
 </div>`;
-document.body.innerHTML += heroHTML;
+// Insert hero + sections after topbar
+let mainWrap = document.createElement('div');
+mainWrap.innerHTML = heroHTML + sections;
+document.body.insertBefore(mainWrap, document.querySelector('.panel-overlay'));
 
 let sections=`
 <div class="grid2">
