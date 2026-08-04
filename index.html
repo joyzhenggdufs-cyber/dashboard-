@@ -2,139 +2,100 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Hermes 工作台</title>
+<title>Hermes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,450;14..32,510;14..32,590&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FBF7F2;--card:#FFFBF7;--border:#E8DDD4;--accent:#C49B7C;--text:#3D322B;--muted:#8B7D74;--green:#7DA37D;--red:#C47B7B;--amber:#C49B5B;--radius:18px;font-family:-apple-system,system-ui,sans-serif}
+:root {
+  --bg:#08090a; --panel:#0f1011; --surface:#191a1b; --surface2:#232427;
+  --text:#f7f8f8; --body:#d0d6e0; --muted:#8a8f98; --quiet:#62666d;
+  --accent:#7170ff; --accent-dim:#5e6ad2; --green:#27a644; --red:#e5484d;
+  --border:rgba(255,255,255,.08); --border-sub:rgba(255,255,255,.05);
+  --radius:6px; --radius-card:12px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-size:14px;padding:20px;max-width:1100px;margin:0 auto;line-height:1.5}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:8px}
-.topbar h1{font-size:24px;font-weight:700}
-.pips{display:flex;gap:8px;flex-wrap:wrap}
-.pip{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);background:var(--card);padding:4px 8px;border-radius:12px;border:1px solid var(--border)}
-.pip .d{width:6px;height:6px;border-radius:50%}.pip .on{background:var(--green)}.pip .off{background:var(--red)}
-.hero{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
-.hc{background:var(--card);border-radius:var(--radius);padding:16px 14px;text-align:center;border:1px solid var(--border);cursor:pointer;transition:transform .12s}
-.hc:hover{transform:translateY(-2px)}.hc .val{font-size:22px;font-weight:700}.hc .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.sc{background:var(--card);border-radius:var(--radius);padding:14px 16px;border:1px solid var(--border);margin-bottom:10px}
-.sc h3{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px}
-.mi{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:12px}.mi:last-child{border:0}
-.map{display:flex;flex-wrap:wrap;gap:5px}.map-chip{font-size:10px;background:var(--card);padding:4px 7px;border-radius:5px;border:1px solid var(--border)}
-.panel-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(61,50,43,.18);z-index:99;display:none}
-.panel-overlay.show{display:block}
-.panel{position:fixed;top:0;right:0;width:440px;max-width:92vw;height:100%;background:rgba(251,247,242,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:-2px 0 30px rgba(0,0,0,.1);z-index:100;padding:28px 24px;overflow-y:auto;transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1)}
-.panel.show{transform:translateX(0)}.panel h2{font-size:20px;font-weight:600;margin-bottom:16px}
-.panel .close{position:absolute;top:14px;right:14px;width:30px;height:30px;border-radius:50%;background:var(--border);border:0;cursor:pointer;font-size:15px}
-.pi{padding:8px 0;border-bottom:1px solid var(--border);font-size:12px;display:flex;justify-content:space-between}.pi:last-child{border:0}
-.map-grid{display:flex;flex-wrap:wrap;gap:5px}
-@media(max-width:680px){.hero{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
-/* Password gate */
-#gate{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-#gate input{padding:10px 16px;border:1px solid var(--border);border-radius:12px;font-size:16px;text-align:center;outline:none;background:var(--card);width:200px}
-#gate input:focus{border-color:var(--accent)}
-#gate button{padding:8px 24px;background:var(--accent);color:#fff;border:0;border-radius:12px;cursor:pointer;font-size:14px}
-#gate .err{color:var(--red);font-size:12px;display:none}
+body{background:var(--bg);color:var(--body);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:'cv01','ss03';max-width:1280px;margin:0 auto;padding:32px 24px}
+/* Top bar */
+.bar{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;margin-bottom:28px;border-bottom:1px solid var(--border-sub)}
+.bar h1{font-size:18px;font-weight:510;color:var(--text);letter-spacing:-.2px}
+.dots{display:flex;gap:12px}
+.dot{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:450;color:var(--muted)}
+.dot::before{content:'';width:6px;height:6px;border-radius:50%}
+.dot.on::before{background:var(--green)}.dot.off::before{background:var(--red)}
+/* Stats row */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
+.stat{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:18px 20px;display:flex;flex-direction:column;gap:2px}
+.stat .n{font-size:36px;font-weight:510;color:var(--text);letter-spacing:-1px}
+.stat .l{font-size:12px;color:var(--muted);font-weight:450;text-transform:uppercase;letter-spacing:.8px}
+.stat .s{font-size:11px;color:var(--quiet);margin-top:2px}
+/* Grid */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.card{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:16px 18px}
+.card h3{font-size:10px;color:var(--muted);font-weight:510;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px}
+.item{display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--body);border-bottom:1px solid var(--border-sub)}.item:last-child{border-bottom:none}
+.item .r{font-size:11px;color:var(--quiet)}
+.item .tag{font-size:10px;font-weight:510;padding:2px 6px;border-radius:4px;background:var(--accent-dim);color:var(--text);opacity:.85}
+.item .tag.grn{background:rgba(39,166,68,.15);color:var(--green)}
+.item .tag.red{background:rgba(229,72,77,.15);color:var(--red)}
+/* Map */
+.map{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.map span{font-size:11px;color:var(--muted);background:var(--surface);padding:3px 8px;border-radius:var(--radius);border:1px solid var(--border-sub)}
+.map span em{font-style:normal;color:var(--accent)}
+/* Panel */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;display:none}.ov.s{display:block}
+.pn{position:fixed;top:0;right:0;width:420px;max-width:92vw;height:100%;background:var(--panel);border-left:1px solid var(--border);z-index:100;padding:24px;overflow-y:auto;transform:translateX(100%);transition:transform .25s cubic-bezier(.4,0,.2,1)}.pn.s{transform:translateX(0)}
+.pn h2{font-size:18px;font-weight:510;color:var(--text);margin-bottom:16px}
+.pn .close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.pi{padding:8px 0;border-bottom:1px solid var(--border-sub);font-size:13px;color:var(--body);display:flex;justify-content:space-between}.pi:last-child{border:0}
+@media(max-width:768px){.stats{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
+@media(max-width:420px){.stats{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<!-- Password Gate -->
-<div id="gate">
-  <div style="font-size:40px">🔐</div>
-  <div style="color:var(--muted);font-size:13px">Hermes 工作台</div>
-  <input type="password" id="pw" placeholder="输入密码" onkeydown="if(event.key==='Enter')unlock()">
-  <button onclick="unlock()">解锁</button>
-  <div class="err" id="err">密码错误</div>
-</div>
-
-<div class="toast" id="toast" style="position:fixed;top:16px;right:16px;background:var(--card);padding:10px 16px;border-radius:12px;border:1px solid var(--border);z-index:200;display:none;font-size:13px"></div>
-<div id="content"></div>
-<div class="panel-overlay" id="ov"></div>
-<div class="panel" id="pn"><button class="close" id="cl">✕</button><div id="pc"></div></div>
-
+<div class="ov" id="ov" onclick="cls()"></div>
+<div class="pn" id="pn"><button class="close" onclick="cls()">✕</button><div id="pc"></div></div>
 <script>
-// ── Password gate ──
-const PASSWORD = 'hermes2026';
-function unlock(){
-  if(document.getElementById('pw').value === PASSWORD){
-    document.getElementById('gate').style.display='none';
-    sessionStorage.setItem('hermes_unlocked','1');
-    load();
-  }else{
-    document.getElementById('err').style.display='block';
-  }
-}
-if(sessionStorage.getItem('hermes_unlocked')==='1'){
-  document.getElementById('gate').style.display='none';
-  load();
-}
+const D = {"updated": "2026-08-05 00:02", "reading": {"total": 15, "toread": [{"title": "GPT Live + Obsidian 口语系统", "type": "article", "rating": 0, "notes": "待读：Gloria的方案，GPT实时语音+Obsidian自动生成口语练习", "url": "", "added": "2026-07-26", "id": 1}, {"title": "麦肯锡风格视觉提示词", "type": "article", "rating": 0, "notes": "待读：15种商业隐喻库、封面信息图、白底深蓝配色，可复用于品类报告", "url": "", "added": "2026-07-26", "id": 2}, {"title": "八仙", "type": "movie", "rating": 0, "notes": "待写感想：中国神话八仙过海", "url": "", "added": "2026-07-27", "id": 3}, {"title": "人工智能 (AI)", "type": "movie", "rating": 0, "notes": "看了一半，待看完", "url": "", "added": "2026-07-27", "id": 5}], "read": [{"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}], "recent": [{"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}]}, "ideas": {"total": 8, "recent": [{"idea": "修改简历（周日）", "tag": "待办", "time": "2026-07-27 01:10", "done": false}, {"idea": "云鲸扫地机器人 — 无公开 API", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "小米智能家居 — 空调插座 token 还没拿到", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "YouTube 视频 → 思维导图 → Obsidian", "tag": "工具", "time": "2026-07-27 01:10", "done": false}, {"idea": "Codex 语音外教 — 按教材上第一节英语课", "tag": "伴读", "time": "2026-07-27 01:10", "done": false}]}, "declutter": {"total": 1, "pending": [], "done_recent": []}, "vocab": {"total": 0, "new": 0, "learning": 0, "mastered": 0}, "cron": {"total": 28, "ok": 24, "error": 4, "jobs": [{"id": "5f31f7486b44", "state": "active", "name": "每个工作日 Au9999 收盘报价", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "74b0eca9ae0d", "state": "active", "name": "天气早报", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "8d2299d2faae", "state": "active", "name": "早高峰路况", "schedule": "15 9 * * 1-5", "last_status": "ok"}, {"id": "d1c8e0194622", "state": "active", "name": "晚高峰路况", "schedule": "45 18 * * 1-5", "last_status": "ok"}, {"id": "2e21d865c7e6", "state": "active", "name": "网球预约提醒", "schedule": "0 10 * * 4", "last_status": "ok"}, {"id": "b0f368314fca", "state": "active", "name": "英语打卡提醒", "schedule": "0 20 * * *", "last_status": "error"}, {"id": "12ca6d928ebd", "state": "active", "name": "💪 健身提醒（AI判断型）", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "566eda02cdbc", "state": "active", "name": "📈 市场监控（A股/科创/纳斯达克/金价）", "schedule": "0 9-15,21-23 * * 1-5", "last_status": "ok"}, {"id": "7d7fda818943", "state": "active", "name": "🧠 每周学习报告（AI对用户的理解）", "schedule": "0 10 * * 7", "last_status": "ok"}, {"id": "533f670167e5", "state": "active", "name": "每晚多邻国打卡提醒", "schedule": "30 22 * * *", "last_status": "ok"}, {"id": "569eeec73be7", "state": "active", "name": "多邻国打卡确认+记录", "schedule": "50 23 * * *", "last_status": "ok"}, {"id": "5f9de1ad0926", "state": "active", "name": "小米集团每日收盘报价", "schedule": "10 16 * * 1-5", "last_status": "ok"}, {"id": "9192c6c37a9e", "state": "active", "name": "📱 健康数据导出提醒", "schedule": "0 10 */2 * *", "last_status": "ok"}, {"id": "13c0e433146f", "state": "active", "name": "📜 每周对话日志导出", "schedule": "0 12 * * 0", "last_status": "ok"}, {"id": "90da54cc8268", "state": "active", "name": "🗄️ 每日自动存档（对话+推送全量留底）", "schedule": "0 9 * * *", "last_status": "error"}, {"id": "fbbeecf93bc7", "state": "active", "name": "📅 明日会议预告", "schedule": "0 21 * * *", "last_status": "ok"}, {"id": "658d338b387e", "state": "active", "name": "📋 每周复盘", "schedule": "0 20 * * 7", "last_status": "ok"}, {"id": "c9db047a71d1", "state": "active", "name": "你是用户的微信生活管家。检查是否有待处理的断舍离物品需要提醒用户。", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "29495086b4dc", "state": "active", "name": "📈 股票日报转发（GPT→邮箱→微信）", "schedule": "15 16 * * 1-5", "last_status": "ok"}, {"id": "8f19316e68ef", "state": "active", "name": "🥇 负鼠金价微博 · 全自动发布", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "b9fa480c79fc", "state": "active", "name": "📚 每日生词复习", "schedule": "30 8 * * *", "last_status": "ok"}, {"id": "8cb41c5cba4f", "state": "active", "name": "🎫 美团每日自动领券", "schedule": "0 10 * * *", "last_status": "error"}, {"id": "0759c99dafa2", "state": "active", "name": "🧹 每周断舍离周报", "schedule": "30 20 * * 0", "last_status": "ok"}, {"id": "127ecb2b1002", "state": "active", "name": "🧠 每日对话沉淀 → Obsidian", "schedule": "0 23 * * *", "last_status": "ok"}, {"id": "22f814f1a842", "state": "active", "name": "📊 Obsidian 看板刷新", "schedule": "0 8 * * *", "last_status": "ok"}, {"id": "d7a6f1cb1b06", "state": "active", "name": "🔄 豆瓣 → 伴读同步", "schedule": "0 7 * * *", "last_status": "ok"}, {"id": "5f9d262d5c3a", "state": "active", "name": "健康日报推送", "schedule": "15 10 * * *", "last_status": "error"}, {"id": "c51f72ab78d6", "state": "active", "name": "🔄 Hermes 工作台数据刷新", "schedule": "0 */3 * * *", "last_status": "ok"}]}, "connections": [{"name": "DeepSeek", "icon": "🧠", "ok": false}, {"name": "豆瓣", "icon": "📖", "ok": false}, {"name": "飞书", "icon": "💬", "ok": false}, {"name": "微信", "icon": "💬", "ok": true}], "connection_map": [{"from": "训记", "to": "健身数据", "via": "JSON", "icon": "🏋️"}, {"from": "Exchange", "to": "日历/早报", "via": "icalBuddy", "icon": "💼"}, {"from": "Apple Health", "to": "健康日报", "via": "XML→JSON", "icon": "🩺"}, {"from": "豆瓣", "to": "伴读", "via": "RSS", "icon": "📖"}, {"from": "上金所", "to": "微博", "via": "auto_opossum", "icon": "🥇"}, {"from": "美团", "to": "每日领券", "via": "Skill", "icon": "🎫"}, {"from": "多邻国", "to": "打卡记录", "via": "状态文件", "icon": "🟢"}], "skills": [{"name": "agently-mail", "desc": "name: agently-mail description: 通过 agently-cli 命令行工具操作邮件：发送、回复、转发、搜索、读取、下载附件、管理收件箱。当用户需要进行任何邮件相关操作时 version: 1.0.0 Agent"}, {"name": "category-report", "desc": "name: category-report description: Buycoor CMI 品类半年报工作流 — 电商市场品类演变与产品趋势洞察报告。中英双版本。含数据爬取、分析框架、报告生成。 外部品牌数据获取渠道 已验证可行的渠道"}, {"name": "chatcut", "desc": "name: chatcut description: > AI 视频剪辑工具 — 自然语言驱动 ffmpeg 自动剪片。 GitHub: ArtCog/chatcut (CLI) + ChatCut agent-plugin (534⭐)。"}, {"name": "computer-use", "desc": "name: computer-use description: | Drive the user's desktop in the background — clicking, typing, scrolling, dragging — w"}, {"name": "dashboard-development", "desc": "name: dashboard-development description: Hermes Dashboard 开发与维护 — 暖陶风数据面板的设计、数据引擎、部署模式 category: software-development Da"}, {"name": "deepseek-provider-config", "desc": "name: deepseek-provider-config description: \"Configure DeepSeek models for Hermes, Claude Code, and other tools version:"}, {"name": "dogfood", "desc": "name: dogfood description: \"Exploratory QA of web apps: find bugs, evidence, reports.\" version: 1.0.0 platforms: [linux,"}, {"name": "gaode", "desc": "name: \"高德地图\" version: \"2.0.0\" description: \"高德地图 Web API 工具与开发指南。Use for: (1) 用附带的零依赖 CLI 直接查地理编码/POI/路线/天气/IP tags: [\"g"}, {"name": "gateway-platform-setup", "desc": "name: gateway-platform-setup description: \"Set up and troubleshoot messaging platforms (Feishu, WeChat, Yuanb version: 1"}, {"name": "hv-analysis", "desc": "name: hv-analysis description: 横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出。系统性研究产品、公司、 hv-analysis — 横纵分析法深度"}, {"name": "meituan-coupon", "desc": "name: meituan-coupon displayName: 美团红包助手 description: 【美团官方】美团红包助手，支持外卖、餐饮团购、酒店住宿、门票度假、休闲娱乐、闪购、医药等多品类优惠券/红包/神券的一键领取与历史领取"}, {"name": "neat-freak", "desc": "name: neat-freak description: > 会话结束后对项目文档和记忆进行洁癖级审查与同步。 MUST trigger when the user says: \"sync up\", \"tidy up docs\", \"up"}, {"name": "social-media-automation", "desc": "name: social-media-automation description: > Automate social media publishing (Weibo, Xiaohongshu) via Playwright with p"}, {"name": "web-automation", "desc": "name: web-automation description: > Playwright-based web automation with anti-bot bypass techniques. Use when automating"}, {"name": "weibo-auto", "desc": "name: weibo-auto description: > 微博自动发布：Playwright 持久化登录、图文发布、定时流水线。 When the user wants to auto-post to Weibo, schedule "}, {"name": "weibo-publish", "desc": "name: weibo-publish description: > 微博自动发布（Playwright + CDP 反机器人绕过）。涵盖文案+图片发布、 常见坑、session 管理。适用于任何需要通过 Playwright 自动发布微博"}, {"name": "yuanbao", "desc": "name: yuanbao description: \"Yuanbao (元宝) groups: @mention users, query info/members.\" version: 1.0.0 platforms: [linux, "}], "obsidian": [{"name": "attachments", "icon": "📁", "count": 0, "items": []}, {"name": "买房资料", "icon": "🏡", "count": 1, "items": [{"title": "关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告", "path": "买房资料/关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告.md"}]}, {"name": "会议", "icon": "📁", "count": 0, "items": []}, {"name": "伴读", "icon": "📖", "count": 7, "items": [{"title": "📋 今日复习", "path": "伴读/今日复习.md"}, {"title": "2026-07-26_Her", "path": "伴读/2026-07-26_Her.md"}, {"title": "2026-07-26_麦肯锡风格视觉提示词", "path": "伴读/2026-07-26_麦肯锡风格视觉提示词.md"}, {"title": "打卡记录", "path": "伴读/打卡记录.md"}, {"title": "2026-07-27_人工智能 (AI)", "path": "伴读/2026-07-27_人工智能 (AI).md"}, {"title": "📚 伴读记录", "path": "伴读/伴读记录.md"}, {"title": "English_for_Meetings", "path": "伴读/教材/English_for_Meetings.md"}]}, {"name": "健康", "icon": "❤️", "count": 3, "items": [{"title": "健康数据", "path": "健康/最新数据.md"}, {"title": "健康趋势", "path": "健康/健康趋势.md"}, {"title": "网球技术分析 · 正手收拍修正", "path": "健康/网球技术分析.md"}]}, {"name": "工作", "icon": "📁", "count": 1, "items": [{"title": "欢迎回来 👋", "path": "工作/README.md"}]}, {"name": "微信收藏", "icon": "💬", "count": 1, "items": [{"title": "一文快速读懂丨配售型保障性住房", "path": "微信收藏/一文快速读懂丨配售型保障性住房.md"}]}, {"name": "日记", "icon": "📓", "count": 7, "items": [{"title": "2026-07-27", "path": "日记/2026-07-27.md"}, {"title": "2026-07-28", "path": "日记/2026-07-28.md"}, {"title": "2026-08-01", "path": "日记/2026-08-01.md"}, {"title": "2026-08-02", "path": "日记/2026-08-02.md"}, {"title": "2026-08-03", "path": "日记/2026-08-03.md"}, {"title": "2026-07-15 周二", "path": "日记/2026-07-15.md"}, {"title": "2026-07-31", "path": "日记/2026-07-31.md"}]}, {"name": "看板", "icon": "📊", "count": 2, "items": [{"title": "总览", "path": "看板/总览.md"}, {"title": "💡 灵感碎片", "path": "看板/灵感碎片.md"}]}, {"name": "知识库", "icon": "📚", "count": 4, "items": [{"title": "Vibe Coding 保姆级教程", "path": "知识库/AI/Vibe Coding 保姆级教程.md"}, {"title": "Vibe Coding 思维导图", "path": "知识库/AI/Vibe Coding 思维导图.md"}, {"title": "自然堂（CHANDO）横纵分析报告", "path": "知识库/品牌研究/自然堂_横纵分析报告.md"}, {"title": "凌博士（PROF.LING）横纵分析报告", "path": "知识库/品牌研究/凌博士_横纵分析报告.md"}]}, {"name": "项目", "icon": "🚀", "count": 1, "items": [{"title": "微信助手", "path": "项目/微信助手.md"}]}], "codex": [{"name": "小红书创作", "subdirs": ["01-选题池", "05-复盘", "03-已发布", "04-素材", "02-创作中", "00-账号定位"], "file_count": 12, "recent": ["README", "首批选题池", "创作提案", "账号定位"]}, {"name": "简历求职", "subdirs": ["羽西项目", "月度报告", "年度品类报告"], "file_count": 37, "recent": []}, {"name": "视频剪辑", "subdirs": [], "file_count": 4, "recent": []}], "dialogue": {"recent": [{"role": "user", "text": "[The user attached an image but analysis failed.]\n[You can examine it with vision_analyze using image_url: /Users/mac/Library/Application Support/Hermes/composer-images/composer_2026-08-04_15-57-58-56", "time": "08/05 00:02", "source": "tui"}, {"role": "assistant", "text": "核心原因三个：\n\n**1. 设计师门槛被拉平了**\nFigma 免费、浏览器打开即用、多人实时协作。不需要学 Sketch + Zeplin 那一套，设计师、PM、开发都在同一个文件里看。好设计更容易被看见和复制。\n\n**2. 插件生态 + 代码生成**\nFigma → HTML/CSS 的插件（如 Anima、Builder.io、Figma to Code）越来越强，设计稿直接出可用代码。很多", "time": "08/05 00:00", "source": "weixin"}, {"role": "user", "text": "那Figma呢？怎么很多人用Figma做出效果非常惊艳的网页", "time": "08/04 23:59", "source": "weixin"}, {"role": "assistant", "text": "实话——今晚是功能优先，CSS 一行行补丁叠出来的。确实不好看。\n\n我能用好设计工具：\n\n| 工具 | 出什么 |\n|---|---|\n| **claude-design** | 参考 Stripe/Linear/Vercel 等级别的落地页设计 |\n| **popular-web-designs** | 54 套真实设计系统直接套用 |\n| **sketch** | 快速出 2-3 个变体让你选", "time": "08/04 23:57", "source": "tui"}, {"role": "user", "text": "我发现你做网页都是丑丑的。其实你你自己觉得网页的审美做的怎么样？你用什么做的？我看别人都是用Figma，你帮我想一下怎么说的更有审美交互啊", "time": "08/04 23:57", "source": "tui"}, {"role": "assistant", "text": "搜遍了——本地项目、Obsidian、GitHub、Dashboard 都没有「API Enhanced」。你是在哪个页面的左侧看到的？截个图发我？", "time": "08/04 23:56", "source": "tui"}, {"role": "assistant", "text": "修好了。多邻国 207 天连击是独立成就，网球笔记只留技术分析。谢谢纠正 ✌️", "time": "08/04 23:55", "source": "weixin"}, {"role": "assistant", "text": "啊对，207 天是多邻国 streak，不是网球 😅 我修正一下笔记：", "time": "08/04 23:55", "source": "weixin"}, {"role": "user", "text": "207 天，是指的是多邻国连击，你在记录我之前已经连击了好多次了", "time": "08/04 23:55", "source": "weixin"}, {"role": "user", "text": "我看到我的左侧有一个什么API Enhanced，这是什么东西啊？什么项目啊", "time": "08/04 23:53", "source": "tui"}, {"role": "assistant", "text": "快速同步——尺寸体检 + 更新文档：", "time": "08/04 23:53", "source": "tui"}, {"role": "user", "text": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want you to follow its instructions. The full skill content is loaded below.]\n\n---\nname: neat-freak\ndescription: >\n  会话结束后对项目文档", "time": "08/04 23:52", "source": "tui"}, {"role": "assistant", "text": "写好了，在 `健康/网球技术分析.md`。下次练前看一眼，专攻这两个点。207 天老玩家，修正完球技确实要大涨 🎾", "time": "08/04 23:52", "source": "weixin"}, {"role": "assistant", "text": "分析很到位，两个都是发力链的核心环节：\n\n**手滑 → 拍面不稳**：汗水导致握拍松动，击球瞬间拍面角度偏移，球就往上飘。试试吸汗带换勤一点、或者手腕戴个护腕吸汗。\n\n**右脚蹬地不够**：正手发力是从脚底传导上来的，蹬地弱 → 重心前移不足 → 力量只在手臂上。可以专门练\"蹬转发力\"的空挥，慢动作体会右脚蹬→髋转→肩带的顺序。\n\n两个修好，球质会重一个档次。要不要我把这次技术分析记到 Obsid", "time": "08/04 23:51", "source": "weixin"}, {"role": "user", "text": "今天反复观看了一下网球的视频，其实发现了我正手收拍姿势不对的原因，主要是两个原因导致的。一个是手拍手有点滑，出汗有点多，所以导致因为反作用力而往上飘。第二个是右脚蹬地的时候，蹬得不明显，所以这个发力往前发力的惯性就比较小。所以下一次如果改正这两个，有可能我的球技要大涨", "time": "08/04 23:51", "source": "weixin"}, {"role": "assistant", "text": "207 天！💪 比我的记录久多了——我从 7/25 才开始帮你记，之前半年你一直在默默刷。respect。", "time": "08/04 23:50", "source": "weixin"}, {"role": "assistant", "text": "👋 今天战绩：\n\n- 🧰 CMI 百宝箱 21 条记录 + 全部封面\n- 🎨 麦肯锡风洞察封面 3 版迭代\n- 📊 Dashboard v5 密码门 + 安全加固\n- 📈 ECharts skill + 豆包生图打通\n\n拜拜~", "time": "08/04 20:03", "source": "feishu"}, {"role": "assistant", "text": "✅ 21/21 全到位。还有链接吗？", "time": "08/04 20:03", "source": "feishu"}, {"role": "user", "text": "[IMPORTANT: Background process proc_5be5ca29b08b completed normally (exit code 0).\nCommand: export ARK_API_KEY=$(grep ARK_API_KEY ~/.hermes/.env | cut -d= -f2)\ncurl -s -X POST \"https://ark.cn-beijing.", "time": "08/04 20:02", "source": "feishu"}, {"role": "assistant", "text": "✅ 生意参谋 封面已上传。Way to AGI 要封面吗？", "time": "08/04 20:01", "source": "feishu"}, {"role": "user", "text": "[IMPORTANT: Background process proc_f70b4ea09fe4 completed normally (exit code 0).\nCommand: export ARK_API_KEY=$(grep ARK_API_KEY ~/.hermes/.env | cut -d= -f2)\ncurl -s -X POST \"https://ark.cn-beijing.", "time": "08/04 20:00", "source": "feishu"}, {"role": "assistant", "text": "✅ Way to AGI → AI 工具箱。出封面吗？", "time": "08/04 20:00", "source": "feishu"}, {"role": "user", "text": "https://waytoagi.feishu.cn/wiki/QPe5w5g7UisbEkkow8XcDmOpn8e。 Way to AGI, 知识库", "time": "08/04 20:00", "source": "feishu"}, {"role": "assistant", "text": "✅ 生意参谋 已添加。要出封面吗？", "time": "08/04 19:58", "source": "feishu"}, {"role": "user", "text": "https://sycm.taobao.com/portal/home.html。 生意参谋，生意数据，看板", "time": "08/04 19:57", "source": "feishu"}, {"role": "assistant", "text": "✅ dycharts + 封面已上传。19/19 全部到位。还有链接吗？", "time": "08/04 19:48", "source": "feishu"}, {"role": "user", "text": "[IMPORTANT: Background process proc_d10483d5e8cf completed normally (exit code 0).\nCommand: export ARK_API_KEY=$(grep ARK_API_KEY ~/.hermes/.env | cut -d= -f2)\ncurl -s -X POST \"https://ark.cn-beijing.", "time": "08/04 19:47", "source": "feishu"}, {"role": "assistant", "text": "😎 今天搞定了不少：\n\n- 🧰 CMI 百宝箱 18 条记录 + 7 版块 + 全部封面\n- 📊 Dashboard v5 密码门 + fetch 加载 + 安全加固\n- 🎨 豆包生图打通，麦肯锡/暖陶风封面\n- 📈 ECharts skill 建好，品类报告出图就绪\n\n还有什么要弄的？", "time": "08/04 19:47", "source": "feishu"}, {"role": "assistant", "text": "18/18 全部上传 ✅\n\n打开画廊视图 https://acn991zj7w9j.feishu.cn/base/P4S2b8HWJaLjBusauywcA6esnGg ——每条记录都有封面了。", "time": "08/04 19:47", "source": "feishu"}, {"role": "assistant", "text": "Noun Project 生成中。Content Hub 之前已上传。等 Noun Project 出来就是 **18/18**。", "time": "08/04 19:47", "source": "feishu"}], "extracted": [{"type": "todo", "from": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want yo", "time": "08/04 23:52"}], "updated": "2026-08-05T00:02:10.822869"}, "health": {"sleep": "36m", "resting_hr": "71.0 bpm", "weight": "63.0 kg", "hrv": "28.1847 ms", "wrist_temp": "36.4224°C", "spo2": "98%", "score": 80, "date": "2026-08-03"}, "finance": {"assets": "¥783712.70", "updated": "2026-08-03"}, "footprint": {"countries": 6, "cities_cn": 37, "days": 3053, "date": "2026-08-04"}};
+const crOk=D.cron.ok,crT=D.cron.total;
+let H='';
+H+=`<div class="bar"><h1>⚡ Hermes</h1><div class="dots">`;
+D.connections.forEach(c=>H+=`<div class="dot ${c.ok?'on':'off'}">${c.icon} ${c.name}</div>`);
+H+=`</div></div>`;
 
-// ── Main app ──
-function load(){
-fetch('data.json').then(r=>r.json()).then(D=>{
-const toast = document.getElementById('toast');
-window.T = function(msg){toast.textContent=msg;toast.style.display='block';setTimeout(()=>toast.style.display='none',2000)};
+H+=`<div class="stats">`;
+H+=`<div class="stat" onclick="op('cron')"><div class="n">${crOk}/${crT}</div><div class="l">Cron 任务</div><div class="s">${crOk>crT-2?'全部正常':(crT-crOk)+' 异常'}</div></div>`;
+H+=`<div class="stat" onclick="op('reading')"><div class="n">${D.reading.total}</div><div class="l">伴读</div><div class="s">${D.reading.toread.length} 待读</div></div>`;
+H+=`<div class="stat" onclick="op('skills')"><div class="n">${D.skills.length}</div><div class="l">Skills</div><div class="s">活跃能力</div></div>`;
+H+=`<div class="stat" onclick="op('health')"><div class="n">${D.health.score||'—'}</div><div class="l">健康分</div><div class="s">${D.health.sleep||'?'} · ${D.health.resting_hr||'?'}</div></div>`;
+H+=`</div>`;
 
-let crOk=D.cron.ok, crT=D.cron.total, crPct=Math.round(crOk/crT*100);
-let html='';
+H+=`<div class="grid">`;
+H+=`<div class="card"><h3>📖 伴读</h3>${D.reading.recent.map(i=>`<div class="item"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span><span class="tag">${i.type}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
+H+=`<div class="card"><h3>⏰ 任务</h3>${D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j=>`<div class="item"><span>${j.name||j.id}</span><span class="tag red">异常</span></div>`).join('')||'<div class="item"><span style="color:var(--green)">全部正常</span><span class="tag grn">OK</span></div>'}</div>`;
+H+=`<div class="card"><h3>💡 灵感</h3>${D.ideas.recent.map(i=>`<div class="item"><span>[${i.tag}] ${(i.idea||'').substring(0,35)}</span><span class="r">${(i.time||'').substring(0,10)}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
+H+=`<div class="card"><h3>💰 财富</h3><div class="item"><span>总资产</span><span style="color:var(--text);font-weight:510">¥${D.finance.assets}</span></div><div class="item"><span>月结余</span><span style="color:var(--green)">¥${D.finance.savings}</span></div><div class="item"><span>月收入</span><span class="r">¥${D.finance.income}</span></div></div>`;
+H+=`</div>`;
 
-html+=`<div class="topbar"><h1>⚡ Hermes 工作台</h1><div class="pips">${D.connections.map(c=>`<div class="pip">${c.icon} ${c.name}<span class="d ${c.ok?'on':'off'}"></span></div>`).join('')}</div></div>`;
+H+=`<div class="grid">`;
+H+=`<div class="card"><h3>🔗 数据连线</h3><div class="map">${D.connection_map.map(c=>`<span>${c.icon} ${c.from} <em>→</em> ${c.to}</span>`).join('')}</div></div>`;
+H+=`<div class="card"><h3>🗺️ 足迹</h3><div class="item"><span>🌍 国家</span><span>${D.footprint.countries}</span></div><div class="item"><span>🏙️ 中国城市</span><span>${D.footprint.cities_cn}</span></div><div class="item"><span>📅 历时</span><span class="r">${D.footprint.days}天</span></div></div>`;
+H+=`<div class="card"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="item" onclick="opObsidian('${f.name}')" style="cursor:pointer"><span>${f.icon} ${f.name}</span><span class="r">${f.count}篇</span></div>`).join('')}</div>`;
+H+=`<div class="card"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="item"><span>${p.name}</span><span class="r">${p.file_count}文件</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
+H+=`</div>`;
 
-html+=`<div class="hero">
-<div class="hc" onclick="P('cron')"><div class="val">${crOk}/${crT}</div><div class="lbl">任务 ${crPct}%</div></div>
-<div class="hc" onclick="P('reading')"><div class="val">${D.reading.total}</div><div class="lbl">伴读</div></div>
-<div class="hc" onclick="P('skills')"><div class="val">${D.skills.length}</div><div class="lbl">Skills</div></div>
-<div class="hc" onclick="P('health')"><div class="val">${D.health?.score||'?'}</div><div class="lbl">健康分</div></div>
-</div>`;
+H+=`<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
+document.body.innerHTML=H+document.body.innerHTML;
 
-html+=`<div class="grid2">
-<div class="sc"><h3>📖 伴读 · ${D.reading.total}条</h3>${D.reading.recent.map(i=>`<div class="mi"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
-<div class="sc"><h3>⏰ 任务</h3>${D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j=>`<div class="mi">🔴 ${j.name||j.id}</div>`).join('')||'<div class="mi" style="color:var(--green)">🟢 全部正常</div>'}</div>
-</div>`;
-
-html+=`<div class="grid2">
-<div class="sc"><h3>💡 灵感 · ${D.ideas.total}条</h3>${D.ideas.recent.map(i=>`<div class="mi"><span>[${i.tag}] ${(i.idea||'').substring(0,35)}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
-<div class="sc"><h3>🩺 健康</h3><div class="mi"><span>😴 睡眠</span><span>${D.health?.sleep||'?'}</span></div><div class="mi"><span>❤️ 静息心率</span><span>${D.health?.resting_hr||'?'}</span></div><div class="mi"><span>⚖️ 体重</span><span>${D.health?.weight||'?'}</span></div></div>
-</div>`;
-
-html+=`<div class="grid2">
-<div class="sc"><h3>💬 对话记忆</h3>${(D.dialogue?.extracted||[]).slice(0,4).map(e=>`<div class="mi"><span>${e.type==='todo'?'📌':e.type==='idea'?'💡':'🔧'} ${(e.from||'').substring(0,60)}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
-<div class="sc"><h3>🔗 数据连线</h3><div class="map-grid">${D.connection_map.map(c=>`<div class="map-chip">${c.icon} ${c.from} → ${c.to}</div>`).join('')}</div></div>
-</div>`;
-
-html+=`<div class="grid2">
-<div class="sc"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="mi" style="cursor:pointer" onclick="PO('${f.name}')"><span>${f.icon} ${f.name}</span><span style="color:var(--muted)">${f.count}篇</span></div>`).join('')}</div>
-<div class="sc"><h3>🧹 断舍离</h3>${(D.declutter?.pending||[]).map(i=>`<div class="mi"><span>📋 ${i.name||'?'}</span></div>`).join('')}${(D.declutter?.done_recent||[]).map(i=>`<div class="mi"><span>✅ ${i.name||'?'}</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
-</div>`;
-
-html+=`<div class="grid2">
-<div class="sc"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="mi"><span>${p.name}</span><span style="font-size:10px;color:var(--muted)">${p.file_count}文件</span></div>`).join('')||'<div class="mi">暂无</div>'}</div>
-<div class="sc"><h3>💰 财富管理</h3><div class="mi"><span>🏦 总资产</span><span>${D.finance?.assets||'?'}</span></div><div class="mi"><span>💵 月收入</span><span>${D.finance?.income||'?'}</span></div><div class="mi"><span>💸 月支出</span><span>${D.finance?.expense||'?'}</span></div><div class="mi"><span>📈 月结余</span><span style="color:var(--green)">${D.finance?.savings||'?'}</span></div></div>
-</div>`;
-
-html+=`<div class="sc" style="text-align:center;color:var(--muted);font-size:11px">🔄 最后同步 · ${D.updated||'?'}</div>`;
-document.getElementById('content').innerHTML = html;
-
-window.P = function(type){
+function op(type){
  let t='',items=[];
- if(type==='reading'){t='📖 伴读 · '+D.reading.total+'条';D.reading.recent.forEach(i=>items.push({l:(i.rating?'⭐'.repeat(i.rating):'📌')+' '+i.title,r:''}));}
- else if(type==='cron'){t='⏰ 任务';items=D.cron.jobs.map(j=>({l:(j.last_status==='error'?'🔴':'🟢')+' '+j.name,r:j.schedule||''}));}
- else if(type==='skills'){t='🧩 Skills';items=D.skills.map(s=>({l:s.name,r:s.desc?.substring(0,50)||''}));}
- else if(type==='health'){t='🩺 健康';items=[{l:'😴 睡眠',r:D.health?.sleep},{l:'❤️ 静息心率',r:D.health?.resting_hr},{l:'⚖️ 体重',r:D.health?.weight}];}
- document.getElementById('pc').innerHTML='<h2>'+t+'</h2>'+items.map(i=>`<div class="pi"><span>${i.l}</span><span style="font-size:10px;color:var(--muted)">${i.r||''}</span></div>`).join('');
- document.getElementById('pn').classList.add('show');document.getElementById('ov').classList.add('show');
-};
-window.PO = function(n){
- let f=D.obsidian.find(o=>o.name===n);
- if(!f)return;
- document.getElementById('pc').innerHTML='<h2>📁 '+f.icon+' '+n+'</h2>'+f.items.map(i=>`<div class="pi">${i.title.substring(0,60)}</div>`).join('');
- document.getElementById('pn').classList.add('show');document.getElementById('ov').classList.add('show');
-};
-
-document.getElementById('cl').onclick=()=>{document.getElementById('pn').classList.remove('show');document.getElementById('ov').classList.remove('show');}
-document.getElementById('ov').onclick=()=>{document.getElementById('pn').classList.remove('show');document.getElementById('ov').classList.remove('show');}
-}).catch(()=>document.getElementById('content').innerHTML='<div style="padding:40px;text-align:center;color:var(--muted)">⚠️ 无法加载数据<br><small>请确认 data.json 已部署</small></div>');
+ if(type==='cron'){t='⏰ Cron 任务';items=D.cron.jobs.map(j=>({l:(j.last_status==='error'?'🔴':'🟢')+' '+j.name,r:j.schedule||''}));}
+ else if(type==='reading'){t='📖 伴读';D.reading.recent.forEach(i=>items.push({l:(i.rating?'⭐'.repeat(i.rating):'📌')+' '+i.title,r:i.type}));}
+ else if(type==='skills'){t='🧩 Skills';items=D.skills.map(s=>({l:s.name,r:''}));}
+ else if(type==='health'){t='🩺 健康';items=[{l:'😴 睡眠',r:D.health.sleep},{l:'❤️ 静息心率',r:D.health.resting_hr},{l:'⚖️ 体重',r:D.health.weight},{l:'📅 数据',r:D.health.date}];}
+ document.getElementById('pc').innerHTML='<h2>'+t+'</h2>'+items.map(i=>`<div class="pi"><span>${i.l}</span><span class="r">${i.r||''}</span></div>`).join('');
+ document.getElementById('pn').classList.add('s');document.getElementById('ov').classList.add('s');
 }
+function opObsidian(n){let f=D.obsidian.find(o=>o.name===n);if(!f)return;document.getElementById('pc').innerHTML='<h2>📁 '+f.icon+' '+n+'</h2>'+f.items.map(i=>`<div class="pi">${i.title.substring(0,60)}</div>`).join('');document.getElementById('pn').classList.add('s');document.getElementById('ov').classList.add('s');}
+function cls(){document.getElementById('pn').classList.remove('s');document.getElementById('ov').classList.remove('s');}
 </script>
 </body>
 </html>
