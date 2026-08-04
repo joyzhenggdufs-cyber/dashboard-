@@ -170,7 +170,14 @@ function showDetail(project){
   H+=`<li><span>💳 信用卡负债</span><span style="color:var(--red)">-¥${D.finance.liabilities}</span> <span style="font-size:10px;color:var(--quiet)">浦发待还 · 10日</span></li>`;
   H+=`</ul></div>`;
 
-  H+=`<div class="card" style="margin-top:12px"><h4>📋 管理原则</h4><ul class="detail-list"><li>每月一次高质量更新，优先于每日流水</li><li>应急现金、近期目标资金、长期投资资金分离管理</li><li>先保证现金流和目标进度，再讨论投资收益</li><li>仓位管理优先于成本价</li><li>ETF 为核心配置，注意力也是资产</li></ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>🧠 核心理念</h4><ul class="detail-list">
+<li><span>🧘 注意力也是资产</span><span style="font-size:11px;color:var(--quiet)">不过度关注短期波动，把精力放在系统上</span></li>
+<li><span>📐 仓位 > 成本价</span><span style="font-size:11px;color:var(--quiet)">问占比多少，不问有没有亏</span></li>
+<li><span>🌐 ETF为底座</span><span style="font-size:11px;color:var(--quiet)">分散化、低维护、不盯盘</span></li>
+<li><span>⚙️ 系统 > 预测</span><span style="font-size:11px;color:var(--quiet)">靠配置和再平衡，不靠猜方向</span></li>
+<li><span>💧 流动性优先</span><span style="font-size:11px;color:var(--quiet)">先保现金安全，再谈投资收益</span></li>
+<li><span>🔍 别重复下注</span><span style="font-size:11px;color:var(--quiet)">同一个逻辑不押多个地方</span></li>
+</ul></div>`;
   H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>🆘 应急金缺口大——目标 ¥50,000，当前仅 ¥${D.finance.cash}</li><li>💳 浦发 ¥4,530 待还（每月10日）</li><li>📊 A股浮亏 ¥47,876，半导体套牢——等待还是止损？</li><li>📝 下次月度更新时用 MONTHLY_UPDATE_TEMPLATE.md</li></ul></div>`;
  }else if(project==='health'){
   let hh=D.health_detail||D.health;
