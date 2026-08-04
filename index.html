@@ -82,7 +82,7 @@ let heroHTML=`
 <div class="hc" onclick="P('skills')"><div class="val">${D.skills.length}</div><div class="lbl">Skills</div></div>
 <div class="hc" onclick="P('health')"><div class="val">${D.health.score||'?'}</div><div class="lbl">健康分</div></div>
 </div>`;
-document.body.innerHTML = document.body.innerHTML.replace('HERO_PLACEHOLDER',heroHTML);
+document.body.innerHTML += heroHTML;
 
 let sections=`
 <div class="grid2">
