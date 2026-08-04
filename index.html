@@ -5,319 +5,163 @@
 <title>Hermes</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,450;14..32,510;14..32,590&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#08090a; --panel:#0f1011; --surface:#191a1b; --surface2:#232427;
-  --text:#f7f8f8; --body:#d0d6e0; --muted:#8a8f98; --quiet:#62666d;
-  --accent:#7170ff; --accent-dim:#5e6ad2; --green:#27a644; --red:#e5484d;
-  --amber:#c4903b; --border:rgba(255,255,255,.08); --border-sub:rgba(255,255,255,.05);
-  --radius:6px; --radius-card:12px;
-  --nav-width:200px;
-}
+:root{--bg:#08090a;--panel:#0f1011;--surface:#191a1b;--surface2:#232427;--text:#f7f8f8;--body:#d0d6e0;--muted:#8a8f98;--quiet:#62666d;--accent:#7170ff;--accent-dim:#5e6ad2;--green:#27a644;--red:#e5484d;--amber:#c4903b;--border:rgba(255,255,255,.08);--border-sub:rgba(255,255,255,.05);--radius:6px;--radius-card:12px;--nav-width:200px}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--body);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:'cv01','ss03';display:flex;min-height:100vh}
-/* Sidebar */
-nav{width:var(--nav-width);background:var(--panel);border-right:1px solid var(--border);padding:20px 14px;flex-shrink:0;display:flex;flex-direction:column;gap:2px;position:fixed;top:0;left:0;height:100%;z-index:50;overflow-y:auto}
-nav h2{font-size:14px;font-weight:590;color:var(--text);padding:0 6px;margin-bottom:12px;letter-spacing:-.2px;display:flex;align-items:center;gap:6px}
-nav .nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius);font-size:13px;font-weight:450;color:var(--body);cursor:pointer;transition:background .1s;text-decoration:none}
+nav{width:var(--nav-width);background:var(--panel);border-right:1px solid var(--border);padding:20px 14px;flex-shrink:0;position:fixed;top:0;left:0;height:100%;z-index:50;overflow-y:auto}
+nav h2{font-size:14px;font-weight:590;color:var(--text);padding:0 6px;margin-bottom:12px;letter-spacing:-.2px}
+nav .nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius);font-size:13px;font-weight:450;color:var(--body);cursor:pointer;transition:background .1s}
 nav .nav-item:hover{background:var(--surface)}
 nav .nav-item.active{background:var(--accent-dim);color:var(--text);font-weight:510}
-nav .nav-item .icon{width:18px;text-align:center;font-size:14px}
 nav .nav-divider{height:1px;background:var(--border-sub);margin:8px 6px}
-/* Main */
 main{margin-left:var(--nav-width);flex:1;padding:28px 32px 48px;max-width:1100px}
-main h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px;letter-spacing:-.2px}
-/* Stats */
+h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px}
-.stat{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:18px 20px;cursor:pointer;transition:border-color .15s}
+.stat{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:18px 20px;cursor:pointer}
 .stat:hover{border-color:var(--border)}
 .stat .n{font-size:36px;font-weight:510;color:var(--text);letter-spacing:-1px}
 .stat .l{font-size:11px;color:var(--muted);font-weight:450;text-transform:uppercase;letter-spacing:.8px;margin-top:2px}
-.stat .s{font-size:11px;color:var(--quiet);margin-top:1px}
-/* Grid */
+.stat .s{font-size:11px;color:var(--quiet)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 .card{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:16px 18px}
-.card h3{font-size:10px;color:var(--muted);font-weight:510;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px}
-.item{display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:13px;color:var(--body);border-bottom:1px solid var(--border-sub)}.item:last-child{border-bottom:none}
-.item .r{font-size:11px;color:var(--quiet)}
-.item .tag{font-size:10px;font-weight:510;padding:2px 6px;border-radius:4px;background:var(--accent-dim);color:var(--text);opacity:.85}
-.item .tag.grn{background:rgba(39,166,68,.15);color:var(--green)}
-.item .tag.red{background:rgba(229,72,77,.15);color:var(--red)}
+.card h3,.card h4{font-size:10px;color:var(--muted);font-weight:510;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px}
+.item{display:flex;align-items:center;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid var(--border-sub)}.item:last-child{border-bottom:none}
+.r{font-size:11px;color:var(--quiet)}.tag{font-size:10px;font-weight:510;padding:2px 6px;border-radius:4px;background:var(--accent-dim);color:var(--text);opacity:.85}
+.tag.grn{background:rgba(39,166,68,.15);color:var(--green)}.tag.red{background:rgba(229,72,77,.15);color:var(--red)}
 .map{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .map span{font-size:11px;color:var(--muted);background:var(--surface);padding:3px 8px;border-radius:var(--radius);border:1px solid var(--border-sub)}
 .map span em{font-style:normal;color:var(--accent)}
-/* Detail page */
-.detail-header{display:flex;align-items:flex-start;gap:20px;margin-bottom:32px}
+.detail-header{display:flex;align-items:flex-start;gap:20px;margin-bottom:24px}
 .detail-header .icon-xl{width:48px;height:48px;background:var(--accent-dim);border-radius:var(--radius-card);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.detail-header h2{font-size:24px;font-weight:510;color:var(--text);letter-spacing:-.5px}
-.detail-header p{font-size:14px;color:var(--muted);margin-top:4px;max-width:600px}
+.detail-header h2{font-size:24px;font-weight:510;color:var(--text)}
+.detail-header p{font-size:14px;color:var(--muted);margin-top:4px}
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
 .detail-card{background:var(--panel);border:1px solid var(--border-sub);border-radius:var(--radius-card);padding:18px}
-.detail-card h4{font-size:10px;color:var(--muted);font-weight:510;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px}
 .detail-card .metric{font-size:28px;font-weight:510;color:var(--text);letter-spacing:-.5px}
 .detail-card .metric-sub{font-size:12px;color:var(--muted)}
-.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:510;padding:2px 8px;border-radius:20px;border:1px solid var(--border);color:var(--body);margin-bottom:12px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:510;padding:2px 8px;border-radius:20px;border:1px solid var(--border);color:var(--body);margin-bottom:16px}
 .badge.active{background:rgba(39,166,68,.1);border-color:rgba(39,166,68,.2);color:var(--green)}
 .badge.pending{background:rgba(196,144,59,.1);border-color:rgba(196,144,59,.2);color:var(--amber)}
-.detail-list{margin-top:12px}
-.detail-list li{font-size:13px;color:var(--body);padding:6px 0;border-bottom:1px solid var(--border-sub)}
-.detail-list li:last-child{border:0}
-/* Connections bar */
+.detail-list{margin-top:8px}.detail-list li{font-size:13px;color:var(--body);padding:6px 0;border-bottom:1px solid var(--border-sub)}.detail-list li:last-child{border:0}
 .conns{display:flex;gap:12px;margin-bottom:28px}
 .conn{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:450;color:var(--quiet)}
-.conn::before{content:'';width:5px;height:5px;border-radius:50%}
-.conn.on::before{background:var(--green)}.conn.off::before{background:var(--red)}
+.conn::before{content:'';width:5px;height:5px;border-radius:50%}.conn.on::before{background:var(--green)}.conn.off::before{background:var(--red)}
 @media(max-width:768px){nav{display:none}main{margin-left:0}.stats{grid-template-columns:1fr 1fr}.grid,.detail-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <nav>
   <h2>⚡ Hermes</h2>
-  <div class="nav-item active" onclick="showOverview()"><span class="icon">◉</span>总览</div>
+  <div class="nav-item active" id="nav-overview" onclick="showOverview()">◉ 总览</div>
   <div class="nav-divider"></div>
-  <div class="nav-item" onclick="showDetail('declutter')"><span class="icon">🧹</span>断舍离</div>
-  <div class="nav-item" onclick="showDetail('finance')"><span class="icon">💰</span>财富管理</div>
-  <div class="nav-item" onclick="showDetail('health')"><span class="icon">🩺</span>健康管理</div>
-  <div class="nav-item" onclick="showDetail('reading')"><span class="icon">📖</span>伴读</div>
-  <div class="nav-divider"></div>
-  <div class="nav-item" onclick="showDetail('cron')"><span class="icon">⏰</span>任务</div>
-  <div class="nav-item" onclick="showDetail('skills')"><span class="icon">🧩</span>Skills</div>
-  <div class="nav-item" onclick="showDetail('ideas')"><span class="icon">💡</span>灵感</div>
+  <div class="nav-item" onclick="showDetail('declutter')">🧹 断舍离</div>
+  <div class="nav-item" onclick="showDetail('finance')">💰 财富管理</div>
+  <div class="nav-item" onclick="showDetail('health')">🩺 健康管理</div>
+  <div class="nav-item" onclick="showDetail('reading')">📖 伴读</div>
+  <div class="nav-item" onclick="showDetail('cron')">⏰ 任务</div>
+  <div class="nav-item" onclick="showDetail('skills')">🧩 Skills</div>
+  <div class="nav-item" onclick="showDetail('ideas')">💡 灵感</div>
 </nav>
 <main id="main"></main>
+<script src="data.json"></script>
 <script>
-const D = {"updated": "2026-08-05 01:13", "reading": {"total": 15, "toread": [{"title": "GPT Live + Obsidian 口语系统", "type": "article", "rating": 0, "notes": "待读：Gloria的方案，GPT实时语音+Obsidian自动生成口语练习", "url": "", "added": "2026-07-26", "id": 1}, {"title": "麦肯锡风格视觉提示词", "type": "article", "rating": 0, "notes": "待读：15种商业隐喻库、封面信息图、白底深蓝配色，可复用于品类报告", "url": "", "added": "2026-07-26", "id": 2}, {"title": "八仙", "type": "movie", "rating": 0, "notes": "待写感想：中国神话八仙过海", "url": "", "added": "2026-07-27", "id": 3}, {"title": "人工智能 (AI)", "type": "movie", "rating": 0, "notes": "看了一半，待看完", "url": "", "added": "2026-07-27", "id": 5}], "read": [{"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}], "recent": [{"title": "自然光", "type": "movie", "rating": 4, "notes": "解离？境随心转，觉得可以放过了，就让自己过去了", "url": "https://movie.douban.com/subject/38535184/", "added": "", "id": 15}, {"title": "飞驰人生3", "type": "movie", "rating": 4, "notes": "很不错啊  三部都挺在线的", "url": "https://movie.douban.com/subject/37311135/", "added": "", "id": 14}, {"title": "你自成先锋", "type": "book", "rating": 4, "notes": "果敢，时刻思考反省，敢想敢做，非常充实的人生心态", "url": "https://book.douban.com/subject/36184665/", "added": "", "id": 13}, {"title": "陈鲁豫·慢谈", "type": "movie", "rating": 5, "notes": "两个灵魂在回忆过去，数不清道不明。再过一遍，还是走一样错的路，我们说到底现在的一切都在是对小时候的纠偏", "url": "https://movie.douban.com/subject/37485239/", "added": "", "id": 12}, {"title": "移动迷宫3：死亡解药", "type": "movie", "rating": 4, "notes": "等待第四部", "url": "https://movie.douban.com/subject/26004132/", "added": "", "id": 11}]}, "ideas": {"total": 8, "recent": [{"idea": "修改简历（周日）", "tag": "待办", "time": "2026-07-27 01:10", "done": false}, {"idea": "云鲸扫地机器人 — 无公开 API", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "小米智能家居 — 空调插座 token 还没拿到", "tag": "智能家居", "time": "2026-07-27 01:10", "done": false}, {"idea": "YouTube 视频 → 思维导图 → Obsidian", "tag": "工具", "time": "2026-07-27 01:10", "done": false}, {"idea": "Codex 语音外教 — 按教材上第一节英语课", "tag": "伴读", "time": "2026-07-27 01:10", "done": false}]}, "declutter": {"total": 1, "pending": [], "done_recent": []}, "vocab": {"total": 0, "new": 0, "learning": 0, "mastered": 0}, "cron": {"total": 28, "ok": 24, "error": 4, "jobs": [{"id": "5f31f7486b44", "state": "active", "name": "每个工作日 Au9999 收盘报价", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "74b0eca9ae0d", "state": "active", "name": "天气早报", "schedule": "0 9 * * *", "last_status": "ok"}, {"id": "8d2299d2faae", "state": "active", "name": "早高峰路况", "schedule": "15 9 * * 1-5", "last_status": "ok"}, {"id": "d1c8e0194622", "state": "active", "name": "晚高峰路况", "schedule": "45 18 * * 1-5", "last_status": "ok"}, {"id": "2e21d865c7e6", "state": "active", "name": "网球预约提醒", "schedule": "0 10 * * 4", "last_status": "ok"}, {"id": "b0f368314fca", "state": "active", "name": "英语打卡提醒", "schedule": "0 20 * * *", "last_status": "error"}, {"id": "12ca6d928ebd", "state": "active", "name": "💪 健身提醒（AI判断型）", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "566eda02cdbc", "state": "active", "name": "📈 市场监控（A股/科创/纳斯达克/金价）", "schedule": "0 9-15,21-23 * * 1-5", "last_status": "ok"}, {"id": "7d7fda818943", "state": "active", "name": "🧠 每周学习报告（AI对用户的理解）", "schedule": "0 10 * * 7", "last_status": "ok"}, {"id": "533f670167e5", "state": "active", "name": "每晚多邻国打卡提醒", "schedule": "30 22 * * *", "last_status": "ok"}, {"id": "569eeec73be7", "state": "active", "name": "多邻国打卡确认+记录", "schedule": "50 23 * * *", "last_status": "ok"}, {"id": "5f9de1ad0926", "state": "active", "name": "小米集团每日收盘报价", "schedule": "10 16 * * 1-5", "last_status": "ok"}, {"id": "9192c6c37a9e", "state": "active", "name": "📱 健康数据导出提醒", "schedule": "0 10 */2 * *", "last_status": "ok"}, {"id": "13c0e433146f", "state": "active", "name": "📜 每周对话日志导出", "schedule": "0 12 * * 0", "last_status": "ok"}, {"id": "90da54cc8268", "state": "active", "name": "🗄️ 每日自动存档（对话+推送全量留底）", "schedule": "0 9 * * *", "last_status": "error"}, {"id": "fbbeecf93bc7", "state": "active", "name": "📅 明日会议预告", "schedule": "0 21 * * *", "last_status": "ok"}, {"id": "658d338b387e", "state": "active", "name": "📋 每周复盘", "schedule": "0 20 * * 7", "last_status": "ok"}, {"id": "c9db047a71d1", "state": "active", "name": "你是用户的微信生活管家。检查是否有待处理的断舍离物品需要提醒用户。", "schedule": "0 19 * * *", "last_status": "ok"}, {"id": "29495086b4dc", "state": "active", "name": "📈 股票日报转发（GPT→邮箱→微信）", "schedule": "15 16 * * 1-5", "last_status": "ok"}, {"id": "8f19316e68ef", "state": "active", "name": "🥇 负鼠金价微博 · 全自动发布", "schedule": "0 16 * * 1-5", "last_status": "ok"}, {"id": "b9fa480c79fc", "state": "active", "name": "📚 每日生词复习", "schedule": "30 8 * * *", "last_status": "ok"}, {"id": "8cb41c5cba4f", "state": "active", "name": "🎫 美团每日自动领券", "schedule": "0 10 * * *", "last_status": "error"}, {"id": "0759c99dafa2", "state": "active", "name": "🧹 每周断舍离周报", "schedule": "30 20 * * 0", "last_status": "ok"}, {"id": "127ecb2b1002", "state": "active", "name": "🧠 每日对话沉淀 → Obsidian", "schedule": "0 23 * * *", "last_status": "ok"}, {"id": "22f814f1a842", "state": "active", "name": "📊 Obsidian 看板刷新", "schedule": "0 8 * * *", "last_status": "ok"}, {"id": "d7a6f1cb1b06", "state": "active", "name": "🔄 豆瓣 → 伴读同步", "schedule": "0 7 * * *", "last_status": "ok"}, {"id": "5f9d262d5c3a", "state": "active", "name": "健康日报推送", "schedule": "15 10 * * *", "last_status": "error"}, {"id": "c51f72ab78d6", "state": "active", "name": "🔄 Hermes 工作台数据刷新", "schedule": "0 */3 * * *", "last_status": "ok"}]}, "connections": [{"name": "DeepSeek", "icon": "🧠", "ok": false}, {"name": "豆瓣", "icon": "📖", "ok": false}, {"name": "飞书", "icon": "💬", "ok": false}, {"name": "微信", "icon": "💬", "ok": true}], "connection_map": [{"from": "训记", "to": "健身数据", "via": "JSON", "icon": "🏋️"}, {"from": "Exchange", "to": "日历/早报", "via": "icalBuddy", "icon": "💼"}, {"from": "Apple Health", "to": "健康日报", "via": "XML→JSON", "icon": "🩺"}, {"from": "豆瓣", "to": "伴读", "via": "RSS", "icon": "📖"}, {"from": "上金所", "to": "微博", "via": "auto_opossum", "icon": "🥇"}, {"from": "美团", "to": "每日领券", "via": "Skill", "icon": "🎫"}, {"from": "多邻国", "to": "打卡记录", "via": "状态文件", "icon": "🟢"}], "skills": [{"name": "agently-mail", "desc": "name: agently-mail description: 通过 agently-cli 命令行工具操作邮件：发送、回复、转发、搜索、读取、下载附件、管理收件箱。当用户需要进行任何邮件相关操作时 version: 1.0.0 Agent"}, {"name": "category-report", "desc": "name: category-report description: Buycoor CMI 品类半年报工作流 — 电商市场品类演变与产品趋势洞察报告。中英双版本。含数据爬取、分析框架、报告生成。 外部品牌数据获取渠道 已验证可行的渠道"}, {"name": "chatcut", "desc": "name: chatcut description: > AI 视频剪辑工具 — 自然语言驱动 ffmpeg 自动剪片。 GitHub: ArtCog/chatcut (CLI) + ChatCut agent-plugin (534⭐)。"}, {"name": "computer-use", "desc": "name: computer-use description: | Drive the user's desktop in the background — clicking, typing, scrolling, dragging — w"}, {"name": "dashboard-development", "desc": "name: dashboard-development description: Hermes Dashboard 开发与维护 — 暖陶风数据面板的设计、数据引擎、部署模式 category: software-development Da"}, {"name": "deepseek-provider-config", "desc": "name: deepseek-provider-config description: \"Configure DeepSeek models for Hermes, Claude Code, and other tools version:"}, {"name": "dogfood", "desc": "name: dogfood description: \"Exploratory QA of web apps: find bugs, evidence, reports.\" version: 1.0.0 platforms: [linux,"}, {"name": "gaode", "desc": "name: \"高德地图\" version: \"2.0.0\" description: \"高德地图 Web API 工具与开发指南。Use for: (1) 用附带的零依赖 CLI 直接查地理编码/POI/路线/天气/IP tags: [\"g"}, {"name": "gateway-platform-setup", "desc": "name: gateway-platform-setup description: \"Set up and troubleshoot messaging platforms (Feishu, WeChat, Yuanb version: 1"}, {"name": "hv-analysis", "desc": "name: hv-analysis description: 横纵分析法（Horizontal-Vertical Analysis）深度研究Skill。由数字生命卡兹克提出。系统性研究产品、公司、 hv-analysis — 横纵分析法深度"}, {"name": "meituan-coupon", "desc": "name: meituan-coupon displayName: 美团红包助手 description: 【美团官方】美团红包助手，支持外卖、餐饮团购、酒店住宿、门票度假、休闲娱乐、闪购、医药等多品类优惠券/红包/神券的一键领取与历史领取"}, {"name": "neat-freak", "desc": "name: neat-freak description: > 会话结束后对项目文档和记忆进行洁癖级审查与同步。 MUST trigger when the user says: \"sync up\", \"tidy up docs\", \"up"}, {"name": "social-media-automation", "desc": "name: social-media-automation description: > Automate social media publishing (Weibo, Xiaohongshu) via Playwright with p"}, {"name": "web-automation", "desc": "name: web-automation description: > Playwright-based web automation with anti-bot bypass techniques. Use when automating"}, {"name": "weibo-auto", "desc": "name: weibo-auto description: > 微博自动发布：Playwright 持久化登录、图文发布、定时流水线。 When the user wants to auto-post to Weibo, schedule "}, {"name": "weibo-publish", "desc": "name: weibo-publish description: > 微博自动发布（Playwright + CDP 反机器人绕过）。涵盖文案+图片发布、 常见坑、session 管理。适用于任何需要通过 Playwright 自动发布微博"}, {"name": "yuanbao", "desc": "name: yuanbao description: \"Yuanbao (元宝) groups: @mention users, query info/members.\" version: 1.0.0 platforms: [linux, "}], "obsidian": [{"name": "attachments", "icon": "📁", "count": 0, "items": []}, {"name": "买房资料", "icon": "🏡", "count": 1, "items": [{"title": "关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告", "path": "买房资料/关于开展萝岗和苑新推配售型保障性住房申购意向预登记的通告.md"}]}, {"name": "会议", "icon": "📁", "count": 0, "items": []}, {"name": "伴读", "icon": "📖", "count": 7, "items": [{"title": "📋 今日复习", "path": "伴读/今日复习.md"}, {"title": "2026-07-26_Her", "path": "伴读/2026-07-26_Her.md"}, {"title": "2026-07-26_麦肯锡风格视觉提示词", "path": "伴读/2026-07-26_麦肯锡风格视觉提示词.md"}, {"title": "打卡记录", "path": "伴读/打卡记录.md"}, {"title": "2026-07-27_人工智能 (AI)", "path": "伴读/2026-07-27_人工智能 (AI).md"}, {"title": "📚 伴读记录", "path": "伴读/伴读记录.md"}, {"title": "English_for_Meetings", "path": "伴读/教材/English_for_Meetings.md"}]}, {"name": "健康", "icon": "❤️", "count": 3, "items": [{"title": "健康数据", "path": "健康/最新数据.md"}, {"title": "健康趋势", "path": "健康/健康趋势.md"}, {"title": "网球技术分析 · 正手收拍修正", "path": "健康/网球技术分析.md"}]}, {"name": "工作", "icon": "📁", "count": 1, "items": [{"title": "欢迎回来 👋", "path": "工作/README.md"}]}, {"name": "微信收藏", "icon": "💬", "count": 1, "items": [{"title": "一文快速读懂丨配售型保障性住房", "path": "微信收藏/一文快速读懂丨配售型保障性住房.md"}]}, {"name": "日记", "icon": "📓", "count": 7, "items": [{"title": "2026-07-27", "path": "日记/2026-07-27.md"}, {"title": "2026-07-28", "path": "日记/2026-07-28.md"}, {"title": "2026-08-01", "path": "日记/2026-08-01.md"}, {"title": "2026-08-02", "path": "日记/2026-08-02.md"}, {"title": "2026-08-03", "path": "日记/2026-08-03.md"}, {"title": "2026-07-15 周二", "path": "日记/2026-07-15.md"}, {"title": "2026-07-31", "path": "日记/2026-07-31.md"}]}, {"name": "看板", "icon": "📊", "count": 2, "items": [{"title": "总览", "path": "看板/总览.md"}, {"title": "💡 灵感碎片", "path": "看板/灵感碎片.md"}]}, {"name": "知识库", "icon": "📚", "count": 4, "items": [{"title": "Vibe Coding 保姆级教程", "path": "知识库/AI/Vibe Coding 保姆级教程.md"}, {"title": "Vibe Coding 思维导图", "path": "知识库/AI/Vibe Coding 思维导图.md"}, {"title": "自然堂（CHANDO）横纵分析报告", "path": "知识库/品牌研究/自然堂_横纵分析报告.md"}, {"title": "凌博士（PROF.LING）横纵分析报告", "path": "知识库/品牌研究/凌博士_横纵分析报告.md"}]}, {"name": "项目", "icon": "🚀", "count": 1, "items": [{"title": "微信助手", "path": "项目/微信助手.md"}]}], "codex": [{"name": "小红书创作", "subdirs": ["01-选题池", "05-复盘", "03-已发布", "04-素材", "02-创作中", "00-账号定位"], "file_count": 12, "recent": ["README", "首批选题池", "创作提案", "账号定位"]}, {"name": "简历求职", "subdirs": ["羽西项目", "月度报告", "年度品类报告"], "file_count": 37, "recent": []}, {"name": "视频剪辑", "subdirs": [], "file_count": 4, "recent": []}], "dialogue": {"recent": [{"role": "assistant", "text": "问题在这——`get_finance()` 只读了 4 个字段。重写让它读完整数据：", "time": "08/05 01:13", "source": "tui"}, {"role": "assistant", "text": "数据又被 refresh.py 清空了。从根上修——改写 refresh.py 让它自己读 MD：", "time": "08/05 01:12", "source": "tui"}, {"role": "assistant", "text": "字段名不匹配。模板用 `investable`，数据里是 `invest_total`。对齐：", "time": "08/05 01:12", "source": "tui"}, {"role": "assistant", "text": "工具已装好，但需要先登录 DeepSeek 才能用：
+// data.json is loaded as window.D
+fetch('data.json').then(r=>r.json()).then(D=>{window.D=D;showOverview()});
 
-```bash
-cd ~/Desktop/claude\ work/deepseek-vision-cli
-/usr/bin/python3 dsv.py --login 你的手机号
-```
-
-收到验证码后：
-```bash
-/usr/bin/python3 dsv.py --verify 验证码
-```
-
-登录完就能一行看图了：
-```ba", "time": "08/05 01:12", "source": "feishu"}, {"role": "user", "text": "[Your active task list was preserved across context compression]
-- [>] d1. 写 dialogue_memory.py — 从对话提取关键信息 (in_progress)
-- [ ] d2. 集成到 refresh.py + data.json (pending)
-- [ ] d3. Dashboard 加「对话记忆」卡片 (", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "改好了吗？打开我看一下效果，好像没有数字", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "修好了 ✅ 根源是数据流——之前手动注入被 refresh.py 覆盖。现在改成了：
-
-```
-CURRENT_FINANCIAL_PROFILE.md（你今晚更新的数据）
-        ↓ refresh.py 自动读
-    data.json
-        ↓
-    index.html
-```
-
-以后改数字只改这一个 MD 文件，Dashboard 自动刷新。点「财富管理」现在能看到", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "现在让 refresh.py 能读这份新文件，跑一遍出数据：", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "数据被 `refresh.py` 覆盖了。得从源头修——把今晚的数字写进 `CURRENT_FINANCIAL_PROFILE.md`，让 refresh.py 每次自动读：", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "你HTML是不是还没写完啊？我没有看到财务的数据", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "现在财富管理有了自己的项目文档：
-
-```
-hermes-workbench/
-├── index.html          ← Dashboard
-├── 财富管理.md          ← Codex框架（三表体系+四层资产+投资原则）
-└── 财富快照.md          ← 当前财务数据
-```
-
-点财富页底部「📄 完整框架文档」打开的就是本地副本了，不依赖 Codexwork。今", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "对——直接作为财富管理的项目文档。复制到 Dashboard 项目里，不依赖 Codexwork 路径：", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "Codex这个发给你的这个MD文档是不是可以作为我们这个财富管理的项目MD文档", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "口径修正 ✅ 财富页现在区分开了：
-
-```
-🎯 投资目标（新）
-├── 投资资产 ¥480,166 / ¥1,000,000
-├── 进度 48%
-└── 差 ¥519,834
-
-💰 总净资产 ¥965,612（含公积金+养老+寿险）
-```
-
-吸引力法则的话——A 股回血 ¥47,876 + 每个月存 ¥13,498，追 ¥519,834 的缺口。48% 了，不是从零开始。", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "对——你现在总资产 ¥970K，离 ¥1M 只差 ¥30K，那不是目标。真正要追的是**纯投资资产**突破 ¥1M。
-
-当前：
-
-| 维度 | 金额 | 目标 | 进度 |
-|---|---|---|---|
-| 💰 总资产 | ¥970,142 | — | — |
-| 📈 **投资资产** | ¥480,166 | **¥1,000,000** | **48%** |
-
-差 ¥519,834。更", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "我们是有目标的，我相信吸引力法则，我希望可以这个投资可以，今年看有没有机会突破到100万这个数字。是投资这个维度，而不是我全部资产突破100万，这个概念要分清楚", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "已更新 ✅ 财富页底部加了三个快捷入口——点「打开」直接跳 Codex 原始文档：
-
-```
-📄 完整框架文档
-├── 📋 Finance_Wealth_Management_Framework.md  → Codex讨论的完整框架
-├── 📊 CURRENT_FINANCIAL_PROFILE.md            → 当前快照
-└── 📝 MONTHLY_UPDATE_TEMPLATE.", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "加进去——在财富页底部放个快捷入口，点一下就能打开框架原文：", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "它这个文档，这个MD文档是不是可以写进我们这个财富管理的？项目MD啊", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "已更新 ✅ 总览页底部新增「🧠 工作哲学」卡片——你和 Codex 讨论的 6 条原则：
-
-```
-📋 STATE.md 铁律    → 不确定时先读状态
-⏱️ 改完即记          → 每次变更留痕
-📂 不重复造轮子      → 能归旧项目就归
-🧘 慢即是快          → AI 可以迟疑反思
-📝 写给未来          → 自己和 AI 都看懂
-✂️ 留痕有度        ", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "这些是你和 Codex 讨论出来的工作哲学。提炼出来加到 Dashboard：", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "Local codex里面有一些原则性的东西，是我之前花时间跟他讨论的。其实也可以把它作为一些rule guidance，把它highlight进dashboard里面", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "已更新 ✅ 财富页现在顶部是 6 条核心理念——你和 Codex 讨论过的原则：
-
-```
-🧘 注意力也是资产 — 不过度关注波动
-📐 仓位 > 成本价   — 问占比，不问亏没亏
-🌐 ETF为底座      — 分散化、不盯盘
-⚙️ 系统 > 预测     — 靠配置，不靠猜方向
-💧 流动性优先      — 先保现金，再谈收益
-🔍 别重复下注      — 同一个逻辑不押多处
-```
-
-点「财", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "提炼 6 条核心理念——简洁有力。加到财富页顶部，替代之前的列表：", "time": "08/05 01:11", "source": "tui"}, {"role": "user", "text": "还有Codex给你的一些财富框架，我觉得有一些原则是我之前跟他讨论过的。我希望可以把它提炼出来还来进Dash里面。比如说也不用过度地去关注这些数字，毕竟注意力也是有限的。对于说其实过度关注，其实对于结果也没有太大帮助等等", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "已更新 ✅ 点「财富管理」看六大指标卡片：
-
-| 指标 | 数值 | 口径 |
-|---|---|---|
-| 💰 可投资净资产 | ¥475,636 | 纯流动（FIRE 用） |
-| 🏦 总净资产 | ¥965,612 | 全含 |
-| 🆘 应急覆盖 | 1.0 个月 | 目标 ≥3 |
-| 🔥 FIRE 进度 | 17.6% | 仅用可投资资产 |
-| 💰 储蓄率 | 60% | 月存 ¥1", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "核心指标在里面了，但缺四个指标卡片。直接补完整：", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "数据进去了，HTML 模板需要重刷。直接一步到位：", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "现在加四个指标卡片到财富页面：", "time": "08/05 01:11", "source": "tui"}, {"role": "assistant", "text": "对——FIRE 只能用**可投资资产**，不能混进公积金那种取不出来的钱。口径理清：
-
-```
-可投资净资产 = 现金 + 黄金 + 基金 + A股 − 负债
-            = ¥475,636                  ← FIRE 用这个
-
-总净资产     = 可投资 + 公积金 + 养老 + 寿险
-            = ¥965,612               ", "time": "08/05 01:11", "source": "tui"}], "extracted": [{"type": "decision", "from": "我一个月支出，我大概告诉你吧，月租要3000。然后每个周六要打一次网球，一次是250块。然后每天吃饭，早餐是10块。早餐加，另外再加个咖啡，9.9。然后午饭大概", "time": "08/05 01:11"}, {"type": "todo", "from": "在结构上面，我们目前就只有一页嘛，它是一个总览页。那么在一些关键项目，我想要做在它的左侧，然后做成一个抽屉式的设计。比如说有一些关键项目，比如说断舍离，那它在左", "time": "08/05 01:11"}], "updated": "2026-08-05T01:13:08.903310"}, "health": {"sleep": "36m", "resting_hr": "71.0 bpm", "weight": "63.0 kg", "hrv": "28.1847 ms", "wrist_temp": "36.4224°C", "spo2": "98%", "score": 80, "date": "2026-08-03"}, "finance": {"assets": "965612", "net_worth": "965612", "liabilities": "4530", "cash": "8949", "gold": "66389", "funds": "116259", "stocks": "288569", "housing_fund": "232609", "insurance": "83182", "pension": "159426", "income": "22498", "expense": "8898", "monthly_expense": "8898", "savings": "13600", "savings_rate": 60, "emergency_months": 1.0, "invest_total": "480,166", "invest_target": "1,000,000", "invest_progress": 48.0, "invest_gap": "519,834", "investable": "480,166", "annual_expense": "106,776", "fire_target": "2,669,400", "fire_pct": 18.0, "updated": "2026-08-05"}, "footprint": {"countries": 6, "cities_cn": 37, "days": 3053, "date": "2026-08-04"}};
-const crOk=D.cron.ok,crT=D.cron.total;
-let currentView='overview';
-
-function setActive(id){document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function updateConns(){document.querySelectorAll('.conns').forEach(e=>e.remove());let c=document.createElement('div');c.className='conns';D.connections.forEach(x=>{c.innerHTML+=`<div class="conn ${x.ok?'on':'off'}">${x.icon} ${x.name}</div>`});document.querySelector('main').prepend(c);}
-
-function showOverview(){currentView='overview';setActive('nav-overview');
-let H='<h1>总览</h1>';
-H+=`<div class="stats">`;
-H+=`<div class="stat" onclick="showDetail('cron')"><div class="n">${crOk}/${crT}</div><div class="l">Cron 任务</div><div class="s">${crOk>crT-2?'全部正常':(crT-crOk)+' 异常'}</div></div>`;
-H+=`<div class="stat" onclick="showDetail('reading')"><div class="n">${D.reading.total}</div><div class="l">伴读</div><div class="s">${D.reading.toread.length} 待读</div></div>`;
-H+=`<div class="stat" onclick="showDetail('skills')"><div class="n">${D.skills.length}</div><div class="l">Skills</div><div class="s">活跃能力</div></div>`;
-H+=`<div class="stat" onclick="showDetail('health')"><div class="n">${D.health.score||'—'}</div><div class="l">健康分</div><div class="s">${D.health.sleep||'?'} · ${D.health.resting_hr||'?'}</div></div>`;
-H+=`</div>`;
-H+=`<div class="grid">`;
-H+=`<div class="card"><h3>📖 伴读</h3>${D.reading.recent.map(i=>`<div class="item"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span><span class="tag">${i.type}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
-H+=`<div class="card"><h3>⏰ 任务</h3>${D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j=>`<div class="item"><span>${j.name||j.id}</span><span class="tag red">异常</span></div>`).join('')||'<div class="item"><span style="color:var(--green)">全部正常</span><span class="tag grn">OK</span></div>'}</div>`;
-H+=`<div class="card"><h3>💡 灵感</h3>${D.ideas.recent.map(i=>`<div class="item"><span>[${i.tag}] ${(i.idea||'').substring(0,35)}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
-H+=`<div class="card"><h3>💰 财富</h3><div class="item"><span>总资产</span><span style="color:var(--text);font-weight:510">¥${D.finance.assets}</span></div><div class="item"><span>月结余</span><span style="color:var(--green)">¥${D.finance.savings}</span></div></div>`;
-H+=`</div>`;
-H+=`<div class="grid">`;
-H+=`<div class="card"><h3>🔗 数据连线</h3><div class="map">${D.connection_map.map(c=>`<span>${c.icon} ${c.from} <em>→</em> ${c.to}</span>`).join('')}</div></div>`;
-H+=`<div class="card"><h3>🗺️ 足迹</h3><div class="item"><span>🌍 国家</span><span>${D.footprint.countries}</span></div><div class="item"><span>🏙️ 中国城市</span><span>${D.footprint.cities_cn}</span></div><div class="item"><span>📅 历时</span><span>${D.footprint.days}天</span></div></div>`;
-H+=`<div class="card"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="item"><span>${f.icon} ${f.name}</span><span>${f.count}篇</span></div>`).join('')}</div>`;
-H+=`<div class="card"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="item"><span>${p.name}</span><span>${p.file_count}文件</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
-H+=`</div>`;
-H+=`<div class="card" style="margin-top:12px"><h3>🧠 工作哲学</h3>
-<div class="item"><span>📋 STATE.md 铁律</span><span style="font-size:11px;color:var(--quiet)">不确定时先读STATE.md再回答</span></div>
-<div class="item"><span>⏱️ 改完即记</span><span style="font-size:11px;color:var(--quiet)">每次重要更改后更新状态+时间戳</span></div>
-<div class="item"><span>📂 不重复造轮子</span><span style="font-size:11px;color:var(--quiet)">能归入旧项目就优先归入</span></div>
-<div class="item"><span>🧘 慢即是快</span><span style="font-size:11px;color:var(--quiet)">允许迟疑、反思、承认不确定——AI可以慢下来思考</span></div>
-<div class="item"><span>📝 写给未来</span><span style="font-size:11px;color:var(--quiet)">文档要让未来的自己和AI都能看懂</span></div>
-<div class="item"><span>✂️ 留痕有度</span><span style="font-size:11px;color:var(--quiet)">重要操作留痕，临时试错不必过度记录</span></div>
-</div>
-<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
-document.getElementById('main').innerHTML=H;updateConns();
+function updateConns(){
+  document.querySelectorAll('.conns').forEach(e=>e.remove());
+  let c=document.createElement('div');c.className='conns';
+  window.D.connections.forEach(x=>{c.innerHTML+=`<div class="conn ${x.ok?'on':'off'}">${x.icon} ${x.name}</div>`});
+  document.querySelector('main').prepend(c);
 }
 
-function showDetail(project){
- currentView=project;
- document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
- let navEl=document.querySelector(`.nav-item[onclick*="${project}"]`);
- if(navEl)navEl.classList.add('active');else document.querySelector('.nav-item:first-child').classList.add('active');
+function setActive(id){document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
- let H='',items=[];
- if(project==='declutter'){
-  let dd=D.declutter;
-  H+=`<div class="detail-header"><div class="icon-xl">🧹</div><div><h2>断舍离</h2><p>物品登记与处理追踪，给生活做减法</p></div></div>`;
-  H+=`<div class="badge active">活跃</div>`;
-  H+=`<div class="detail-grid">`;
-  H+=`<div class="detail-card"><h4>📊 总览</h4><div class="metric">${dd.total||0}</div><div class="metric-sub">总物品 · ${dd.pending||0} 待处理 · ${dd.done||0} 已处理</div></div>`;
-  H+=`<div class="detail-card"><h4>📂 分类</h4>`;
-  let cats = D.declutter_detail?.categories || {};
-  Object.entries(cats).forEach(([k,v]) => H+=`<div class="metric-sub">${k}: ${v}件</div>`);
-  H+=`</div></div>`;
-  H+=`<div class="card"><h4>📋 物品清单</h4><ul class="detail-list">${(D.declutter_detail?.pending_list||[]).map(i=>`<li>${i.name||'?'} <span class="tag">${i.category||''}</span></li>`).join('')||'<li style="color:var(--quiet)">全部处理完毕 🎉</li>'}</ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>✅ 最近处理</h4><ul class="detail-list">${(D.declutter_detail?.recent_done||[]).map(i=>`<li>${i.name||'?'} → ${i.method||''} <span style="font-size:11px;color:var(--quiet)">${i.date||''}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无记录</li>'}</ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>微信/飞书说「断舍离」登记待处理物品</li><li>物品拍照存 data/photos/</li><li>每周日 20:30 自动推送周报</li></ul></div>`;
- }else if(project==='finance'){
-  H+=`<div class="detail-header"><div class="icon-xl">💰</div><div><h2>财富管理 · 百万计划</h2><p>可支配净资产 ¥${D.finance.net_worth} · 储蓄率 60% · 应急覆盖 1.0 个月</p></div></div>`;
-  H+=`<div class="badge active">更新至 ${D.finance.updated}</div>`;
-  H+=`<div class="detail-grid">`;
-  H+=`<div class="detail-card"><h4>💰 可投资净资产</h4><div class="metric">¥${D.finance.investable}</div><div class="metric-sub">现金+黄金+基金+A股−负债 · FIRE口径</div></div>`;
-  H+=`<div class="detail-card"><h4>🏦 总净资产</h4><div class="metric">¥${D.finance.assets}</div><div class="metric-sub">含公积金+养老+寿险</div></div>
-  <div class="detail-card"><h4>🆘 应急覆盖</h4><div class="metric">1.0 个月</div><div class="metric-sub">现金 / 月支出 · 目标 3</div></div>
-  <div class="detail-card"><h4>🎯 投资目标</h4><div class="metric">17.6%</div><div class="metric-sub">可投资 / (年支出x25)</div></div>
-  <div class="detail-card"><h4>💰 储蓄率</h4><div class="metric">60%</div><div class="metric-sub">月存 / 月入</div></div>
-  <div class="detail-card"><h4>📊 资产配置</h4><div class="metric-sub">A股30% · 公积金25% · 养老16% · 基金12% · 寿险9% · 黄金7%</div></div></div>`;
-
-  H+=`<div class="card"><h4>📊 按流动性分层</h4><ul class="detail-list">`;
-  H+=`<li><span>💧 流动（24h可取）</span><span style="color:var(--text);font-weight:510">¥${D.finance.cash}</span> — 中信+微信+余额宝</li>`;
-  H+=`<li><span>🌊 半流动（1-7天）</span><span style="color:var(--text);font-weight:510">¥${(parseFloat(D.finance.gold.replace(/,/g,''))+parseFloat(D.finance.funds.replace(/,/g,''))+parseFloat(D.finance.stocks.replace(/,/g,''))).toLocaleString()}</span> — 黄金+基金+A股</li>`;
-  H+=`<li><span>🏔️ 受限（有条件）</span><span style="color:var(--text);font-weight:510">¥${D.finance.housing_fund}</span> — 公积金</li>`;
-  H+=`<li><span>🛡️ 保障（长期）</span><span style="color:var(--text);font-weight:510">¥${D.finance.insurance}</span> — 中意寿险·现金价值</li>`;
-  H+=`</ul></div>`;
-
-  H+=`<div class="card" style="margin-top:12px"><h4>🎯 按用途分类</h4><ul class="detail-list">`;
-  H+=`<li><span>🆘 应急金</span><span style="color:var(--red);font-weight:510">¥${D.finance.cash}</span> — 不足1个月（目标 ≥¥50,000）</li>`;
-  H+=`<li><span>📈 成长资产</span><span style="color:var(--text);font-weight:510">¥471,217</span> — 基金+A股+黄金，能承受波动</li>`;
-  H+=`<li><span>🏠 保障资产</span><span style="color:var(--text);font-weight:510">¥${(parseFloat(D.finance.housing_fund.replace(/,/g,''))+parseFloat(D.finance.insurance.replace(/,/g,''))).toLocaleString()}</span> — 公积金+寿险，不卖不动的</li>`;
-  H+=`</ul></div>`;
-
-  H+=`<div class="card" style="margin-top:12px"><h4>📋 资产明细</h4><ul class="detail-list">`;
-  H+=`<li><span>💵 中信+微信+余额宝</span><span style="color:var(--text)">¥${D.finance.cash}</span></li>`;
-  H+=`<li><span>🥇 支付宝黄金</span><span style="color:var(--text)">¥${D.finance.gold}</span> <span style="font-size:10px;color:var(--red)">亏 ¥3,730</span></li>`;
-  H+=`<li><span>📈 同花顺基金</span><span style="color:var(--text)">¥${D.finance.funds}</span> <span style="font-size:10px;color:var(--green)">赚 ¥395</span></li>`;
-  H+=`<li><span>📊 同花顺 A股</span><span style="color:var(--text)">¥${D.finance.stocks}</span> <span style="font-size:10px;color:var(--red)">亏 ¥47,876</span></li>`;
-  H+=`<li><span>🏠 公积金（广州+中山）</span><span style="color:var(--text)">¥${D.finance.housing_fund}</span></li>`;
-  H+=`<li><span>🛡️ 中意寿险（现金价值）</span><span style="color:var(--text)">¥${D.finance.insurance}</span></li>`;
-  H+=`<li><span>💳 信用卡负债</span><span style="color:var(--red)">-¥${D.finance.liabilities}</span> <span style="font-size:10px;color:var(--quiet)">浦发待还 · 10日</span></li>`;
-  H+=`</ul></div>`;
-
-  H+=`<div class="card" style="margin-top:12px"><h4>🧠 核心理念</h4><ul class="detail-list">
-<li><span>🧘 注意力也是资产</span><span style="font-size:11px;color:var(--quiet)">不过度关注短期波动，把精力放在系统上</span></li>
-<li><span>📐 仓位 > 成本价</span><span style="font-size:11px;color:var(--quiet)">问占比多少，不问有没有亏</span></li>
-<li><span>🌐 ETF为底座</span><span style="font-size:11px;color:var(--quiet)">分散化、低维护、不盯盘</span></li>
-<li><span>⚙️ 系统 > 预测</span><span style="font-size:11px;color:var(--quiet)">靠配置和再平衡，不靠猜方向</span></li>
-<li><span>💧 流动性优先</span><span style="font-size:11px;color:var(--quiet)">先保现金安全，再谈投资收益</span></li>
-<li><span>🔍 别重复下注</span><span style="font-size:11px;color:var(--quiet)">同一个逻辑不押多个地方</span></li>
-</ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>🆘 应急金缺口大——目标 ¥50,000，当前仅 ¥${D.finance.cash}</li><li>💳 浦发 ¥4,530 待还（每月10日）</li><li>📊 A股浮亏 ¥47,876，半导体套牢——等待还是止损？</li><li>📝 下次月度更新时用 MONTHLY_UPDATE_TEMPLATE.md</li></ul></div>
-  <div class="card" style="margin-top:12px"><h4>📄 完整框架文档</h4><div class="item" style="cursor:pointer" onclick="window.open('file:///Users/mac/Desktop/claude work/hermes-workbench/财富管理.md')"><span>📋 Finance_Wealth_Management_Framework.md</span><span style="color:var(--accent)">打开</span></div><div class="item" style="cursor:pointer" onclick="window.open('file:///Users/mac/Desktop/claude work/hermes-workbench/财富快照.md')"><span>📊 CURRENT_FINANCIAL_PROFILE.md</span><span style="color:var(--accent)">打开</span></div><div class="item" style="cursor:pointer" onclick="window.open('file:///Users/mac/Desktop/Codexwork/MONTHLY_UPDATE_TEMPLATE.md')"><span>📝 MONTHLY_UPDATE_TEMPLATE.md</span><span style="color:var(--accent)">打开</span></div></div>`;
- }else if(project==='health'){
-  let hh=D.health_detail||D.health;
-  let notes=D.health_detail?.notes||[];
-  H+=`<div class="detail-header"><div class="icon-xl">🩺</div><div><h2>健康管理</h2><p>最近睡眠 ${hh.sleep_hrs||hh.sleep||'?'}h · 静息心率 ${hh.resting_hr||'?'}bpm · 体重 ${hh.weight||'?'}kg</p></div></div>`;
-  H+=`<div class="badge ${(hh.score||0)>70?'active':'pending'}">健康分 ${hh.score||'?'} · 数据 ${hh.sleep_count||D.health.date||'?'}</div>`;
-  H+=`<div class="detail-grid"><div class="detail-card"><h4>😴 睡眠</h4><div class="metric">${hh.sleep_hrs||hh.sleep||'?'}h</div><div class="metric-sub">深睡 ${hh.deep_h||'?'}h · REM ${hh.rem_h||'?'}h · 核心 ${hh.core_h||'?'}h · 效率 ${hh.efficiency||'?'}%</div></div>`;
-  H+=`<div class="detail-card"><h4>❤️ 心率</h4><div class="metric">${hh.resting_hr||'?'} bpm</div><div class="metric-sub">7天范围 ${hh.hr_range||'?'}</div></div>`;
-  H+=`<div class="detail-card"><h4>⚖️ 体重</h4><div class="metric">${hh.weight||'?'} kg</div></div>`;
-  H+=`<div class="detail-card"><h4>🧠 健康笔记</h4><div class="metric-sub">${notes.length?notes.map(n=>n.substring(0,40)).join('<br>'):'暂无'}</div></div></div>`;
-  H+=`<div class="card"><h4>📋 数据管道</h4><ul class="detail-list"><li>iPhone 健康 App 手动导出 XML → AirDrop</li><li>health_parser.py 流式解析 → health_latest.json</li><li>早报自动集成睡眠摘要</li><li>Apple Watch 每日 10:00 推送健康日报到微信</li></ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>午睡控制在 20-30 分钟，下午 3 点前结束</li><li>提升数据导出频率</li><li>加入运动数据对比分析</li></ul></div>`;
- }else if(project==='reading'){
-  H+=`<div class="detail-header"><div class="icon-xl">📖</div><div><h2>伴读</h2><p>15条记录 · 豆瓣 RSS 每天 7:00 自动同步</p></div></div>`;
-  H+=`<div class="detail-grid"><div class="detail-card"><h4>📌 待读</h4><div class="metric">${D.reading.toread.length}</div></div>`;
-  H+=`<div class="detail-card"><h4>⭐ 已读</h4><div class="metric">${D.reading.read.length}</div></div></div>`;
-  H+=`<div class="card"><h4>📌 待读清单</h4><ul class="detail-list">${D.reading.toread.map(i=>`<li>${i.title} <span class="tag">${i.type}</span></li>`).join('')||'<li style="color:var(--quiet)">全部读完</li>'}</ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⭐ 最近已读</h4><ul class="detail-list">${D.reading.read.map(i=>`<li>${'⭐'.repeat(i.rating)} ${i.title} <span class="tag">${i.type}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无</li>'}</ul></div>`;
- }else if(project==='cron'){
-  H+=`<div class="detail-header"><div class="icon-xl">⏰</div><div><h2>Cron 任务</h2><p>${crOk}/${crT} 正常运行</p></div></div>`;
-  H+=`<div class="card"><h4>任务列表</h4><ul class="detail-list">${D.cron.jobs.map(j=>`<li><span style="color:${j.last_status==='error'?'var(--red)':'var(--green)'}">●</span> ${j.name||j.id} <span style="font-size:11px;color:var(--quiet)">${j.schedule||''}</span></li>`).join('')}</ul></div>`;
- }else if(project==='skills'){
-  H+=`<div class="detail-header"><div class="icon-xl">🧩</div><div><h2>Skills</h2><p>${D.skills.length} 个已安装能力</p></div></div>`;
-  H+=`<div class="card"><h4>能力清单</h4><ul class="detail-list">${D.skills.map(s=>`<li><strong>${s.name}</strong> <span style="font-size:11px;color:var(--quiet)">${(s.desc||'').substring(0,60)}</span></li>`).join('')}</ul></div>`;
- }else if(project==='ideas'){
-  H+=`<div class="detail-header"><div class="icon-xl">💡</div><div><h2>灵感碎片</h2><p>${D.ideas.total} 条待处理</p></div></div>`;
-  H+=`<div class="card"><h4>全部碎片</h4><ul class="detail-list">${D.ideas.recent.map(i=>`<li>[${i.tag}] ${i.idea||''} <span style="font-size:11px;color:var(--quiet)">${i.time||''}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无</li>'}</ul></div>`;
- }
+function showOverview(){
+ setActive('nav-overview');
+ let D=window.D,crOk=D.cron.ok,crT=D.cron.total;
+ let H='<h1>总览</h1>';
+ H+=`<div class="stats">`;
+ H+=`<div class="stat" onclick="showDetail('cron')"><div class="n">${crOk}/${crT}</div><div class="l">Cron 任务</div><div class="s">${crOk>crT-2?'全部正常':(crT-crOk)+' 异常'}</div></div>`;
+ H+=`<div class="stat" onclick="showDetail('reading')"><div class="n">${D.reading.total}</div><div class="l">伴读</div><div class="s">${D.reading.toread.length} 待读</div></div>`;
+ H+=`<div class="stat" onclick="showDetail('skills')"><div class="n">${D.skills.length}</div><div class="l">Skills</div><div class="s">活跃能力</div></div>`;
+ H+=`<div class="stat" onclick="showDetail('health')"><div class="n">${D.health.score||'?'}</div><div class="l">健康分</div><div class="s">${D.health.sleep||'?'} · ${D.health.resting_hr||'?'}</div></div>`;
+ H+=`</div>`;
+ H+=`<div class="grid">`;
+ H+=`<div class="card"><h3>📖 伴读</h3>${D.reading.recent.map(i=>`<div class="item"><span>${i.rating?'⭐'.repeat(i.rating):'📌'} ${i.title}</span><span class="tag">${i.type}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
+ H+=`<div class="card"><h3>⏰ 任务</h3>${D.cron.jobs.filter(j=>j.last_status==='error').slice(0,3).map(j=>`<div class="item"><span>${j.name||j.id}</span><span class="tag red">异常</span></div>`).join('')||'<div class="item"><span style="color:var(--green)">全部正常</span><span class="tag grn">OK</span></div>'}</div>`;
+ H+=`<div class="card"><h3>💡 灵感</h3>${D.ideas.recent.map(i=>`<div class="item"><span>[${i.tag}] ${(i.idea||'').substring(0,35)}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
+ H+=`<div class="card"><h3>💰 财富</h3><div class="item"><span>总资产</span><span style="color:var(--text);font-weight:510">¥${D.finance.assets}</span></div><div class="item"><span>投资目标</span><span style="color:var(--accent)">${D.finance.invest_progress}%</span></div><div class="item"><span>月结余</span><span style="color:var(--green)">¥${D.finance.savings}</span></div></div>`;
+ H+=`</div>`;
+ H+=`<div class="grid">`;
+ H+=`<div class="card"><h3>🔗 数据连线</h3><div class="map">${D.connection_map.map(c=>`<span>${c.icon} ${c.from} <em>→</em> ${c.to}</span>`).join('')}</div></div>`;
+ H+=`<div class="card"><h3>🗺️ 足迹</h3><div class="item"><span>🌍 国家</span><span>${D.footprint.countries}</span></div><div class="item"><span>🏙️ 中国城市</span><span>${D.footprint.cities_cn}</span></div></div>`;
+ H+=`<div class="card"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="item"><span>${f.icon} ${f.name}</span><span>${f.count}篇</span></div>`).join('')}</div>`;
+ H+=`<div class="card"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="item"><span>${p.name}</span><span>${p.file_count}文件</span></div>`).join('')||'暂无'}</div>`;
+ H+=`</div>`;
+ H+=`<div class="card" style="margin-top:12px"><h3>🧠 工作哲学</h3><div class="item"><span>📋 STATE.md 铁律</span><span style="font-size:11px;color:var(--quiet)">不确定时先读STATE.md再回答</span></div><div class="item"><span>🧘 慢即是快</span><span style="font-size:11px;color:var(--quiet)">允许迟疑、反思、承认不确定</span></div><div class="item"><span>📂 不重复造轮子</span><span style="font-size:11px;color:var(--quiet)">能归入旧项目就优先归入</span></div><div class="item"><span>✂️ 留痕有度</span><span style="font-size:11px;color:var(--quiet)">重要操作留痕，临时试错不过度记录</span></div></div>`;
+ H+=`<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
  document.getElementById('main').innerHTML=H;updateConns();
 }
 
-// Init
-let navOv=document.querySelector('.nav-item:first-child');
-navOv.id='nav-overview';
-showOverview();
-document.addEventListener('DOMContentLoaded',updateConns);
+function showDetail(project){
+ document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('active'));
+ let navEl=document.querySelector(`.nav-item[onclick*="${project}"]`);
+ if(navEl)navEl.classList.add('active');
+ let D=window.D,H='';
+
+ if(project==='declutter'){
+  let dd=D.declutter;let ddd=D.declutter_detail||{};
+  H+=`<div class="detail-header"><div class="icon-xl">🧹</div><div><h2>断舍离</h2><p>物品登记与处理追踪</p></div></div>`;
+  H+=`<div class="badge active">活跃</div>`;
+  H+=`<div class="detail-grid"><div class="detail-card"><h4>📊 总览</h4><div class="metric">${dd.total||0}</div><div class="metric-sub">总物品 · ${dd.pending||0} 待处理 · ${dd.done||0} 已处理</div></div>`;
+  H+=`<div class="detail-card"><h4>📂 分类</h4>${Object.entries(ddd.categories||{}).map(([k,v])=>`<div class="metric-sub">${k}: ${v}件</div>`).join('')||'暂无'}</div></div>`;
+  H+=`<div class="card"><h4>📋 物品清单</h4><ul class="detail-list">${(ddd.pending_list||[]).map(i=>`<li>${i.name||'?'} <span class="tag">${i.category||''}</span></li>`).join('')||'<li style="color:var(--quiet)">全部处理完毕</li>'}</ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>微信/飞书说「断舍离」登记待处理物品</li><li>每周日 20:30 自动推送周报</li></ul></div>`;
+
+ }else if(project==='finance'){
+  let f=D.finance;
+  H+=`<div class="detail-header"><div class="icon-xl">💰</div><div><h2>财富管理 · 百万计划</h2><p>可投资 ¥${f.investable||f.invest_total||'?'} · 储蓄率 ${f.savings_rate}% · 应急 ${f.emergency_months} 个月</p></div></div>`;
+  H+=`<div class="badge active">更新至 ${f.updated}</div>`;
+  H+=`<div class="detail-grid">`;
+  H+=`<div class="detail-card"><h4>💰 可投资净资产</h4><div class="metric">¥${f.investable||f.invest_total||'?'}</div><div class="metric-sub">现金+黄金+基金+A股−负债</div></div>`;
+  H+=`<div class="detail-card"><h4>🏦 总净资产</h4><div class="metric">¥${f.net_worth||f.assets||'?'}</div><div class="metric-sub">含公积金+养老+寿险</div></div>`;
+  H+=`<div class="detail-card"><h4>🆘 应急覆盖</h4><div class="metric">${f.emergency_months} 个月</div><div class="metric-sub">现金 ÷ 月支出 · 目标 ≥3</div></div>`;
+  H+=`<div class="detail-card"><h4>🎯 投资目标</h4><div class="metric">${f.invest_progress}%</div><div class="metric-sub">¥${f.investable||f.invest_total||'?'} / ¥1,000,000</div></div>`;
+  H+=`<div class="detail-card"><h4>💰 储蓄率</h4><div class="metric">${f.savings_rate}%</div><div class="metric-sub">月存 ¥${f.savings} / 月入 ¥${f.income}</div></div>`;
+  H+=`<div class="detail-card"><h4>📊 资产配置</h4><div class="metric-sub">A股 30% · 公积金 25% · 养老 16% · 基金 12% · 寿险 9% · 黄金 7% · 现金 1%</div></div>`;
+  H+=`</div>`;
+  H+=`<div class="card"><h4>🧠 核心理念</h4><ul class="detail-list"><li><span>🧘 注意力也是资产</span><span style="font-size:11px;color:var(--quiet)">不过度关注短期波动</span></li><li><span>📐 仓位 > 成本价</span><span style="font-size:11px;color:var(--quiet)">问占比多少，不问有没有亏</span></li><li><span>🌐 ETF为底座</span><span style="font-size:11px;color:var(--quiet)">分散化、低维护、不盯盘</span></li><li><span>⚙️ 系统 > 预测</span><span style="font-size:11px;color:var(--quiet)">靠配置和再平衡，不靠猜方向</span></li><li><span>💧 流动性优先</span><span style="font-size:11px;color:var(--quiet)">先保现金安全，再谈投资收益</span></li></ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>📊 按流动性分层</h4><ul class="detail-list"><li><span>💧 流动</span><span style="color:var(--text);font-weight:510">¥${f.cash}</span> — 中信+微信+余额宝</li><li><span>🌊 半流动</span><span style="color:var(--text);font-weight:510">¥${(parseInt(f.gold.replace(/,/g,''))+parseInt(f.funds.replace(/,/g,''))+parseInt(f.stocks.replace(/,/g,''))).toLocaleString()}</span> — 黄金+基金+A股</li><li><span>🏔️ 受限</span><span style="color:var(--text);font-weight:510">¥${f.housing_fund}</span> — 公积金</li><li><span>🛡️ 保障</span><span style="color:var(--text);font-weight:510">¥${f.insurance}</span> — 寿险</li></ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>📄 原始文档</h4><ul class="detail-list"><li onclick="window.open('file:///Users/mac/Desktop/claude work/hermes-workbench/财富管理.md')" style="cursor:pointer">📋 财富管理.md <span style="color:var(--accent)">打开</span></li><li onclick="window.open('file:///Users/mac/Desktop/claude work/hermes-workbench/财富快照.md')" style="cursor:pointer">📊 财富快照.md <span style="color:var(--accent)">打开</span></li></ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>🆘 应急金缺口 · 目标 ¥50,000，当前 ¥${f.cash}</li><li>💳 浦发 ¥4,530 待还（每月10日）</li><li>📊 投资目标差距 ¥${f.invest_gap}</li></ul></div>`;
+
+ }else if(project==='health'){
+  let hh=D.health_detail||D.health,notes=hh.notes||[];
+  H+=`<div class="detail-header"><div class="icon-xl">🩺</div><div><h2>健康管理</h2><p>睡眠 ${hh.sleep_hrs||hh.sleep||'?'}h · 静息心率 ${hh.resting_hr||'?'}bpm</p></div></div>`;
+  H+=`<div class="badge ${(hh.score||0)>70?'active':'pending'}">健康分 ${hh.score||'?'} · ${hh.sleep_count||hh.date||'?'}</div>`;
+  H+=`<div class="detail-grid"><div class="detail-card"><h4>😴 睡眠</h4><div class="metric">${hh.sleep_hrs||hh.sleep||'?'}h</div><div class="metric-sub">深睡 ${hh.deep_h||'?'}h · REM ${hh.rem_h||'?'}h</div></div><div class="detail-card"><h4>❤️ 心率</h4><div class="metric">${hh.resting_hr||'?'}bpm</div></div></div>`;
+  H+=`<div class="card"><h4>📋 数据管道</h4><ul class="detail-list"><li>iPhone 健康 App 手动导出 XML → AirDrop</li><li>health_parser.py → health_latest.json</li><li>早报自动集成 · Apple Watch 10:00 推送</li></ul></div>`;
+
+ }else if(project==='reading'){
+  H+=`<div class="detail-header"><div class="icon-xl">📖</div><div><h2>伴读</h2><p>${D.reading.total}条 · 豆瓣 RSS 7:00 同步</p></div></div>`;
+  H+=`<div class="detail-grid"><div class="detail-card"><h4>📌 待读</h4><div class="metric">${D.reading.toread.length}</div></div><div class="detail-card"><h4>⭐ 已读</h4><div class="metric">${D.reading.read.length}</div></div></div>`;
+  H+=`<div class="card"><h4>📌 待读</h4><ul class="detail-list">${D.reading.toread.map(i=>`<li>${i.title} <span class="tag">${i.type}</span></li>`).join('')||'<li style="color:var(--quiet)">全部读完</li>'}</ul></div>`;
+
+ }else if(project==='cron'){
+  H+=`<div class="detail-header"><div class="icon-xl">⏰</div><div><h2>Cron 任务</h2><p>${D.cron.ok}/${D.cron.total} 正常</p></div></div>`;
+  H+=`<div class="card"><h4>任务列表</h4><ul class="detail-list">${D.cron.jobs.map(j=>`<li><span style="color:${j.last_status==='error'?'var(--red)':'var(--green)'}">●</span> ${j.name||j.id} <span style="font-size:11px;color:var(--quiet)">${j.schedule||''}</span></li>`).join('')}</ul></div>`;
+
+ }else if(project==='skills'){
+  H+=`<div class="detail-header"><div class="icon-xl">🧩</div><div><h2>Skills</h2><p>${D.skills.length} 个能力</p></div></div>`;
+  H+=`<div class="card"><h4>清单</h4><ul class="detail-list">${D.skills.map(s=>`<li>${s.name} <span style="font-size:11px;color:var(--quiet)">${(s.desc||'').substring(0,50)}</span></li>`).join('')}</ul></div>`;
+
+ }else if(project==='ideas'){
+  H+=`<div class="detail-header"><div class="icon-xl">💡</div><div><h2>灵感碎片</h2><p>${D.ideas.total} 条</p></div></div>`;
+  H+=`<div class="card"><h4>全部</h4><ul class="detail-list">${D.ideas.recent.map(i=>`<li>[${i.tag}] ${i.idea||''} <span style="font-size:11px;color:var(--quiet)">${i.time||''}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无</li>'}</ul></div>`;
+ }
+ document.getElementById('main').innerHTML=H;updateConns();
+}
 </script>
 </body>
 </html>
