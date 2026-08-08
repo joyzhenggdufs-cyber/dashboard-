@@ -13,11 +13,12 @@
     },
     "黄金": {
       "current_price": null,
-      "unrealized_pnl": null,
-      "unrealized_pnl_pct": null,
+      "current_value": 76332,
+      "unrealized_pnl": 10,
+      "unrealized_pnl_pct": 0.01,
       "realized_pnl": null,
       "position_pct": null,
-      "note": "待填充"
+      "note": null
     }
   },
   "lots": [
