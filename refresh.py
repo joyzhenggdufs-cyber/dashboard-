@@ -291,6 +291,38 @@ def get_trades():
     }
 
 
+# ─── 日记 ───
+def get_diary():
+    diary_dir = VAULT / "日记"
+    if not diary_dir.exists():
+        return []
+    entries = []
+    for f in sorted(diary_dir.glob("*.md"), reverse=True):
+        if "周总结" in f.name or "复盘" in f.name:
+            continue
+        try:
+            text = f.read_text()
+            lines = text.split("\n")
+            first_section = ""
+            for line in lines[1:]:
+                if line.startswith("## "):
+                    sec = line.replace("## ", "").strip()
+                    # Skip generic sections if there might be a better one later
+                    if first_section == "":
+                        first_section = sec
+                    if sec not in ("🏃 健康", "📚 学习", "🏠 生活"):
+                        first_section = sec
+                        break
+            entries.append({
+                "date": f.stem,
+                "section": first_section or "—",
+                "path": str(f.relative_to(VAULT))
+            })
+        except Exception:
+            continue
+    return entries[:10]
+
+
 # ─── 足迹 ───
 def get_footprint():
     return {"countries": 6, "cities_cn": 37, "days": 3053, "date": "2026-08-04"}
@@ -324,6 +356,7 @@ def main():
         "health": safe_collect(get_health, "health"),
         "finance": safe_collect(get_finance, "finance"),
         "trades": safe_collect(get_trades, "trades"),
+        "diary": safe_collect(get_diary, "diary"),
         "footprint": safe_collect(get_footprint, "footprint"),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))

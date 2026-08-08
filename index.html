@@ -71,6 +71,7 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
   <div class="nav-item" onclick="showDetail('cron')">⏰ 任务</div>
   <div class="nav-item" onclick="showDetail('skills')">🧩 Skills</div>
   <div class="nav-item" onclick="showDetail('ideas')">💡 灵感</div>
+  <div class="nav-item" onclick="showDetail('diary')">📓 日记</div>
   <div class="nav-divider"></div>
   <div id="eye" class="nav-item" onclick="toggleEye()" title="隐藏/显示金额">👁️ 隐藏金额</div>
 </nav>
@@ -163,6 +164,7 @@ function showOverview(){
  H+=`<div class="card"><h3>📁 Obsidian</h3>${D.obsidian.map(f=>`<div class="item"><span>${f.icon} ${f.name}</span><span>${f.count}篇</span></div>`).join('')}</div>`;
  H+=`<div class="card"><h3>🤖 Codex</h3>${D.codex.map(p=>`<div class="item"><span>${p.name}</span><span>${p.file_count}文件</span></div>`).join('')||'暂无'}</div>`;
  H+=`</div>`;
+ H+=`<div class="card" style="margin-top:12px"><h3>📓 日记</h3>${(D.diary||[]).map(e=>`<div class="item"><span>${e.date}</span><span style="font-size:12px;color:var(--muted)">${e.section}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
  H+=`<div class="card" style="margin-top:12px"><h3>🧠 工作哲学</h3><div class="item"><span>📋 STATE.md 铁律</span><span style="font-size:11px;color:var(--quiet)">不确定时先读STATE.md再回答</span></div><div class="item"><span>🧘 慢即是快</span><span style="font-size:11px;color:var(--quiet)">允许迟疑、反思、承认不确定</span></div><div class="item"><span>📂 不重复造轮子</span><span style="font-size:11px;color:var(--quiet)">能归入旧项目就优先归入</span></div><div class="item"><span>✂️ 留痕有度</span><span style="font-size:11px;color:var(--quiet)">重要操作留痕，临时试错不过度记录</span></div></div>`;
  H+=`<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
  document.getElementById('main').innerHTML=H;updateConns();
@@ -272,6 +274,10 @@ function showDetail(project){
  }else if(project==='ideas'){
   H+=`<div class="detail-header"><div class="icon-xl">💡</div><div><h2>灵感碎片</h2><p>${D.ideas.total} 条</p></div></div>`;
   H+=`<div class="card"><h4>全部</h4><ul class="detail-list">${D.ideas.recent.map(i=>`<li>[${i.tag}] ${i.idea||''} <span style="font-size:11px;color:var(--quiet)">${i.time||''}</span></li>`).join('')||'<li style="color:var(--quiet)">暂无</li>'}</ul></div>`;
+ }else if(project==='diary'){
+  H+=`<div class="detail-header"><div class="icon-xl">📓</div><div><h2>日记</h2><p>最近 ${(D.diary||[]).length} 篇</p></div></div>`;
+  H+=`<div class="card"><h4>📅 最近日记</h4><ul class="detail-list">${(D.diary||[]).map(e=>`<li><span>${e.date}</span> <span style="color:var(--muted)">${e.section}</span> <span onclick="window.open('obsidian://open?vault=Obsidian+Vault&file=${encodeURIComponent(e.path)}')" style="font-size:11px;color:var(--accent);cursor:pointer;margin-left:8px">打开</span></li>`).join('')||'<li style="color:var(--quiet)">暂无日记</li>'}</ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 写日记</h4><ul class="detail-list"><li>跟我说「写日记」开始记录</li><li>每周六自动生成周总结</li></ul></div>`;
  }
  document.getElementById('main').innerHTML=H;updateConns();
 }
