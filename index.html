@@ -198,7 +198,54 @@ function showDetail(project){
   H+=`<div class="card"><h4>🧠 核心理念</h4><ul class="detail-list"><li><span>🧘 注意力也是资产</span><span style="font-size:11px;color:var(--quiet)">不过度关注短期波动</span></li><li><span>📐 仓位 > 成本价</span><span style="font-size:11px;color:var(--quiet)">问占比多少，不问有没有亏</span></li><li><span>🌐 ETF为底座</span><span style="font-size:11px;color:var(--quiet)">分散化、低维护、不盯盘</span></li><li><span>⚙️ 系统 > 预测</span><span style="font-size:11px;color:var(--quiet)">靠配置和再平衡，不靠猜方向</span></li><li><span>💧 流动性优先</span><span style="font-size:11px;color:var(--quiet)">先保现金安全，再谈投资收益</span></li></ul></div>`;
   H+=`<div class="card" style="margin-top:12px"><h4>📊 按流动性分层</h4><ul class="detail-list"><li><span>💧 流动</span><span style="color:var(--text);font-weight:510">¥${f.cash}</span> — 中信+微信+余额宝</li><li><span>🌊 半流动</span><span style="color:var(--text);font-weight:510">¥${(parseInt(f.gold.replace(/,/g,''))+parseInt(f.funds.replace(/,/g,''))+parseInt(f.stocks.replace(/,/g,''))).toLocaleString()}</span> — 黄金+基金+A股</li><li><span>🏔️ 受限</span><span style="color:var(--text);font-weight:510">¥${f.housing_fund}</span> — 公积金</li><li><span>🛡️ 保障</span><span style="color:var(--text);font-weight:510">¥${f.insurance}</span> — 寿险</li></ul></div>`;
   H+=`<div class="card" style="margin-top:12px"><h4>📄 原始文档</h4><ul class="detail-list"><li onclick="window.open('file:///Users/mac/Desktop/claude work/hermes-workbench/财富管理.md')" style="cursor:pointer">📋 财富管理.md <span style="color:var(--accent)">打开</span></li><li onclick="window.open('file:///Users/mac/Desktop/claude work/hermes-workbench/财富快照.md')" style="cursor:pointer">📊 财富快照.md <span style="color:var(--accent)">打开</span></li></ul></div>`;
-  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>🆘 应急金缺口 · 目标 ¥50,000，当前 ¥${f.cash}</li><li>💳 浦发 ¥4,530 待还（每月10日）</li><li>📊 投资目标差距 ¥${f.invest_gap}</li></ul></div>`;
+  H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 下一步</h4><ul class="detail-list"><li>🆘 应急金缺口 · 目标 ¥50,000，当前 ¥${f.cash}</li><li>📊 投资目标差距 ¥${f.invest_gap}</li></ul></div>`;
+
+  // ── 投资网格板块 ──
+  let tr = D.trades;
+  if(tr && tr.top_line){
+    H+=`<div style="margin-top:20px"><h3 style="font-size:14px;font-weight:510;color:var(--text);margin-bottom:12px">📊 投资网格</h3>`;
+    // Top Line
+    H+=`<div class="detail-grid">`;
+    let syms = Object.keys(tr.top_line);
+    syms.forEach(k=>{
+      let t = tr.top_line[k];
+      H+=`<div class="detail-card"><h4>${k}</h4>`;
+      if(t.current_price) H+=`<div class="metric">¥${t.current_price} <span style="font-size:12px;color:${(t.day_change_pct||0)>0?'var(--green)':'var(--red)'}">${(t.day_change_pct||0)>0?'+':''}${t.day_change_pct||0}%</span></div>`;
+      if(t.unrealized_pnl!=null) H+=`<div class="metric-sub" style="color:${t.unrealized_pnl>=0?'var(--green)':'var(--red)'}">浮盈 ¥${t.unrealized_pnl.toLocaleString()} (${t.unrealized_pnl_pct}%)</div>`;
+      if(t.realized_pnl!=null) H+=`<div class="metric-sub" style="color:${t.realized_pnl>=0?'var(--green)':'var(--red)'}">已实现 ¥${t.realized_pnl.toLocaleString()}</div>`;
+      if(t.note) H+=`<div class="metric-sub" style="color:var(--quiet)">${t.note}</div>`;
+      H+=`</div>`;
+    });
+    H+=`</div>`;
+
+    // 待卖出
+    if(tr.pending_sell && tr.pending_sell.length>0){
+      H+=`<div class="card" style="margin-top:12px"><h4>⏳ 待卖出 (${tr.pending_count})</h4>`;
+      H+=`<table style="width:100%;font-size:12px;border-collapse:collapse;color:var(--body)">`;
+      H+=`<tr style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.8px"><td style="padding:4px 8px">品种</td><td>买入价</td><td>数量</td><td>金额</td><td style="color:var(--amber)">目标价</td><td>距目标</td></tr>`;
+      tr.pending_sell.forEach(l=>{
+        let cur_p = (tr.top_line[l.symbol]||{}).current_price || l.buy_price;
+        let dist = cur_p && l.target_price ? ((l.target_price-cur_p)/cur_p*100).toFixed(2) : '?';
+        H+=`<tr style="border-top:1px solid var(--border-sub)"><td style="padding:6px 8px">${l.symbol}</td><td>¥${l.buy_price||'?'}</td><td>${l.quantity||'?'}份</td><td>¥${l.amount||'?'}</td><td style="color:var(--amber);font-weight:510">¥${l.target_price}</td><td style="color:${dist>0?'var(--amber)':'var(--green)'}">${dist!=='?'?(dist>=0?'+':'')+dist+'%':'?'}</td></tr>`;
+      });
+      H+=`</table></div>`;
+    }
+
+    // 已完成
+    if(tr.sold && tr.sold.length>0){
+      H+=`<div class="card" style="margin-top:12px"><h4>✅ 已完成 (${tr.sold.length})</h4>`;
+      H+=`<table style="width:100%;font-size:12px;border-collapse:collapse;color:var(--body)">`;
+      H+=`<tr style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.8px"><td style="padding:4px 8px">品种</td><td>买入日</td><td>买入价</td><td>卖出日</td><td>卖出价</td><td>持有天</td><td>盈亏</td></tr>`;
+      tr.sold.forEach(l=>{
+        let hold = '?';
+        if(l.buy_date && l.sell_date) hold = Math.round((new Date(l.sell_date)-new Date(l.buy_date))/(86400000));
+        let pnl = l.realized_pnl||0;
+        H+=`<tr style="border-top:1px solid var(--border-sub)"><td style="padding:6px 8px">${l.symbol||'?'}</td><td>${l.buy_date||'?'}</td><td>¥${l.buy_price}</td><td>${l.sell_date||'?'}</td><td>¥${l.sell_price}</td><td>${hold}天</td><td style="color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}¥${pnl.toLocaleString()}</td></tr>`;
+      });
+      H+=`</table></div>`;
+    }
+    H+=`</div>`;
+  }
 
  }else if(project==='health'){
   let hh=D.health_detail||D.health,notes=hh.notes||[];

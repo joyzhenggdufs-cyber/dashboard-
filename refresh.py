@@ -254,6 +254,40 @@ def get_finance():
     return r
 
 
+# ─── 投资网格交易追踪 ───
+def get_trades():
+    tp = BASE / "trades.json"
+    if not tp.exists(): return None
+    data = load_json(tp)
+    top_line = data.get("top_line", {})
+    lots = data.get("lots", [])
+    
+    # 分类
+    holding = [l for l in lots if l.get("status") == "holding"]
+    pending_sell = [l for l in lots if l.get("status") == "pending_sell"]
+    sold = [l for l in lots if l.get("status") == "sold"]
+    
+    # 总待卖出
+    total_target_amount = sum(l.get("quantity", 0) * (l.get("target_price") or 0) for l in pending_sell if l.get("quantity"))
+    
+    # Top Line 汇总
+    total_unrealized = sum(v.get("unrealized_pnl", 0) or 0 for v in top_line.values())
+    total_realized = sum(v.get("realized_pnl", 0) or 0 for v in top_line.values())
+    
+    return {
+        "updated": data.get("updated", "?"),
+        "top_line": top_line,
+        "total_unrealized": round(total_unrealized, 2),
+        "total_realized": round(total_realized, 2),
+        "holding_count": len(holding),
+        "pending_count": len(pending_sell),
+        "pending_sell": pending_sell,
+        "holding": holding,
+        "sold": sold[-10:][::-1],
+        "all_lots": lots[::-1],
+    }
+
+
 # ─── 足迹 ───
 def get_footprint():
     return {"countries": 6, "cities_cn": 37, "days": 3053, "date": "2026-08-04"}
@@ -286,6 +320,7 @@ def main():
         "dialogue": safe_collect(lambda: load_json(BASE / "dialogue_memory.json"), "dialogue"),
         "health": safe_collect(get_health, "health"),
         "finance": safe_collect(get_finance, "finance"),
+        "trades": safe_collect(get_trades, "trades"),
         "footprint": safe_collect(get_footprint, "footprint"),
     }
     (BASE / "data.json").write_text(json.dumps(data, ensure_ascii=False, indent=2))
