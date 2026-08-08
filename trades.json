@@ -12,7 +12,7 @@
       "hold_days": 363
     },
     "黄金": {
-      "current_price": null,
+      "current_price": 866.6,
       "current_value": 76332,
       "unrealized_pnl": 10,
       "unrealized_pnl_pct": 0.01,
@@ -39,7 +39,7 @@
       "sell_amount": 2990.40,
       "sell_fee": 5.00,
       "realized_pnl": -493.78,
-      "note": "部分卖出，剩余200份并入持仓池"
+      "note": "部分卖出"
     },
     {
       "lot_id": 2,
@@ -58,16 +58,16 @@
       "sell_amount": 2960.20,
       "sell_fee": 5.00,
       "realized_pnl": -167.09,
-      "note": "部分卖出，剩余300份并入持仓池"
+      "note": "部分卖出"
     },
     {
       "lot_id": 3,
       "symbol": "半导体ETF鹏华",
-      "buy_date": "2026-08-08",
+      "buy_date": null,
       "buy_price": null,
       "quantity": null,
       "amount": null,
-      "fee": 5.00,
+      "fee": null,
       "target_price": 0.780,
       "target_pct": null,
       "status": "pending_sell",
@@ -77,7 +77,26 @@
       "sell_amount": null,
       "sell_fee": null,
       "realized_pnl": null,
-      "note": "待卖出 ⚡ 目标价0.780"
+      "note": "从现有持仓池出货"
+    },
+    {
+      "lot_id": 4,
+      "symbol": "黄金",
+      "buy_date": "2026-08-08",
+      "buy_price": 866.6,
+      "quantity": 5.77,
+      "amount": 5000.00,
+      "fee": 0,
+      "target_price": 950,
+      "target_pct": 9.6,
+      "status": "holding",
+      "sell_date": null,
+      "sell_price": null,
+      "sell_quantity": null,
+      "sell_amount": null,
+      "sell_fee": null,
+      "realized_pnl": null,
+      "note": "待卖出 ⚡ 目标 ¥950/g (+9.6%)"
     }
   ]
 }

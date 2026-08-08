@@ -264,11 +264,14 @@ def get_trades():
     
     # 分类
     holding = [l for l in lots if l.get("status") == "holding"]
-    pending_sell = [l for l in lots if l.get("status") == "pending_sell"]
+    pending_sell = [l for l in lots if l.get("status") in ("pending_sell", "holding")]
     sold = [l for l in lots if l.get("status") == "sold"]
-    
+
     # 总待卖出
-    total_target_amount = sum(l.get("quantity", 0) * (l.get("target_price") or 0) for l in pending_sell if l.get("quantity"))
+    total_target_amount = sum(
+        (l.get("quantity") or 0) * (l.get("target_price") or 0)
+        for l in pending_sell if l.get("quantity") and l.get("target_price")
+    )
     
     # Top Line 汇总
     total_unrealized = sum(v.get("unrealized_pnl", 0) or 0 for v in top_line.values())

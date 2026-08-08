@@ -225,7 +225,8 @@ function showDetail(project){
       H+=`<table style="width:100%;font-size:12px;border-collapse:collapse;color:var(--body)">`;
       H+=`<tr style="color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.8px"><td style="padding:4px 8px">品种</td><td>买入价</td><td>数量</td><td>金额</td><td style="color:var(--amber)">目标价</td><td>距目标</td></tr>`;
       tr.pending_sell.forEach(l=>{
-        let cur_p = (tr.top_line[l.symbol]||{}).current_price || l.buy_price;
+        let top = tr.top_line[l.symbol] || {};
+        let cur_p = top.current_price || (top.current_value ? top.current_value / (l.quantity||1) : null) || l.buy_price;
         let dist = cur_p && l.target_price ? ((l.target_price-cur_p)/cur_p*100).toFixed(2) : '?';
         H+=`<tr style="border-top:1px solid var(--border-sub)"><td style="padding:6px 8px">${l.symbol}</td><td>¥${l.buy_price||'?'}</td><td>${l.quantity||'?'}份</td><td>¥${l.amount||'?'}</td><td style="color:var(--amber);font-weight:510">¥${l.target_price}</td><td style="color:${dist>0?'var(--amber)':'var(--green)'}">${dist!=='?'?(dist>=0?'+':'')+dist+'%':'?'}</td></tr>`;
       });
