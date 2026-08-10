@@ -144,6 +144,7 @@ function showOverview(){
  setActive('nav-overview');
  let D=window.D,crOk=D.cron.ok,crT=D.cron.total;
  let H='<h1>总览</h1>';
+ H+=`<div style="font-size:11px;color:var(--quiet);margin-bottom:20px">🔄 同步 · ${D.updated}</div>`;
  H+=`<div class="stats">`;
  H+=`<div class="stat" onclick="showDetail('cron')"><div class="n">${crOk}/${crT}</div><div class="l">Cron 任务</div><div class="s">${crOk>crT-2?'全部正常':(crT-crOk)+' 异常'}</div></div>`;
  H+=`<div class="stat" onclick="showDetail('reading')"><div class="n">${D.reading.total}</div><div class="l">伴读</div><div class="s">${D.reading.toread.length} 待读</div></div>`;
@@ -166,7 +167,6 @@ function showOverview(){
  H+=`</div>`;
  H+=`<div class="card" style="margin-top:12px"><h3>📓 日记</h3>${(D.diary||[]).map(e=>`<div class="item"><span>${e.date}</span><span style="font-size:12px;color:var(--muted)">${e.section}</span></div>`).join('')||'<div class="item"><span style="color:var(--quiet)">暂无</span></div>'}</div>`;
  H+=`<div class="card" style="margin-top:12px"><h3>🧠 工作哲学</h3><div class="item"><span>📋 STATE.md 铁律</span><span style="font-size:11px;color:var(--quiet)">不确定时先读STATE.md再回答</span></div><div class="item"><span>🧘 慢即是快</span><span style="font-size:11px;color:var(--quiet)">允许迟疑、反思、承认不确定</span></div><div class="item"><span>📂 不重复造轮子</span><span style="font-size:11px;color:var(--quiet)">能归入旧项目就优先归入</span></div><div class="item"><span>✂️ 留痕有度</span><span style="font-size:11px;color:var(--quiet)">重要操作留痕，临时试错不过度记录</span></div></div>`;
- H+=`<div style="text-align:center;margin-top:24px;font-size:11px;color:var(--quiet)">同步 · ${D.updated}</div>`;
  document.getElementById('main').innerHTML=H;updateConns();
 }
 
