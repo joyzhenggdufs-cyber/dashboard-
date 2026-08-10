@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10 09:24",
+  "updated": "2026-08-10 12:02",
   "reading": {
     "total": 16,
     "toread": [
@@ -753,11 +753,15 @@
     {
       "name": "项目",
       "icon": "🚀",
-      "count": 1,
+      "count": 2,
       "items": [
         {
           "title": "微信助手",
           "path": "项目/微信助手.md"
+        },
+        {
+          "title": "AI 使用心得 · 羽洲",
+          "path": "项目/AI使用心得.md"
         }
       ]
     }
@@ -800,6 +804,126 @@
   ],
   "dialogue": {
     "recent": [
+      {
+        "role": "assistant",
+        "text": "✅ 已存到 Obsidian「AI使用心得」。Obsidian 刷新就能看到。",
+        "time": "08/10 11:20",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "这三点总结得挺好的，每一条都是踩过坑才能悟出来的：\n\n1. **信息不对称是 AI 产出差的最大瓶颈**——你说\"给我做个报表\"，AI 不知道你有哪些字段、什么格式。反问一轮，产出质量翻倍。\n2. **AI 生图提示词本身就是一门语言**——自然语言→Midjourney/豆包→专业视觉词汇，需要 AI 做中间翻译层。\n3. **第三方方案 80% 场景够用**——今天 dsv 就是例子。不是你用",
+        "time": "08/10 11:18",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "我这两天 在思考我使用AI有什么心得。我总结了3点，第一个点，让AI反问我，来获得信息对称。第二个点，用AI解决AI的专业需求沟通，比如AI生图提示词。第三个点，在git上找成熟的现成的解决方案，不重复造轮子",
+        "time": "08/10 11:18",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "✅ L'Oréal GPT → AI 工具箱。27/27。",
+        "time": "08/10 11:12",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "https://gpt.loreal.net/ Loreal GPT内部AI问答工具",
+        "time": "08/10 11:11",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "✅ 已推送。刷新看板——长按并拖拽左侧导航项即可重排顺序，自动记住到 localStorage，下次打开不变。",
+        "time": "08/10 11:10",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "我指的 财富管理，断舍利，这种项目，我要自主拖动",
+        "time": "08/10 11:09",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "已加「🔢 排序」字段。在画廊视图设置里 → 按「🔢 排序」升序排列，然后你改数字就能拖顺序了。要我给现有的 26 条记录都标上初始序号吗？",
+        "time": "08/10 11:08",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "这是需要飞书多维表格的功能——但飞书画廊视图的卡片顺序是按记录创建时间排的，不支持手动拖拽排序。\n\n**改法：加一个「排序」字段，你调数字就调顺序。**",
+        "time": "08/10 11:07",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "左侧栏的项目，可以允许我自主拖动顺序么",
+        "time": "08/10 11:07",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "✅ 已推送。刷新看板，「🔄 同步 · 时间」现在挂在标题正下方。",
+        "time": "08/10 11:07",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "你要把hermes看板的 更新时间的标注挂在顶部显眼处，不要放在底部",
+        "time": "08/10 11:06",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "✅ One Intelligence → 行业智库。26/26。",
+        "time": "08/10 10:50",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "https://oneintelligence.loreal.com/app/home/view/doc/2026-june-whats-hot-usa?signedOut=yes#p=0 One intelligence内部行业数据库",
+        "time": "08/10 10:49",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "已标记 ✅ 广合科技 + 儒意电影列入黑名单。以后再看到这种开盘竞价骗炮，直接避雷。",
+        "time": "08/10 10:43",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "标记一下 广合科技和儒意电影，今天都如此操作",
+        "time": "08/10 10:43",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "**不是。** 反而是机构做不出来的事。\n\n| 谁做的 | 特征 |\n|---|---|\n| 🏦 **公募/险资** | ❌ 合规限制，大单需报备，不可能玩 |\n| 🦈 **游资** | ✅ 主力玩家——多账户分散、小盘股、快进快出 |\n| 🏢 **小私募** | ✅ 部分野路子会做，但体量不大 |\n| 🐲 **老庄股** | ✅ 长期控盘套路的标配动作 |\n\n**机构（公募）的痛点**：单票持仓",
+        "time": "08/10 10:42",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "对。能玩这种手法的，要么是游资割韭菜的惯犯票，要么是基本面撑不住硬拉出货。不管哪种，都是在告诉你：**这个票不值得信任。**",
+        "time": "08/10 10:41",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "典型的**集合竞价诱多出货**，A股常见手法。\n\n## 流程拆解\n\n```\n09:15 挂涨停大单 → 09:20 前撤单 → 09:25 虚高开盘 → 09:30 真抛售\n```\n\n| 时间 | 发生了什么 | 操盘意图 |\n|---|---|---|\n| 09:15-09:20 | 主力挂巨量涨停买单，价格顶到涨停 | **制造假象**——让散户以为有利好、主力抢筹 |\n| 09:20 前 |",
+        "time": "08/10 10:38",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "我有个疑问，就是，如果股票，在开盘前的竞价的10分钟涨停，最后开盘迅速回到常规水平，这是什么操作，怎么理解操作背后",
+        "time": "08/10 10:38",
+        "source": "feishu"
+      },
       {
         "role": "assistant",
         "text": "矫正罗圈腿的话，**窄距**——双脚与髋同宽或更窄，脚尖朝前，不要外八。\n\n这样蹲下去时膝盖会自然往中间靠，强迫大腿内侧发力。下蹲时刻意感受膝盖往中间挤的感觉，别让膝盖往外跑。",
@@ -859,126 +983,6 @@
         "text": "记好了。13 天，够去一个平时嫌远的地方。有没有想过——日本、云南、或者一直想去但总觉得\"没时间\"的地方？",
         "time": "08/09 22:42",
         "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "完全可以！2026 年两个假期刚好首尾相连：\n\n```\n中秋 9/25(五) ── 9/27(日)  3天\n        中间 9/28(一) ── 9/30(三)  ← 请3天\n国庆 10/1(四) ── 10/7(三)  7天\n```\n\n**请 3 天换 13 天超级长假。** 9/25 → 10/7，半个月。值不值一目了然。要不要记到 Obsidian？",
-        "time": "08/09 22:42",
-        "source": "weixin"
-      },
-      {
-        "role": "user",
-        "text": "帮我记录一下中秋跟国庆的放假，中间是不是可以请 3 天，然后放一个大长假",
-        "time": "08/09 22:41",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "全了 ✅ 互惠、承诺一致、社会认同、喜好、权威、稀缺——六条都记住了。",
-        "time": "08/09 22:35",
-        "source": "weixin"
-      },
-      {
-        "role": "user",
-        "text": "对，有喜好，还有对白大褂这种专家的权威",
-        "time": "08/09 22:35",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "还有两个：**喜好**（对你有好感更容易被你影响）和**权威**（专家/头衔更可信）。\n\n口诀帮你记：帮→诺→跟→爱→信→抢。你刚说的是帮、诺、跟、抢——漏了爱和信。",
-        "time": "08/09 22:35",
-        "source": "weixin"
-      },
-      {
-        "role": "user",
-        "text": "影响力的六大原则，互惠承诺一致性。还有就是社会跟从效应，还有就是稀缺还有什么呢",
-        "time": "08/09 22:35",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "212 天，周日复盘见分晓 💪",
-        "time": "08/09 22:33",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "8/9 ✅ 212 天连胜。今天的礼拜天复盘不会再说多邻国断了。",
-        "time": "08/09 22:29",
-        "source": "weixin"
-      },
-      {
-        "role": "user",
-        "text": "我打完多邻国的卡了，今天是第 212 天连胜",
-        "time": "08/09 22:29",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "好，把上次的两个修正记在脑子里：吸汗带 + 蹬转发力。打完回来说效果 🎾",
-        "time": "08/09 10:16",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "全绿 ✅ 今晚收工。Memory 55%，Dashboard 在线。晚安。",
-        "time": "08/09 00:01",
-        "source": "tui"
-      },
-      {
-        "role": "user",
-        "text": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want you to follow its instructions. The full skill content is loaded below.]\n\n---\nname: neat-freak\ndescription: >\n  会话结束后对项目文档",
-        "time": "08/09 00:00",
-        "source": "tui"
-      },
-      {
-        "role": "assistant",
-        "text": "改完了——Memory 现在只存**元指令**（去哪找、注意什么），真正的数据都在 Obsidian 和项目文件里：\n\n```\nMemory（55%）\n├── 「回复前查 Obsidian」\n├── 「财富数据 → Codexwork/CURRENT_FINANCIAL_PROFILE.md」\n├── 「健康数据 → wechat-assistant/data/health_latest.json",
-        "time": "08/09 00:00",
-        "source": "tui"
-      },
-      {
-        "role": "assistant",
-        "text": "你说得对——我一直把记忆塞进 2,200 字符的小盒子，旁边就是无限大的 Obsidian 仓库。\n\n现在改：",
-        "time": "08/09 00:00",
-        "source": "tui"
-      },
-      {
-        "role": "user",
-        "text": "对呀，那明明有Obsidian这个本地的存储，你为什么不用呢？要用一个短的记忆机制",
-        "time": "08/08 23:59",
-        "source": "tui"
-      },
-      {
-        "role": "assistant",
-        "text": "对——Memory 才 2,200 字符，15 条笔记。相当于一张便签纸的大小。真正能存东西的是：\n\n| 存储 | 容量 | 放什么 |\n|---|---|---|\n| 🧠 Memory | 2,200 字符 | 只放「下次醒来必须知道」的事 |\n| 📓 Obsidian | 无限 | 日记、项目文档、知识库 |\n| 📊 data.json | 无限 | 结构化数据（伴读/灵感/断舍离） |\n| ",
-        "time": "08/08 23:59",
-        "source": "tui"
-      },
-      {
-        "role": "user",
-        "text": "那你实际的路径不就是？我想想，你的Memory不会很有限吗？就是你的记忆会很短，会吗",
-        "time": "08/08 23:59",
-        "source": "tui"
-      },
-      {
-        "role": "assistant",
-        "text": "目前不是。实际路径是分开的：\n\n```\n飞书/微信你说了什么\n    ├── dialogue_memory.py → data.json → Dashboard（自动，但粗糙）\n    └── 我手动记 → Obsidian（当时在对话里说「存到Obsidian」）\n```\n\n理想应该是：\n\n```\n飞书/微信\n    ↓ 自动提取\n  Obsidian（唯一知识库）\n    ↓ refresh",
-        "time": "08/08 23:58",
-        "source": "tui"
-      },
-      {
-        "role": "user",
-        "text": "我想问的是，我通过飞书或者是微信端跟你反馈的信息，你会沉淀到Obsidian里面去吗？然后工作台再从Obsidian里面去调用信息，是这个路径吗",
-        "time": "08/08 23:58",
-        "source": "tui"
-      },
-      {
-        "role": "assistant",
-        "text": "Dashboard 已同步 ✅ Memory 52%。今晚收工——Dashboard Linear 暗色风、财富闭环、健康数据解析、9 个 cron 调优。辛苦了，晚安。",
-        "time": "08/08 23:56",
-        "source": "tui"
       }
     ],
     "extracted": [
@@ -993,7 +997,7 @@
         "time": "08/09 00:00"
       }
     ],
-    "updated": "2026-08-10T09:24:10.691679"
+    "updated": "2026-08-10T12:02:49.400431"
   },
   "health": {
     "sleep": "36m",
