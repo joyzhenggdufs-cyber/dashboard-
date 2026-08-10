@@ -31,26 +31,36 @@ def fetch_sina(code):
     return None
 
 def fetch_gold():
-    """Gold price: USD/oz → CNY/gram"""
+    """Au99.99 上金所实时金价（新浪 gds_AU9999）
+    
+    字段布局: 当前价,0,卖价,开盘,最高,最低,时间,昨收,...
+    涨跌幅 = (当前价 − 开盘) / 开盘 × 100
+    """
     import urllib.request
     try:
-        # Gold spot price in USD/oz
-        req = urllib.request.Request('https://api.gold-api.com/price/XAU',
-            headers={"User-Agent":"Mozilla/5.0"})
+        req = urllib.request.Request('https://hq.sinajs.cn/list=gds_AU9999',
+            headers={"Referer": "https://finance.sina.com.cn", "User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=5) as r:
-            data = json.loads(r.read())
-        usd_per_oz = data["price"]
-
-        # USD/CNY rate (Sina)
-        req2 = urllib.request.Request('http://hq.sinajs.cn/list=fx_susdcny',
-            headers={"Referer":"http://finance.sina.com.cn"})
-        with urllib.request.urlopen(req2, timeout=5) as r2:
-            fx = r2.read().decode('gbk').split('"')[1].split(',')
-            usd_cny = float(fx[1]) if len(fx) > 1 else 7.2
-
-        # Convert: USD/oz ÷ 31.1035 × USDCNY
-        cny_per_gram = round(usd_per_oz / 31.1035 * usd_cny, 2)
-        return {"current_price": cny_per_gram, "day_change_pct": None}
+            data = r.read().decode('gbk')
+        
+        if '=""' in data or len(data.split('"')[1]) == 0:
+            # 盘后无数据，尝试 ETF 518880 兜底
+            req2 = urllib.request.Request('https://hq.sinajs.cn/list=sh518880',
+                headers={"Referer": "https://finance.sina.com.cn", "User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req2, timeout=5) as r2:
+                data2 = r2.read().decode('gbk')
+            parts = data2.split('"')[1].split(',')
+            current = float(parts[3])  # ETF 当前价
+            open_price = float(parts[1])  # ETF 开盘
+            price = round(current * 100, 2)  # 换算克价
+            change_pct = round((current - open_price) / open_price * 100, 2)
+            return {"current_price": price, "day_change_pct": change_pct}
+        
+        parts = data.split('"')[1].split(',')
+        current = float(parts[0])   # 当前价（元/克）
+        open_price = float(parts[3])  # 今日开盘
+        change_pct = round((current - open_price) / open_price * 100, 2)
+        return {"current_price": current, "day_change_pct": change_pct}
     except Exception as e:
         print(f"  ⚠️ gold fetch error: {e}", file=sys.stderr)
     return None
