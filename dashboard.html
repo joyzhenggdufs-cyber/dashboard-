@@ -74,6 +74,7 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
   <div class="nav-item" onclick="showDetail('skills')">🧩 Skills</div>
   <div class="nav-item" onclick="showDetail('ideas')">💡 灵感</div>
   <div class="nav-item" onclick="showDetail('diary')">📓 日记</div>
+  <div class="nav-item" id="nav-changelog" onclick="showChangelog()">📋 更新日志</div>
   <div class="nav-divider"></div>
   <div id="eye" class="nav-item" onclick="toggleEye()" title="隐藏/显示金额">👁️ 隐藏金额</div>
 </nav>
@@ -324,6 +325,22 @@ function showDetail(project){
   H+=`<div class="card"><h4>📅 最近日记</h4><ul class="detail-list">${(D.diary||[]).map(e=>`<li><span>${e.date}</span> <span style="color:var(--muted)">${e.section}</span> <span onclick="window.open('obsidian://open?vault=Obsidian+Vault&file=${encodeURIComponent(e.path)}')" style="font-size:11px;color:var(--accent);cursor:pointer;margin-left:8px">打开</span></li>`).join('')||'<li style="color:var(--quiet)">暂无日记</li>'}</ul></div>`;
   H+=`<div class="card" style="margin-top:12px"><h4>⏭️ 写日记</h4><ul class="detail-list"><li>跟我说「写日记」开始记录</li><li>每周六自动生成周总结</li></ul></div>`;
  }
+ document.getElementById('main').innerHTML=H;updateConns();
+}
+
+// ── 更新日志 ──
+const CHANGELOG=[
+ {v:'v5.2',date:'2026-08-08',items:['左侧栏支持拖拽排序，自动记住顺序','更新时间移至标题下方显眼位置']},
+ {v:'v5.1',date:'2026-08-04',items:['API 安全加固：Bearer Token 鉴权 + subprocess 替代 os.system','refresh.py 容错：单源故障不拖垮全链']},
+ {v:'v5.0',date:'2026-08-04',items:['🔐 密码门：hermes2026 解锁','📡 数据动态加载：fetch data.json，不再内嵌 JSON 注入','🩺 新增健康面板：睡眠/心率/体重/HRV','💰 新增财富面板：总资产/月结余/invest进度']},
+ {v:'v4.0',date:'2026-08-03',items:['麦肯锡咨询风改暖陶风，全新 CSS 重构','修复 HERO_PLACEHOLDER 不存在的渲染 bug','修复 innerHTML 递归吞 script 导致 JS 不执行','接入 refresh.py 数据引擎，3小时自动刷新']},
+];
+function showChangelog(){
+ setActive('nav-changelog');
+ let H='<h1>📋 更新日志</h1>';
+ CHANGELOG.forEach(v=>{
+  H+=`<div class="card" style="margin-bottom:12px"><h3>${v.v} · ${v.date}</h3><ul class="detail-list">${v.items.map(i=>`<li>${i}</li>`).join('')}</ul></div>`;
+ });
  document.getElementById('main').innerHTML=H;updateConns();
 }
 </script>
