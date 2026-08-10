@@ -10,7 +10,9 @@
 body{background:var(--bg);color:var(--body);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:'cv01','ss03';display:flex;min-height:100vh}
 nav{width:var(--nav-width);background:var(--panel);border-right:1px solid var(--border);padding:20px 14px;flex-shrink:0;position:fixed;top:0;left:0;height:100%;z-index:50;overflow-y:auto}
 nav h2{font-size:14px;font-weight:590;color:var(--text);padding:0 6px;margin-bottom:12px;letter-spacing:-.2px}
-nav .nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius);font-size:13px;font-weight:450;color:var(--body);cursor:pointer;transition:background .1s}
+nav .nav-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--radius);font-size:13px;font-weight:450;color:var(--body);cursor:grab;transition:background .1s;user-select:none}
+nav .nav-item:active{cursor:grabbing}
+nav .nav-item.drag-over{background:var(--accent-dim);outline:1px dashed var(--accent)}
 nav .nav-item:hover{background:var(--surface)}
 nav .nav-item.active{background:var(--accent-dim);color:var(--text);font-weight:510}
 nav .nav-divider{height:1px;background:var(--border-sub);margin:8px 6px}
@@ -81,7 +83,50 @@ h1{font-size:18px;font-weight:510;color:var(--text);margin-bottom:20px}
 
 <script>
 // data.json is loaded as window.D
-fetch('data.json?t='+Date.now()).then(r=>r.json()).then(D=>{window.D=D;showOverview()});
+fetch('data.json?t='+Date.now()).then(r=>r.json()).then(D=>{window.D=D;initDrag();showOverview()});
+
+// ── Drag and drop nav items ──
+function initDrag(){
+  const nav=document.querySelector('nav');
+  if(!nav) return;
+  // Load saved order
+  let order=JSON.parse(localStorage.getItem('hermes_nav_order')||'null');
+  const items=[...nav.querySelectorAll('.nav-item:not(#nav-overview):not(#eye)')];
+  const container=items[0].parentNode;
+  
+  if(order && order.length===items.length){
+    // Apply saved order (before dividers)
+    const frag=document.createDocumentFragment();
+    order.forEach(key=>{
+      const el=nav.querySelector(`[data-nav="${key}"]`);
+      if(el) frag.appendChild(el);
+    });
+    // Re-insert after overview + divider
+    const after=nav.querySelector('#nav-overview').nextSibling; // divider
+    items.forEach(el=>{if(el.parentNode)el.remove();});
+    let ref=after;
+    while(frag.firstChild){nav.insertBefore(frag.firstChild,ref?.nextSibling||null);ref=nav.querySelector('[data-nav]');}
+  }
+  
+  items.forEach(el=>{
+    el.setAttribute('draggable','true');
+    if(!el.dataset.nav) el.dataset.nav=el.textContent.replace(/[^\w\u4e00-\u9fff]/g,'_').substring(0,20);
+    el.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',el.dataset.nav);el.style.opacity='0.4';});
+    el.addEventListener('dragend',e=>{el.style.opacity='1';items.forEach(i=>i.classList.remove('drag-over'));saveOrder(nav);});
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drag-over');});
+    el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
+    el.addEventListener('drop',e=>{
+      e.preventDefault();el.classList.remove('drag-over');
+      const src_key=e.dataTransfer.getData('text/plain');
+      const src=nav.querySelector(`[data-nav="${src_key}"]`);
+      if(src&&src!==el){el.parentNode.insertBefore(src,el);saveOrder(nav);}
+    });
+  });
+}
+function saveOrder(nav){
+  const keys=[...nav.querySelectorAll('.nav-item[data-nav]')].map(el=>el.dataset.nav);
+  localStorage.setItem('hermes_nav_order',JSON.stringify(keys));
+}
 
 function updateConns(){
   document.querySelectorAll('.conns').forEach(e=>e.remove());
