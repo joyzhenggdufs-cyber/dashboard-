@@ -117,7 +117,7 @@ function initDrag(){
     el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('drag-over');});
     el.addEventListener('dragleave',()=>el.classList.remove('drag-over'));
     el.addEventListener('drop',e=>{
-      e.preventDefault();el.classList.remove('drag-over');
+      e.preventDefault();e.stopPropagation();el.classList.remove('drag-over');
       const src_key=e.dataTransfer.getData('text/plain');
       const src=nav.querySelector(`[data-nav="${src_key}"]`);
       if(src&&src!==el){el.parentNode.insertBefore(src,el);saveOrder(nav);}
