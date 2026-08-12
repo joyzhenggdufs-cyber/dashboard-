@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12 09:03",
+  "updated": "2026-08-12 12:01",
   "reading": {
     "total": 16,
     "toread": [
@@ -1024,7 +1024,7 @@
       }
     ],
     "extracted": [],
-    "updated": "2026-08-12T09:03:36.342992"
+    "updated": "2026-08-12T12:01:55.765983"
   },
   "health": {
     "sleep": "36m",
@@ -1077,7 +1077,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 949.87,
+        "current_price": 866.6,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
