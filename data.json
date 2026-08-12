@@ -1067,8 +1067,8 @@
     "updated": "2026-08-08",
     "top_line": {
       "半导体ETF鹏华": {
-        "current_price": 0.776,
-        "day_change_pct": 3.05,
+        "current_price": 0.773,
+        "day_change_pct": 1.84,
         "unrealized_pnl": 7160.6,
         "unrealized_pnl_pct": 25.72,
         "realized_pnl": 9219.72,
@@ -1077,7 +1077,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 866.6,
+        "current_price": 957.34,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
