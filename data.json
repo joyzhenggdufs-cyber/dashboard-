@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13 09:04",
+  "updated": "2026-08-13 12:02",
   "reading": {
     "total": 18,
     "toread": [
@@ -192,8 +192,8 @@
   },
   "cron": {
     "total": 31,
-    "ok": 30,
-    "error": 0,
+    "ok": 29,
+    "error": 1,
     "jobs": [
       {
         "id": "5f31f7486b44",
@@ -396,7 +396,7 @@
         "state": "active",
         "name": "微博新品监测",
         "schedule": "0 9 * * *",
-        "last_status": "ok"
+        "last_status": "error"
       },
       {
         "id": "c4dbe431d67a",
@@ -848,6 +848,12 @@
     "recent": [
       {
         "role": "assistant",
+        "text": "**CPI = Consumer Price Index，消费者物价指数。**\n\n衡量一个普通家庭购买的一篮子商品和服务的价格变化，是美国最重要的通胀指标。\n\n**核心要点：**\n\n| 指标 | 含义 |\n|---|---|\n| **CPI** | 全部商品，含食品和能源（波动大） |\n| **核心CPI** | 剔除食品和能源（美联储更看重） |\n\n**为什么重要：**\n- CPI 涨 = 通胀",
+        "time": "08/13 09:54",
+        "source": "weixin"
+      },
+      {
+        "role": "assistant",
         "text": "加了——HTML 页面不再被浏览器缓存，加上 data.json 已经有时间戳，双重防旧。打开 `joyzhenggdufs-cyber.github.io/dashboard-/` 试试，等 30 秒构建。",
         "time": "08/12 22:40",
         "source": "tui"
@@ -1019,12 +1025,6 @@
         "text": "两步就能通：**装回插件 + 重启 agent**。",
         "time": "08/12 20:22",
         "source": "tui"
-      },
-      {
-        "role": "user",
-        "text": "怎么才能架起来你跟桌面宠物的联系",
-        "time": "08/12 20:22",
-        "source": "tui"
       }
     ],
     "extracted": [
@@ -1044,7 +1044,7 @@
         "time": "08/12 22:10"
       }
     ],
-    "updated": "2026-08-13T09:04:19.247002"
+    "updated": "2026-08-13T12:02:24.936407"
   },
   "health": {
     "sleep": "36m",
@@ -1087,8 +1087,8 @@
     "updated": "2026-08-08",
     "top_line": {
       "半导体ETF鹏华": {
-        "current_price": 0.776,
-        "day_change_pct": 3.05,
+        "current_price": 0.787,
+        "day_change_pct": 1.81,
         "unrealized_pnl": 7160.6,
         "unrealized_pnl_pct": 25.72,
         "realized_pnl": 9219.72,
@@ -1097,7 +1097,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 960.5,
+        "current_price": 953.34,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
