@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-15 12:03",
+  "updated": "2026-08-15 15:01",
   "reading": {
     "total": 18,
     "toread": [
@@ -1035,7 +1035,7 @@
         "time": "08/14 15:52"
       }
     ],
-    "updated": "2026-08-15T12:03:46.734384"
+    "updated": "2026-08-15T15:01:30.120493"
   },
   "health": {
     "sleep": "36m",
@@ -1078,8 +1078,8 @@
     "updated": "2026-08-08",
     "top_line": {
       "半导体ETF鹏华": {
-        "current_price": 0.769,
-        "day_change_pct": 0.79,
+        "current_price": 0.776,
+        "day_change_pct": 3.05,
         "unrealized_pnl": 7160.6,
         "unrealized_pnl_pct": 25.72,
         "realized_pnl": 9219.72,
@@ -1088,7 +1088,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 947.51,
+        "current_price": 866.6,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
