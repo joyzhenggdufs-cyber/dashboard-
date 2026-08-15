@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-14 21:01",
+  "updated": "2026-08-15 09:18",
   "reading": {
     "total": 18,
     "toread": [
@@ -676,11 +676,15 @@
     {
       "name": "日记",
       "icon": "📓",
-      "count": 20,
+      "count": 21,
       "items": [
         {
           "title": "2026-07-27",
           "path": "日记/2026-07-27.md"
+        },
+        {
+          "title": "2026-08-14",
+          "path": "日记/2026-08-14.md"
         },
         {
           "title": "2026-08-04",
@@ -705,10 +709,6 @@
         {
           "title": "2026-08-01",
           "path": "日记/2026-08-01.md"
-        },
-        {
-          "title": "2026-08-05",
-          "path": "日记/2026-08-05.md"
         }
       ]
     },
@@ -847,6 +847,12 @@
   ],
   "dialogue": {
     "recent": [
+      {
+        "role": "assistant",
+        "text": "8/14 ✅ 217 天。\n\n奥德赛是诺兰那部吧，IMAX 拍的荷马史诗。看完回来跟我说值不值票价 🎬",
+        "time": "08/14 22:23",
+        "source": "weixin"
+      },
       {
         "role": "assistant",
         "text": "全部修完 ✅\n\n现在日报的完整逻辑：\n\n| 步骤 | 之前 | 现在 |\n|---|---|---|\n| 抓取 | 91品牌 max_pages=1 | 不变 |\n| 过滤 | ❌ 全量 | ✅ 只留产品名有效的新品帖（代言/活动/抽签跳过） |\n| 去重 | ❌ 无 | ✅ 同批 + 表内已有都去重 |\n| 写表 | ❌ 全量堆积 | ✅ 只写新品、不重复 |\n| 日报 | ❌ 几十天旧帖全发 ",
@@ -1020,12 +1026,6 @@
         "text": "dsh 没装成——`--version` 返回 exit 1，只有一条 deprecation 警告，可能是这个包不支持 `--version` 参数，或者下载没完成。\n\n先查一下它到底装了什么：",
         "time": "08/14 11:13",
         "source": "feishu"
-      },
-      {
-        "role": "user",
-        "text": "[IMPORTANT: Background process proc_09c0a425559d exited (exit code 1).\nCommand: cd /Users/mac && npx -y @deepseek-ai/dsh --version 2>&1\nOutput:\nnpm warn deprecated node-domexception@1.0.0: Use your pl",
-        "time": "08/14 11:13",
-        "source": "feishu"
       }
     ],
     "extracted": [
@@ -1035,7 +1035,7 @@
         "time": "08/14 15:52"
       }
     ],
-    "updated": "2026-08-14T21:01:44.773131"
+    "updated": "2026-08-15T09:18:30.493977"
   },
   "health": {
     "sleep": "36m",
@@ -1078,8 +1078,8 @@
     "updated": "2026-08-08",
     "top_line": {
       "半导体ETF鹏华": {
-        "current_price": 0.769,
-        "day_change_pct": 0.79,
+        "current_price": 0.776,
+        "day_change_pct": 3.05,
         "unrealized_pnl": 7160.6,
         "unrealized_pnl_pct": 25.72,
         "realized_pnl": 9219.72,
@@ -1088,7 +1088,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 949.2,
+        "current_price": 866.6,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
@@ -1288,6 +1288,11 @@
       "path": "日记/中秋国庆长假规划.md"
     },
     {
+      "date": "2026-08-14",
+      "section": "🏃 健康",
+      "path": "日记/2026-08-14.md"
+    },
+    {
       "date": "2026-08-13",
       "section": "🏃 健康",
       "path": "日记/2026-08-13.md"
@@ -1326,11 +1331,6 @@
       "date": "2026-08-06",
       "section": "💭 深度反思",
       "path": "日记/2026-08-06.md"
-    },
-    {
-      "date": "2026-08-05",
-      "section": "💼 工作",
-      "path": "日记/2026-08-05.md"
     }
   ],
   "footprint": {
