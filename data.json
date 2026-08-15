@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-15 09:18",
+  "updated": "2026-08-15 12:03",
   "reading": {
     "total": 18,
     "toread": [
@@ -192,8 +192,8 @@
   },
   "cron": {
     "total": 31,
-    "ok": 30,
-    "error": 1,
+    "ok": 28,
+    "error": 3,
     "jobs": [
       {
         "id": "5f31f7486b44",
@@ -277,7 +277,7 @@
         "state": "active",
         "name": "📱 健康数据导出提醒",
         "schedule": "0 10 */2 * *",
-        "last_status": "ok"
+        "last_status": "error"
       },
       {
         "id": "13c0e433146f",
@@ -340,7 +340,7 @@
         "state": "active",
         "name": "🎫 美团每日自动领券",
         "schedule": "0 10 * * *",
-        "last_status": "ok"
+        "last_status": "error"
       },
       {
         "id": "0759c99dafa2",
@@ -1035,7 +1035,7 @@
         "time": "08/14 15:52"
       }
     ],
-    "updated": "2026-08-15T09:18:30.493977"
+    "updated": "2026-08-15T12:03:46.734384"
   },
   "health": {
     "sleep": "36m",
@@ -1078,8 +1078,8 @@
     "updated": "2026-08-08",
     "top_line": {
       "半导体ETF鹏华": {
-        "current_price": 0.776,
-        "day_change_pct": 3.05,
+        "current_price": 0.769,
+        "day_change_pct": 0.79,
         "unrealized_pnl": 7160.6,
         "unrealized_pnl_pct": 25.72,
         "realized_pnl": 9219.72,
@@ -1088,7 +1088,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 866.6,
+        "current_price": 947.51,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
