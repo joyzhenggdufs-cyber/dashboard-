@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16 09:13",
+  "updated": "2026-08-16 12:02",
   "reading": {
     "total": 18,
     "toread": [
@@ -192,8 +192,8 @@
   },
   "cron": {
     "total": 31,
-    "ok": 28,
-    "error": 3,
+    "ok": 29,
+    "error": 2,
     "jobs": [
       {
         "id": "5f31f7486b44",
@@ -340,7 +340,7 @@
         "state": "active",
         "name": "🎫 美团每日自动领券",
         "schedule": "0 10 * * *",
-        "last_status": "error"
+        "last_status": "ok"
       },
       {
         "id": "0759c99dafa2",
@@ -1040,7 +1040,7 @@
         "time": "08/14 15:52"
       }
     ],
-    "updated": "2026-08-16T09:13:04.137333"
+    "updated": "2026-08-16T12:02:25.764426"
   },
   "health": {
     "sleep": "36m",
