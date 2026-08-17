@@ -2,6 +2,168 @@
   "recent": [
     {
       "role": "assistant",
+      "text": "STATE.md 已更新。现在做 Dashboard 同步（refresh + push）。",
+      "time": "08/17 11:15",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "STATE.md 过期了（停在 7/18），而本次会话把微博监测改成了新的 cron 流水线。更新它：",
+      "time": "08/17 11:14",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "内存 98% → 87%，瘦身完成 ✅。现在盘点并同步项目文档。",
+      "time": "08/17 11:14",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "内存仍在 98%，继续瘦身——压缩重复和已完成项：",
+      "time": "08/17 11:13",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "洁癖收尾。先做最关键的一步——**内存已经 98% 超载，必须先瘦身再写入**。\n\n盘点本次会话变更后，执行内存瘦身 + 更新：",
+      "time": "08/17 11:13",
+      "source": "feishu"
+    },
+    {
+      "role": "user",
+      "text": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want you to follow its instructions. The full skill content is loaded below.]\n\n---\nname: neat-freak\ndescription: >\n  会话结束后对项目文档",
+      "time": "08/17 11:12",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "干净了 ✅ 全部案例通过：\n\n| 帖子 | 结果 |\n|---|---|\n| 兰蔻七夕唇膏 | ✅ 菁纯唇膏 ｜ 黑胶声槽造型 |\n| 自然堂浪漫之旅 | ✅ DELETE（活动） |\n| 魅可会员日 | ✅ DELETE（促销） |\n| 汤姆福特礼盒 | ✅ DELETE（太泛） |\n| 薇诺娜特护水乳 | ✅ 特护水乳 ｜ 敏感肌舒缓 |\n| 纳斯腮红 | ✅ 液体腮红 ｜ 一抹自然红晕 |\n",
+      "time": "08/17 11:02",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "提取质量大幅提升：\n\n| 帖子 | 正则（旧） | LLM（新） |\n|---|---|---|\n| 兰蔻七夕唇膏 | 兰蔻声色唇膏 | ✅ 菁纯唇膏 ｜ 黑胶声槽造型 |\n| 自然堂浪漫之旅 | 七夕大理浪漫之旅 | ✅ DELETE（活动帖） |\n| 魅可会员日 | 天猫超级会员日 | ✅ DELETE（促销帖） |\n| 恋火联动 | PL听潮阁联动 | ✅ DELETE（联动） |\n| 纳斯",
+      "time": "08/17 11:01",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "提取效果对了——「自然堂」「魅可」正确判 DELETE，「兰蔻」正确去品牌前缀成「菁纯唇膏」。比正则好太多。\n\n现在把 LLM 提取装进日报脚本（`doubao-seed-2-0-mini` 模型，正则作 fallback）。重写脚本：",
+      "time": "08/17 10:59",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "`doubao-seed-2-0-mini` 能正确返回 content（pro 系列有加密/纯推理问题）。用 mini 测完整提取效果：",
+      "time": "08/17 10:58",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "找到问题了——`doubao-seed-2-0-pro` 是**推理模型**，把 token 都花在\"思考\"上（reasoning_tokens 234），实际答案 content 空。换非推理模型。",
+      "time": "08/17 10:57",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "`doubao-seed-2-0-pro` 能通（2-1-pro 有加密问题，2-0 正常返回明文）。用它测提取效果：",
+      "time": "08/17 10:56",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "日报我看到了，问题很清楚：**正则提取还是不行**——「兰蔻」「自然堂」连产品名都空着，「天猫超级会员日」「七夕大理浪漫之旅」这种活动帖被当成新品了。\n\n这正是你一直说的「产品名必须 LLM 清洗」。现在日报脚本用的是正则，所以还是脏。我先把 LLM 提取这条路测通，再装进日报脚本。\n\n先测豆包 ARK 能不能做这个提取：",
+      "time": "08/17 10:55",
+      "source": "feishu"
+    },
+    {
+      "role": "user",
+      "text": "📡 微博新品日报 · 08月17日\n过去24小时 11 款新品\n高端护肤 (6款)\n• 兰蔻\n[🔗](https://weibo.com/1742666164/RdLCB6L78)\n• 兰蔻\n[🔗](https://weibo.com/1742666164/RdEHMbMmr)\n• 纳斯 发布「NARS欲色无尽液体腮红」\n[🔗](https://weibo.com/6188026492/RdEvn",
+      "time": "08/17 10:54",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "记忆已更新 ✅\n\n今晚这条线的收尾：\n\n| 事项 | 状态 |\n|---|---|\n| 质检 job（查旧脏表） | ✅ 已停 |\n| 每日监测脚本 | ✅ 写入「记录新品抓取汇总」，日期时间戳格式 |\n| 周报脚本 | ✅ 同一张表 + 日期过滤修复 |\n| 记忆 | ✅ 表 ID 记对 |\n\n现在两条监测流水线都指向正确的那张表了，明天 9 点日报、周五 10 点周报都会正常工作。还有别的要收",
+      "time": "08/17 10:49",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "两个脚本都修好、语法通过。总结这次修复：\n\n| 动作 | 结果 |\n|---|---|\n| 质检 job | ✅ 已停（旧表不再被查） |\n| 每日监测 → 写入表 | ✅ 指向「记录新品抓取汇总」`tblMame00mB7tYuU` |\n| 抓取日期格式 | ✅ 改成时间戳（该字段是日期类型，之前字符串会写失败） |\n| 周报脚本 | ✅ 指向同一张表 + 日期过滤修复（之前时间戳 vs 字符串",
+      "time": "08/17 10:49",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "周报脚本的日期过滤也有 bug：`cutoff` 是字符串 \"2026-08-11\"，但 `抓取日期` 现在是时间戳（1778...开头），字符串比较永远为假 → 周报会读不到任何数据。修掉：",
+      "time": "08/17 10:48",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "现在检查周报脚本的日期过滤逻辑（它读的 `抓取日期` 现在是时间戳格式）。",
+      "time": "08/17 10:47",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "字段名基本对得上，但有个关键差异：**`抓取日期` 字段是 type=5（日期类型），要传时间戳，不是字符串**。之前我建的临时表是文本类型所以能用字符串，这张原表不行。\n\n修两个脚本。先修每日监测：",
+      "time": "08/17 10:47",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "明确了。写入只进 `记录新品抓取（汇总）`（tblMame00mB7tYuU），另外两张不动。\n\n先确认这张表的字段名，好让脚本写对。",
+      "time": "08/17 10:47",
+      "source": "feishu"
+    },
+    {
+      "role": "user",
+      "text": "我们只写入 这张 记录新品抓取汇总。重点新品明细表 这张表不做任何写入。品牌监测表这张你不做任何调整。",
+      "time": "08/17 10:46",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "查清楚了，问题比周报报错更大——**你昨晚还原版本历史，把我今天建的干净表也一并还原没了**。\n\n**周报报错原因**（简单）：8/14 10:00 跑的时候，脚本读的表 `tblMame00mB7tYuU` 正好被我删了 → curl 返回空 → json 解析失败。\n\n**但现在更大的问题**：还原后的表状态是：\n\n| 表 | 记录数 | 状态 |\n|---|---|---|\n| tblMam",
+      "time": "08/17 10:38",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "✅ 质检 job 已停。旧表（254条脏）不再有人去查了。\n\n顺带提醒：刚才看 cron 列表发现**「微博新品周报」job（c4dbe431d67a）上次运行是 error 状态**（8/14 周五那次挂了）。这也是今天建的，可能表 ID 指错了。要我顺手查一下周报脚本为什么报错吗？还是先这样？",
+      "time": "08/17 10:36",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "查清楚了，这个质检 job 查的**不是**我们今天弄的那张表。先给你理清，不然你会被误导。\n\n**现在有两套并行的微博监测系统：**\n\n| | 旧（social-monitor） | 新（我今天建的） |\n|---|---|---|\n| Base | `IuJ4b5SMma2hICskZPYcQoTmn3d` | `WXRFbPTiLaJmVlsPDyFcrZInniV` |\n| 脚本 | au",
+      "time": "08/17 10:34",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "这个质检 job 跟我今天手动清洗的是两套东西，我先确认它到底在查哪张表、用什么鉴权，免得给你错误的建议。",
+      "time": "08/17 10:34",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
+      "text": "先搞清楚这个质检 job 到底在查哪张表、跟今天手动清洗的那批是不是一回事，再给你建议。让我查一下。",
+      "time": "08/17 10:33",
+      "source": "feishu"
+    },
+    {
+      "role": "user",
+      "text": "Cronjob Response: 🔍 Loop 督导 · 微博新品表质检\n(job_id: aeda817901bd)\n-------------\n质检脚本已运行完毕，但**自动修复没有真正生效** —— 不是「已修复」，也不是「全部干净」，而是**写回飞书时鉴权失败**，需要你手动授权后才能修复。以下是完整情况：\n## 🔴 核心问题：自动修复全部失败（鉴权失效）\n`loop_quality.p",
+      "time": "08/17 10:32",
+      "source": "feishu"
+    },
+    {
+      "role": "assistant",
       "text": "浏览器查票被猫眼切城市卡住了（默认定位广州，切东莞要手机验证）。不折腾了，直接说结论：\n\n**华南 Mall 万达 IMAX GT 厅**是华南最大银幕，奥德赛这种诺兰全片 IMAX 拍摄的片子，周末场爆满太正常了。\n\n给你三个实操建议：\n\n1. **别盯当天**——IMAX GT 厅好位置一般提前 1-2 天放下一批场次，明天早上 10 点左右蹲猫眼/淘票票，抢后天的黄金场\n2. **工作日白天",
       "time": "08/16 23:00",
       "source": "weixin"
@@ -17,171 +179,19 @@
       "text": "褪黑素能帮入睡，但只对\"生物钟乱\"有效，对运动后的兴奋作用有限。睡前 30 分钟吃，剂量 1-3mg 够了，别超过 5mg——吃多了反而第二天昏沉。\n\n配合之前说的：睡前别刷手机，房间调暗，比褪黑素更管用。",
       "time": "08/16 22:57",
       "source": "weixin"
-    },
-    {
-      "role": "user",
-      "text": "嗯，对啊，睡眠，我打算今晚吃点褪黑素吧",
-      "time": "08/16 22:57",
-      "source": "weixin"
-    },
-    {
-      "role": "assistant",
-      "text": "华南Mall 那个 IMAX GT 激光厅，确实大，二刷奥德赛这种 IMAX 原生片很值。\n\n要帮你查最近场次和票价吗？",
-      "time": "08/16 22:57",
-      "source": "weixin"
-    },
-    {
-      "role": "user",
-      "text": "好看啊，非常好看的奥德赛。我打算去东莞的那个华南。 IMAX，就最大的 IMAX，再去看一遍",
-      "time": "08/16 22:57",
-      "source": "weixin"
-    },
-    {
-      "role": "assistant",
-      "text": "连续两天 2 小时网球，量有点猛。注意手腕和膝盖，出汗多记得换吸汗带（上次说的手滑问题）。今晚深睡可能会受影响，早点睡补回来。",
-      "time": "08/16 22:57",
-      "source": "weixin"
-    },
-    {
-      "role": "user",
-      "text": "昨天打了两个小时网球，今天又打了两个小时网球",
-      "time": "08/16 22:57",
-      "source": "weixin"
-    },
-    {
-      "role": "assistant",
-      "text": "8/14 已经记过了 ✅ 奥德赛好看吗？",
-      "time": "08/16 22:57",
-      "source": "weixin"
-    },
-    {
-      "role": "assistant",
-      "text": "说到点子上了。给你把机制讲清楚：\n\n**核心机制**：每个飞书窗口 = 一个独立会话。开新窗口 = 全新上下文，我看不到你上个窗口聊到哪了。但**我的记忆是跨窗口共享的**——你的信息、项目、偏好，换窗口我也不丢，只是\"正在聊什么\"的上下文断了。\n\n**你的两个感受都对：**\n\n| 问题 | 真相 |\n|---|---|\n| 手机飞书没法选窗口 | ✅ 对。消息列表能进旧对话，但看不出哪个窗口聊的",
-      "time": "08/15 16:08",
-      "source": "feishu"
-    },
-    {
-      "role": "user",
-      "text": "其实我们飞书端有几个对话窗口的，就是我们不断开 new 的窗口，那么就会有累积嘛。我在想说，如果我想要在某个窗口的话，其实好像在现在这个手机飞书端是没有办法选择的，对吧？另外总感觉就是聊天，信息分布的乱乱的",
-      "time": "08/15 16:07",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "查清楚了。结论：**能用飞书 ASR（妙记底层），但你的应用缺两个权限**。\n\n实测返回两个权限错误，都指明了开通入口：\n\n| 缺的权限 | 用途 | 开通链接 |\n|---|---|---|\n| `speech_to_text:speech` | 语音识别 | [点这里开通](https://open.feishu.cn/app/cli_aadb699c3ef89bc8/auth?q=speec",
-      "time": "08/15 15:58",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "file_id 需要先上传文件拿。走完整流程：上传 m4a → 拿 file_token → 调识别。",
-      "time": "08/15 15:57",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "缺 `config.file_id`——需要先上传文件拿 file_id。查一下 file_id 从哪来。",
-      "time": "08/15 15:57",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "文档看清了。关键点：`speech` 是语音资源对象，`config` 含 `engine_type`/`file_id`/`format`。注意文档写了「**免费版不支持调用**」——你的应用可能卡在这。直接实测一下。",
-      "time": "08/15 15:57",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "拿到完整文档了。飞书确实有语音识别 API（`speech_to_text`），就是妙记底层用的。关键参数还需要确认 `speech` 对象里怎么传音频。展开看一下。",
-      "time": "08/15 15:56",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "有戏！`speech_to_text/v1/speech/file_recognize` 端点存在（返回「字段校验失败」说明接口在，只是我参数没给对）。飞书确实有语音转写 API。查正确参数。",
-      "time": "08/15 15:55",
-      "source": "feishu"
-    },
-    {
-      "role": "user",
-      "text": "我这条模型并没有具体的句子，只是测试一下，看你能不能读到我苹果手机的这段录音而已。你转录是不是可以用飞书的妙记的工具啊？它好像挺准的",
-      "time": "08/15 15:53",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "能，我能转写语音笔记。但这条有问题要如实说：\n\n**音频只有 3.1 秒**，而且我用的是缓存的 base 模型（最小、最快但最不准）。转写结果两条不一致：\n\n| 尝试 | 结果 |\n|---|---|\n| 强制中文 | 「哦，到了，到了，到了」 |\n| 自动检测 | 英文 \"Oh no don't do it too much\" |\n\n3 秒超短片段 + base 模型，识别不可靠。你说的是啥？",
-      "time": "08/15 15:49",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "找到了——hermes venv 里有 faster-whisper，而且缓存了 base 模型。直接转写。",
-      "time": "08/15 15:48",
-      "source": "feishu"
-    },
-    {
-      "role": "user",
-      "text": "[The user sent an audio file attachment: 'audio_40d5aa30a9a1.m4a'. It is saved at: /Users/mac/.hermes/cache/audio/audio_40d5aa30a9a1.m4a. Its content is not inlined here. If the user's request involve",
-      "time": "08/15 15:46",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "8/14 ✅ 217 天。\n\n奥德赛是诺兰那部吧，IMAX 拍的荷马史诗。看完回来跟我说值不值票价 🎬",
-      "time": "08/14 22:23",
-      "source": "weixin"
-    },
-    {
-      "role": "assistant",
-      "text": "全部修完 ✅\n\n现在日报的完整逻辑：\n\n| 步骤 | 之前 | 现在 |\n|---|---|---|\n| 抓取 | 91品牌 max_pages=1 | 不变 |\n| 过滤 | ❌ 全量 | ✅ 只留产品名有效的新品帖（代言/活动/抽签跳过） |\n| 去重 | ❌ 无 | ✅ 同批 + 表内已有都去重 |\n| 写表 | ❌ 全量堆积 | ✅ 只写新品、不重复 |\n| 日报 | ❌ 几十天旧帖全发 ",
-      "time": "08/14 15:54",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "对，这一步也得改。当前是全量写入（每天把 91 品牌所有帖子都写一遍），会越堆越脏。改成：\n\n1. **只写有产品名的帖子**（代言/活动/抽签直接跳过）\n2. **去重**——同一品牌同一产品只写一次（同批去重 + 查表已有的不再写）\n\n先加一个查表已有的辅助函数，再改写入逻辑。",
-      "time": "08/14 15:53",
-      "source": "feishu"
-    },
-    {
-      "role": "user",
-      "text": "你能只写新品相关的帖子吗，而且不要重复的新品。有些新品会反复发布帖子宣传，没必要重复写进去",
-      "time": "08/14 15:52",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "修复验证通过。总结这次的日报 bug 和修复：\n\n**之前发的（错的）：**\n- ❌ 没过滤日期 → 把 4 月到 8 月的几十条旧帖全发出来\n- ❌ `today[:3]` = \"2026\"，跟 \"Sun Aug...\" 格式永远匹配不上\n- ❌ 标题「yesterday」实际取的是今天日期\n- ❌ 产品名带品牌前缀、代言人/活动帖也发\n\n**现在（已修）：**\n- ✅ `parse_creat",
-      "time": "08/14 15:31",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "修完了。验证脚本语法 + 快速测试日期过滤逻辑。",
-      "time": "08/14 15:30",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "现在修 `push_card` —— 日期过滤 + 标题。",
-      "time": "08/14 15:30",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "数据看到了——`created_at` 格式是 \"Sun Aug 09 12:00:52 +0800 2026\"，日期跨度从 4 月到 8 月，抓回来的是**跨多天的旧帖子**，不是最近一天。日报没过滤日期，把几十天前的都发出来了。\n\n三个 bug 一起修。先加日期解析 + 过滤，再修标题，最后修脏产品名。",
-      "time": "08/14 15:29",
-      "source": "feishu"
-    },
-    {
-      "role": "assistant",
-      "text": "你说得对，我看了代码，日报有三个 bug：\n\n1. **没过滤日期** — `push_card(result)` 没传 `filter_today_only=True`，发的是全部抓取结果，不是「最近一天」\n2. **日期过滤本身是坏的** — `today[:3]` = \"2026\"，但 `created_at` 格式是 \"Sun Aug 09...\"，永远匹配不上\n3. **标题写错** —",
-      "time": "08/14 15:29",
-      "source": "feishu"
     }
   ],
   "extracted": [
+    {
+      "type": "todo",
+      "from": "[IMPORTANT: The user has invoked the \"neat-freak\" skill, indicating they want yo",
+      "time": "08/17 11:12"
+    },
+    {
+      "type": "todo",
+      "from": "Cronjob Response: 🔍 Loop 督导 · 微博新品表质检\n(job_id: aeda817901bd)\n-------------\n质检脚本已",
+      "time": "08/17 10:32"
+    },
     {
       "type": "idea",
       "from": "其实我们飞书端有几个对话窗口的，就是我们不断开 new 的窗口，那么就会有累积嘛。我在想说，如果我想要在某个窗口的话，其实好像在现在这个手机飞书端是没有办法选择",
@@ -193,5 +203,5 @@
       "time": "08/14 15:52"
     }
   ],
-  "updated": "2026-08-17T09:08:04.089017"
+  "updated": "2026-08-17T11:15:04.121499"
 }
