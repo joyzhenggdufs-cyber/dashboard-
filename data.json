@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17 15:01",
+  "updated": "2026-08-17 18:05",
   "reading": {
     "total": 18,
     "toread": [
@@ -1036,14 +1036,9 @@
         "type": "idea",
         "from": "其实我们飞书端有几个对话窗口的，就是我们不断开 new 的窗口，那么就会有累积嘛。我在想说，如果我想要在某个窗口的话，其实好像在现在这个手机飞书端是没有办法选择",
         "time": "08/15 16:07"
-      },
-      {
-        "type": "todo",
-        "from": "你能只写新品相关的帖子吗，而且不要重复的新品。有些新品会反复发布帖子宣传，没必要重复写进去",
-        "time": "08/14 15:52"
       }
     ],
-    "updated": "2026-08-17T15:01:43.993935"
+    "updated": "2026-08-17T18:05:24.386805"
   },
   "health": {
     "sleep": "36m",
@@ -1086,8 +1081,8 @@
     "updated": "2026-08-08",
     "top_line": {
       "半导体ETF鹏华": {
-        "current_price": 0.808,
-        "day_change_pct": 5.07,
+        "current_price": 0.776,
+        "day_change_pct": 3.05,
         "unrealized_pnl": 7160.6,
         "unrealized_pnl_pct": 25.72,
         "realized_pnl": 9219.72,
@@ -1096,7 +1091,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 954.14,
+        "current_price": 866.6,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
