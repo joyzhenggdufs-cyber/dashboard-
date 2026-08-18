@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-18 09:04",
+  "updated": "2026-08-18 12:01",
   "reading": {
     "total": 18,
     "toread": [
@@ -192,7 +192,7 @@
   },
   "cron": {
     "total": 31,
-    "ok": 29,
+    "ok": 30,
     "error": 1,
     "jobs": [
       {
@@ -409,7 +409,8 @@
         "id": "be11f711c355",
         "state": "active",
         "name": "📊 持仓财报提醒（安集/长鑫）",
-        "schedule": "0 9 * * *"
+        "schedule": "0 9 * * *",
+        "last_status": "ok"
       }
     ]
   },
@@ -1048,7 +1049,7 @@
         "time": "08/15 16:07"
       }
     ],
-    "updated": "2026-08-18T09:04:33.639647"
+    "updated": "2026-08-18T12:01:11.523984"
   },
   "health": {
     "sleep": "36m",
@@ -1101,7 +1102,7 @@
         "hold_days": 363
       },
       "黄金": {
-        "current_price": 960.27,
+        "current_price": 866.6,
         "current_value": 76332,
         "unrealized_pnl": 10,
         "unrealized_pnl_pct": 0.01,
