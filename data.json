@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-18 12:01",
+  "updated": "2026-08-18 15:13",
   "reading": {
     "total": 18,
     "toread": [
@@ -185,8 +185,8 @@
     "done_recent": []
   },
   "vocab": {
-    "total": 0,
-    "new": 0,
+    "total": 1,
+    "new": 1,
     "learning": 0,
     "mastered": 0
   },
@@ -581,7 +581,7 @@
     {
       "name": "伴读",
       "icon": "📖",
-      "count": 8,
+      "count": 9,
       "items": [
         {
           "title": "📋 今日复习",
@@ -600,6 +600,10 @@
           "path": "伴读/打卡记录.md"
         },
         {
+          "title": "📚 生词本",
+          "path": "伴读/生词本.md"
+        },
+        {
           "title": "2026-07-27_人工智能 (AI)",
           "path": "伴读/2026-07-27_人工智能 (AI).md"
         },
@@ -610,10 +614,6 @@
         {
           "title": "📚 伴读记录",
           "path": "伴读/伴读记录.md"
-        },
-        {
-          "title": "English_for_Meetings",
-          "path": "伴读/教材/English_for_Meetings.md"
         }
       ]
     },
@@ -852,6 +852,60 @@
   "dialogue": {
     "recent": [
       {
+        "role": "user",
+        "text": "那deck一般用途是什么，有点像yard",
+        "time": "08/18 15:13",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "不完全是——deck 是「**用木板搭的户外平台**」，不是室内的「木地板」。\n\n两个东西别混：\n\n| | deck（木平台） | 室内木地板 |\n|---|---|---|\n| 位置 | 户外，房子后面 | 室内 |\n| 英文 | deck | hardwood floor / wooden floor |\n| 样子 | 木板条架空搭的平台 | 铺在室内的地板 |\n\n**deck 的关键特征：*",
+        "time": "08/18 15:10",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "很接近，但有个关键区别：\n\n**balcony（阳台）** —— 哪怕在一楼，也是「**挂**」在楼上的：\n- 贴着外墙、微微悬空或突出\n- **有栏杆围栏**\n- 从室内门出去，面积小（站人、晾衣服、放几盆花）\n\n**patio（露台/庭院）** —— 是「**铺**」在地上的：\n- 就是地面本身，铺了砖，**不悬空**\n- **没栏杆**，开放式的\n- 是院子的一部分，可以直接走过去，面积大（",
+        "time": "08/18 15:09",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "Operation interrupted: waiting for model response (25.0s elapsed).",
+        "time": "08/18 15:08",
+        "source": "feishu"
+      },
+      {
+        "role": "user",
+        "text": "你会制作单词卡，按照艾宾浩斯记忆 在微信助手上跟我复习",
+        "time": "08/18 15:07",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "好问题，说说「什么时候用 patio」。\n\n**核心画面**：房子**后面、地面层**、铺了地砖/水泥的一块**露天休闲区**，摆着桌椅、遮阳伞，夏天在这吃饭喝咖啡。\n\n**最常见 4 个场景：**\n\n1. **在露台上吃饭/休闲**（最高频）\n   - *Let's eat on the patio tonight.*（今晚在露台吃）\n   - *We sat on the patio all ",
+        "time": "08/18 15:07",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "✅ 已加入生词本，明天 8:30 开始复习。\n\n**patio** /ˈpætioʊ/\n\n- **词性**：名词\n- **意思**：庭院，露台 —— 房屋外铺砌的露天区域，用来休闲、用餐\n- **例句**：*We had coffee on the patio.*（我们在露台上喝咖啡）\n- **近义区分**：比 `yard`（院子，多为草地）更强调「铺了地砖的休闲区」；比 `balcony`（阳台",
+        "time": "08/18 15:00",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "生词系统找到了（`vocab.py` + 艾宾浩斯记忆）。把「patio」加进去：",
+        "time": "08/18 14:59",
+        "source": "feishu"
+      },
+      {
+        "role": "assistant",
+        "text": "\"patio\"？没太懂，是想说啥——拼音打错了，还是新话题？😄",
+        "time": "08/18 14:58",
+        "source": "feishu"
+      },
+      {
         "role": "assistant",
         "text": "这就是 A 股的典型玩法——**\"预期先行，财报殿后\"**。几个原因叠加：\n\n**1. 低流通盘放大价格**\n长鑫发行 66.88 亿股，但真正流通的比例很小，大部分是战配/限售锁着。流通盘小 + 全国关注度最高的存储龙头 = 一点资金就能拉出巨大涨幅。61.80 元对应市值 4.13 万亿，但这是\"市值\"不是\"换手能承接的真实筹码量\"。\n\n**2. 市场在预支中报预期**\nDRAM 涨价周期 +",
         "time": "08/18 00:17",
@@ -976,60 +1030,6 @@
         "text": "我买了 200 股的长鑫，还有安集，安集是 400 股",
         "time": "08/18 00:03",
         "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "明白，我记的是 8/17 ✅ 没记错。现在已经是 8/18 凌晨了，今天（8/18）的还没打，别忘了哦。",
-        "time": "08/18 00:03",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "恭喜 🎉 半导体那边赚的吧。科创50 指数本身昨天只涨了 0.2%，你能挣 1 万说明是踩中了个股——澜起、安集还是长鑫？\n\n8/27、8/29 财报季快到了，记得盯紧。赚的这 1 万落袋还是继续持有？",
-        "time": "08/18 00:02",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "8/17 ✅ 220 天。已经过了午夜，今天 8/18 的还没打吧？",
-        "time": "08/18 00:02",
-        "source": "weixin"
-      },
-      {
-        "role": "user",
-        "text": "昨天的科创板不错嘛，小挣了 1 万块",
-        "time": "08/18 00:02",
-        "source": "weixin"
-      },
-      {
-        "role": "assistant",
-        "text": "我检查了一下：**Mac 上目前没有安装闲鱼 App**——`/Applications` 里没有，正在运行的应用列表里也没有（我现在能看到 Chrome、微信、飞书、网易云音乐这些，但没闲鱼）。\n\n所以先说清楚现状和可行方案：\n\n**我的能力范围**：我有 `computer_use` 工具，可以在后台驱动 Mac 上的原生 App（点按、输入、滚动、拖拽都不抢你的鼠标和焦点）。但前提是 **那",
-        "time": "08/17 11:20",
-        "source": "yuanbao"
-      },
-      {
-        "role": "assistant",
-        "text": "## 同步完成 ✅\n\n### 内存瘦身\n- **98% → 87%**，腾出 267 字符空间\n- 删除「多邻国214天连胜」重复项（USER profile 已有）\n- 压缩：职场观、AI三原则、插件重启、心理突破、Dashboard\n\n### 记忆变更\n| 条目 | 变更 |\n|---|---|\n| 微博监测 | 更新为 LLM 提取（豆包 mini）+ 正确表 ID `tblMame00mB",
-        "time": "08/17 11:15",
-        "source": "feishu"
-      },
-      {
-        "role": "assistant",
-        "text": "push 成功（标准 22 端口这次通了，443 反而被拒）。验证在线 dashboard：",
-        "time": "08/17 11:15",
-        "source": "feishu"
-      },
-      {
-        "role": "assistant",
-        "text": "443 端口被拒，试标准 22 端口：",
-        "time": "08/17 11:15",
-        "source": "feishu"
-      },
-      {
-        "role": "assistant",
-        "text": "refresh 成功（30 cron / 18 reading / 8 ideas / 18 skills）。push 到 GitHub Pages：",
-        "time": "08/17 11:15",
-        "source": "feishu"
       }
     ],
     "extracted": [
@@ -1049,7 +1049,7 @@
         "time": "08/15 16:07"
       }
     ],
-    "updated": "2026-08-18T12:01:11.523984"
+    "updated": "2026-08-18T15:13:18.495198"
   },
   "health": {
     "sleep": "36m",
